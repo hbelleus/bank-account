@@ -1,6 +1,17 @@
 package com.sfeir.kata.bank.domain;
 
-public enum BankTransactionType {
+import java.math.BigDecimal;
 
-	DEPOSIT
+import io.vavr.Function2;
+
+public enum BankTransactionType implements BankTransactionExecution {
+
+	DEPOSIT {
+
+		@Override
+		public Function2<BigDecimal, BigDecimal, BigDecimal> getOperation() {
+			return (x, y) -> x.add(y);
+		}
+
+	},
 }
