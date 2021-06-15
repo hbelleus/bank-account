@@ -37,57 +37,6 @@ class BankClientAccountShould implements DepositiFunctionalCase {
 		transactionService = BankTransactionServiceFactory.createImplementation(BankTransactionServiceImpl.class);
 	}
 
-	@Test
-	void whenDeposit_thenAccountBalanceIsUpdated(String amount, String exepectedValue) {
-
-		String amount = "500";
-		BankAccount account = client.getAccount();
-
-		final var initialBalance = account.getBalance();
-
-		Assumptions.assumeTrue(initialBalance == "500");
-
-		final var result = transactionService.deposit(amount, account);
-
-		Assertions.assertAll(() -> Assertions.assertTrue(result),
-				() -> MatcherAssert.assertThat(account.getBalance(), CoreMatchers.is("1000")));
-
-	}
-
-	@Test
-	void deposit_whenDepositIs100_shouldBe600() {
-
-		String amount = "500";
-		BankAccount account = client.getAccount();
-
-		final var initialBalance = account.getBalance();
-
-		Assumptions.assumeTrue(initialBalance == "500");
-
-		final var result = transactionService.deposit(amount, account);
-
-		Assertions.assertAll(() -> Assertions.assertTrue(result),
-				() -> MatcherAssert.assertThat(account.getBalance(), CoreMatchers.is("1000")));
-
-	}
-
-	@ParameterizedTest
-	@ValueSource(strings = { "0", "-2500" })
-	void deposit_whenDepositIsNegative_shouldNotWork(String amount) {
-
-		BankAccount account = client.getAccount();
-
-		final var initialBalance = account.getBalance();
-
-		Assumptions.assumeTrue(initialBalance == "500");
-
-		final var result = transactionService.deposit(amount, account);
-
-		Assertions.assertAll(() -> Assertions.assertFalse(result),
-				() -> MatcherAssert.assertThat(account.getBalance(), CoreMatchers.is(initialBalance)));
-
-	}
-
 	@Override
 	@ParameterizedTest
 	@MethodSource
