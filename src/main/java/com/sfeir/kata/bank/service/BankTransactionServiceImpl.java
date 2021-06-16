@@ -14,6 +14,11 @@ public class BankTransactionServiceImpl implements BankTransactionService {
 		return this.executeTransaction(amount, account, BankTransactionType.DEPOSIT);
 	}
 
+	public boolean withdrawal(String amount, BankAccount account) {
+
+		return this.executeTransaction(amount, account, BankTransactionType.WITHDRAWAL);
+	}
+
 	private boolean executeTransaction(String amount, BankAccount account, BankTransactionType operationType) {
 
 		return this.initTransaction(amount, account, operationType).andThen(this::runTransaction)
