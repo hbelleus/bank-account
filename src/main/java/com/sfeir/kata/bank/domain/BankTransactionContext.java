@@ -41,8 +41,16 @@ public class BankTransactionContext implements BankTransactionValidator {
 
 		final var isAmountValid = this.isAmountGreaterThanZero(toBigDecimal.apply(this.transaction.getAmount()));
 
+		final var isDeposit = BankTransactionType.DEPOSIT == transaction.getType();
+
+		final var isTransactionAuthorized = isDeposit || this.isLimitRespected(
+				toBigDecimal.apply(this.account.getBalance()), toBigDecimal.apply(this.account.getOverdraft()));
+
 		if (!isAmountValid)
 			throw new TransactionException("Transact should have an amount greater than 0");
+
+		else if (!isTransactionAuthorized)
+			throw new TransactionException("Transaction is not authorized.");
 
 	}
 

@@ -14,4 +14,13 @@ public enum BankTransactionType implements BankTransactionExecution {
 		}
 
 	},
+
+	WITHDRAWAL {
+		
+		@Override
+		public Function2<BigDecimal, BigDecimal, BigDecimal> getOperation() {
+			return (x, y) -> x.subtract(y);
+		}
+
+	};
 }

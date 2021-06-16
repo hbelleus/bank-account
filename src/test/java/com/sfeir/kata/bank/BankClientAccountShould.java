@@ -7,6 +7,7 @@ import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -20,9 +21,10 @@ import com.sfeir.kata.bank.service.BankTransactionService;
 import com.sfeir.kata.bank.service.BankTransactionServiceImpl;
 import com.sfeir.kata.bank.utils.BankClientFactory;
 import com.sfeir.kata.bank.utils.BankTransactionServiceFactory;
+import com.sfeir.kata.bank.withdrawal.WithdrawalFunctionalCase;
 
 @RunWith(JUnitPlatform.class)
-class BankClientAccountShould implements DepositiFunctionalCase {
+class BankClientAccountShould {
 
 	private BankClient client;
 	private BankTransactionService transactionService;
@@ -36,54 +38,134 @@ class BankClientAccountShould implements DepositiFunctionalCase {
 		transactionService = BankTransactionServiceFactory.createImplementation(BankTransactionServiceImpl.class);
 	}
 
-	@Override
-	@ParameterizedTest
-	@MethodSource
-	public void givenPositiveAmount_whenDeposit_thenAccountBalanceIsUpdated(String amount, String expectedValue) {
+	@Nested
+	public class DepositShould implements DepositiFunctionalCase {
 
-		BankAccount account = client.getAccount();
+		@Override
+		@ParameterizedTest
+		@MethodSource
+		public void givenPositiveAmount_whenDeposit_thenAccountBalanceIsUpdated(String amount, String expectedValue) {
 
-		final var initialBalance = account.getBalance();
+			// GIVEN
+			BankAccount account = client.getAccount();
 
-		Assumptions.assumeTrue(initialBalance == "500");
+			final var initialBalance = account.getBalance();
 
-		final var result = transactionService.deposit(amount, account);
+			Assumptions.assumeTrue(initialBalance == "500");
 
-		Assertions.assertAll(() -> Assertions.assertTrue(result),
-				() -> MatcherAssert.assertThat(account.getBalance(), CoreMatchers.is(expectedValue)));
+			// WHEN
+			final var result = transactionService.deposit(amount, account);
+
+			// THEN
+			Assertions.assertAll(() -> Assertions.assertTrue(result),
+					() -> MatcherAssert.assertThat(account.getBalance(), CoreMatchers.is(expectedValue)));
+
+		}
+
+		@Override
+		@ParameterizedTest
+		@ValueSource(strings = { "100", "58.99" })
+		public void givenPositiveAmount_whenDeposit_thenTransactionIsSaved(String amount) {
+
+			// GIVEN
+			BankAccount account = client.getAccount();
+
+			// WHEN
+			transactionService.deposit(amount, account);
+
+			// THEN
+			Assertions.assertAll(() -> Assertions.assertFalse(account.getHistory().isEmpty()),
+					() -> MatcherAssert.assertThat(account.getHistory().get(0).getAmount(), CoreMatchers.is(amount)));
+
+		}
+
+		@Override
+		@ParameterizedTest
+		@MethodSource
+		public void givenNegativeOrNullAmount_whenDeposit_thenAccountBalanceIsNotUpdated(String amount,
+				String expectedValue) {
+
+			// GIVEN
+			BankAccount account = client.getAccount();
+
+			final var initialBalance = account.getBalance();
+
+			Assumptions.assumeTrue(initialBalance == expectedValue);
+
+			// WHEN
+			final var result = transactionService.deposit(amount, account);
+
+			// THEN
+			Assertions.assertAll(() -> Assertions.assertFalse(result),
+					() -> MatcherAssert.assertThat(account.getBalance(), CoreMatchers.is(initialBalance)));
+
+		}
+	}
+
+	@Nested
+	public class WithdrawalShould implements WithdrawalFunctionalCase {
+
+		@Override
+		@ParameterizedTest
+		@MethodSource
+		public void givenPositiveAmountInLimit_whenWithdraw_thenAccountBalanceIsUpdated(String amount,
+				String expectedValue) {
+
+			// GIVEN
+			BankAccount account = client.getAccount();
+
+			final var initialBalance = account.getBalance();
+
+			Assumptions.assumeTrue(initialBalance == "500");
+
+			// WHEN
+			final var result = transactionService.withdrawal(amount, account);
+
+			// THEN
+			Assertions.assertAll(() -> Assertions.assertTrue(result),
+					() -> MatcherAssert.assertThat(account.getBalance(), CoreMatchers.is(expectedValue)));
+
+		}
+
+		@Override
+		@ParameterizedTest
+		@MethodSource
+		public void givenPositiveAmountOutOfLimit_whenWithdraw_thenTransactionFailed(String amount,
+				String expectedValue) {
+
+			// GIVEN
+			BankAccount account = client.getAccount();
+
+			final var initialBalance = account.getBalance();
+
+			Assumptions.assumeTrue(initialBalance == expectedValue);
+
+			// WHEN
+			final var result = transactionService.withdrawal(amount, account);
+
+			// THEN
+			Assertions.assertAll(() -> Assertions.assertFalse(result),
+					() -> MatcherAssert.assertThat(account.getBalance(), CoreMatchers.is(initialBalance)));
+
+		}
+
+		@Override
+		@ParameterizedTest
+		@ValueSource(strings = { "100", "58.99" })
+		public void givenPositiveAmountInLimit_whenWithdraw_thenAccountBalanceIsSaved(String amount) {
+
+			// GIVEN
+			BankAccount account = client.getAccount();
+
+			// WHEN
+			transactionService.withdrawal(amount, account);
+
+			// THEN
+			Assertions.assertAll(() -> Assertions.assertFalse(account.getHistory().isEmpty()),
+					() -> MatcherAssert.assertThat(account.getHistory().get(0).getAmount(), CoreMatchers.is(amount)));
+
+		}
 
 	}
 
-	@Override
-	@ParameterizedTest
-	@ValueSource(strings = { "100", "58.99" })
-	public void givenPositiveAmount_whenDeposit_thenTransactionIsSaved(String amount) {
-
-		BankAccount account = client.getAccount();
-
-		transactionService.deposit(amount, account);
-
-		Assertions.assertAll(() -> Assertions.assertFalse(account.getHistory().isEmpty()),
-				() -> MatcherAssert.assertThat(account.getHistory().get(0).getAmount(), CoreMatchers.is(amount)));
-
-	}
-
-	@Override
-	@ParameterizedTest
-	@MethodSource
-	public void givenNegativeOrNullAmount_whenDeposit_thenAccountBalanceIsNotUpdated(String amount,
-			String expectedValue) {
-
-		BankAccount account = client.getAccount();
-
-		final var initialBalance = account.getBalance();
-
-		Assumptions.assumeTrue(initialBalance == expectedValue);
-
-		final var result = transactionService.deposit(amount, account);
-
-		Assertions.assertAll(() -> Assertions.assertFalse(result),
-				() -> MatcherAssert.assertThat(account.getBalance(), CoreMatchers.is(initialBalance)));
-
-	}
 }

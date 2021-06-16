@@ -1,6 +1,6 @@
 package com.sfeir.kata.bank.deposit;
 
-public interface DepositFunctionalTest {
+interface DepositFunctionalTest {
 
 	void givenPositiveAmount_whenDeposit_thenAccountBalanceIsUpdated(String amount, String expectedValue);
 
