@@ -1,6 +1,7 @@
 package com.sfeir.kata.bank.utils;
 
-import com.sfeir.kata.bank.domain.BankClient;
+import com.sfeir.kata.bank.domain.client.Client;
+import com.sfeir.kata.bank.domain.client.ClientOperation;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -8,11 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class BankClientFactory {
 
-	public static BankClient create() {
+	public static ClientOperation create() {
 
-		final var accountService = new BankAccountServiceMock();
-		final var clientService = new BankClientServiceMock(accountService);
+		var account = BankAccountFactory.create();
 
-		return clientService.getClient();
+		return Client.builder().account(account).build();
 	}
 }
