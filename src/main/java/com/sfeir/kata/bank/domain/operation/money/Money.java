@@ -27,10 +27,8 @@ public class Money {
 		return new Money(finalAmount);
 	}
 
-	public Money retrieve(Money money) {
+	public Money toNegative() {
 
-		var finalAmount = this.amount.subtract(money.amount);
-
-		return new Money(finalAmount);
+		return new Money(this.amount.negate());
 	}
 }
