@@ -2,24 +2,18 @@ package com.sfeir.kata.bank;
 
 import java.math.BigDecimal;
 
-import org.hamcrest.CoreMatchers;
-import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 
 import com.sfeir.kata.bank.deposit.DepositiFunctionalCase;
-import com.sfeir.kata.bank.domain.account.Account;
 import com.sfeir.kata.bank.domain.client.ClientOperation;
 import com.sfeir.kata.bank.domain.operation.Money;
 import com.sfeir.kata.bank.utils.BankClientFactory;
-import com.sfeir.kata.bank.withdrawal.WithdrawalFunctionalCase;
 
 @RunWith(JUnitPlatform.class)
 class BankClientAccountShould {
