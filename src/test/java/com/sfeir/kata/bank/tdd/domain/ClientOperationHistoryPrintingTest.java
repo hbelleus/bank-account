@@ -37,4 +37,18 @@ class ClientOperationHistoryPrintingTest {
 				() -> Mockito.verifyNoMoreInteractions(printer));
 	}
 
+	@Test
+	void givenNotEmptyHistory_whenPrintOperationHistory_thenPrintHeader() {
+
+		// GIVEN
+		String header = "|DATE|OPERATION|AMOUNT|BALANCE|";
+
+		// WHEN
+		client.printOperationHistory();
+
+		// THEN
+		org.junit.jupiter.api.Assertions.assertAll(() -> Mockito.verify(printer).println(header),
+				() -> Mockito.verifyNoMoreInteractions(printer));
+	}
+
 }
