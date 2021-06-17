@@ -36,4 +36,10 @@ public class Client implements ClientOperation {
 	private Function2<OperationHistory, Operation, Boolean> saveOperation() {
 		return (history, ope) -> history.getOperations().add(ope);
 	}
+
+	@Override
+	public boolean withdrawal(Money amount) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

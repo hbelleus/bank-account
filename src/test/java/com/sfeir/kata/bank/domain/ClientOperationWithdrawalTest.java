@@ -13,7 +13,7 @@ import com.sfeir.kata.bank.domain.operation.money.Money;
 import com.sfeir.kata.bank.utils.BankClientFactory;
 
 @RunWith(JUnitPlatform.class)
-public class ClientOperationWithdrawalTest {
+class ClientOperationWithdrawalTest {
 
 	private ClientOperation client;
 
