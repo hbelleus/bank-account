@@ -37,4 +37,9 @@ public class Money {
 	public Boolean isLargerThan(Money other) {
 		return amount.abs().compareTo(other.getAmount()) > 0;
 	}
+
+	@Override
+	public String toString() {
+		return String.format("%s", amount.toPlainString());
+	}
 }

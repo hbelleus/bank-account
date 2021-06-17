@@ -16,6 +16,17 @@ public class Operation {
 	LocalDateTime date;
 	OperationType type;
 
-	
+	@Override
+	public String toString() {
+
+		var builder = new StringBuilder();
+
+		var format = "|%s|%s|%s|%s|";
+
+		builder.append(String.format(format, this.date, this.type, this.amount, this.balanceResult));
+		builder.append(System.lineSeparator());
+		
+		return builder.toString();
+	}
 
 }

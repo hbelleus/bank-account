@@ -39,14 +39,27 @@ class ClientOperationHistoryPrintingTest {
 				() -> Mockito.verifyNoMoreInteractions(printer));
 	}
 
-
 	@Test
-	void givenNotEmptyHistory_whenPrintOperationHistory_thenPrintOneOperation() {
+	void givenNotEmptyHistory_whenPrintOperationHistory_thenPrinterCalledTwice() {
 
 		// GIVEN
 		var amount = 200;
 		client.deposit(Money.of(BigDecimal.valueOf(amount)));
-		
+
+		// WHEN
+		client.printOperationHistory();
+
+		// THEN
+		Mockito.verify(printer, Mockito.times(2)).println(Mockito.anyString());
+	}
+
+	@Test
+	void givenNotEmptyHistory_whenPrintOperationHistory_thenPrintTwoOperations() {
+
+		// GIVEN
+		var amount = 200;
+		client.deposit(Money.of(BigDecimal.valueOf(amount)));
+
 		String header = "|DATE|OPERATION|AMOUNT|BALANCE|";
 		String operation = client.getAccount().getHistory().getOperations().get(0).toString();
 
@@ -54,7 +67,6 @@ class ClientOperationHistoryPrintingTest {
 		client.printOperationHistory();
 
 		// THEN
-		org.junit.jupiter.api.Assertions.assertAll(() -> Mockito.verify(printer).println(header),
-				() -> Mockito.verify(printer).println(operation));
+		Mockito.verify(printer, Mockito.times(3)).println(Mockito.anyString());
 	}
 }
