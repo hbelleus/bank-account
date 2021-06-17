@@ -1,4 +1,4 @@
-package com.sfeir.kata.bank.domain;
+package com.sfeir.kata.bank.tdd.domain;
 
 import java.math.BigDecimal;
 
