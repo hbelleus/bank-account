@@ -18,7 +18,7 @@ public class OperationFactory {
 
 		var balanceResult = account.getBalance().add(amount);
 
-		return Operation.builder().type(type).amount(amount).date(LocalDateTime.now()).initialBalance(amount)
+		return Operation.builder().type(type).amount(amount).date(LocalDateTime.now())
 				.balanceResult(balanceResult).build();
 	}
 }

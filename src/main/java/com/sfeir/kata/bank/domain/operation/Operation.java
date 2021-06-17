@@ -12,9 +12,10 @@ import lombok.Value;
 public class Operation {
 
 	Money amount;
-	Money initialBalance;
 	Money balanceResult;
 	LocalDateTime date;
 	OperationType type;
+
+	
 
 }

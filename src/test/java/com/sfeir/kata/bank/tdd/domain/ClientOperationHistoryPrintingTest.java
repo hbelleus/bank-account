@@ -1,6 +1,7 @@
 package com.sfeir.kata.bank.tdd.domain;
 
 import java.io.PrintStream;
+import java.math.BigDecimal;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.sfeir.kata.bank.domain.client.ClientOperation;
+import com.sfeir.kata.bank.domain.money.Money;
 import com.sfeir.kata.bank.utils.BankClientMockFactory;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -37,18 +39,22 @@ class ClientOperationHistoryPrintingTest {
 				() -> Mockito.verifyNoMoreInteractions(printer));
 	}
 
+
 	@Test
-	void givenNotEmptyHistory_whenPrintOperationHistory_thenPrintHeader() {
+	void givenNotEmptyHistory_whenPrintOperationHistory_thenPrintOneOperation() {
 
 		// GIVEN
+		var amount = 200;
+		client.deposit(Money.of(BigDecimal.valueOf(amount)));
+		
 		String header = "|DATE|OPERATION|AMOUNT|BALANCE|";
+		String operation = client.getAccount().getHistory().getOperations().get(0).toString();
 
 		// WHEN
 		client.printOperationHistory();
 
 		// THEN
 		org.junit.jupiter.api.Assertions.assertAll(() -> Mockito.verify(printer).println(header),
-				() -> Mockito.verifyNoMoreInteractions(printer));
+				() -> Mockito.verify(printer).println(operation));
 	}
-
 }

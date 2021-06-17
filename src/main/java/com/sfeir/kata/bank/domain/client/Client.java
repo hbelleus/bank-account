@@ -64,5 +64,9 @@ public class Client implements ClientOperation {
 
 		if (this.account.getHistory().isEmpty().booleanValue())
 			this.printer.println("No Operation");
+		else {
+
+			
+		}
 	}
 }
