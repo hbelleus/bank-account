@@ -1,10 +1,10 @@
 package com.sfeir.kata.bank.withdrawal;
 
+import com.sfeir.kata.bank.domain.operation.money.Money;
+
 interface WithdrawalFunctionalTest {
 
-	void givenPositiveAmountInLimit_whenWithdraw_thenAccountBalanceIsUpdated(String amount, String expectedValue);
+	void make_a_withdrawal_with_success(Money amount);
 	
-	void givenPositiveAmountInLimit_whenWithdraw_thenAccountBalanceIsSaved(String amount);
-	
-	void givenPositiveAmountOutOfLimit_whenWithdraw_thenTransactionFailed(String amount, String expectedValue);
+	void make_an_unauthorized_withdrawal(Money amount);
 }
