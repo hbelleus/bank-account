@@ -1,7 +1,7 @@
 package com.sfeir.kata.bank.domain.account;
 
-import com.sfeir.kata.bank.domain.operation.Money;
 import com.sfeir.kata.bank.domain.operation.OperationHistory;
+import com.sfeir.kata.bank.domain.operation.money.Money;
 
 import lombok.Builder;
 import lombok.Getter;

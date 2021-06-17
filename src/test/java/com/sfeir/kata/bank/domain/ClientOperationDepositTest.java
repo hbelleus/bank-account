@@ -12,8 +12,8 @@ import org.junit.runner.RunWith;
 
 import com.sfeir.kata.bank.domain.account.Account;
 import com.sfeir.kata.bank.domain.client.ClientOperation;
-import com.sfeir.kata.bank.domain.operation.Money;
 import com.sfeir.kata.bank.domain.operation.Operation;
+import com.sfeir.kata.bank.domain.operation.money.Money;
 import com.sfeir.kata.bank.utils.BankClientFactory;
 
 @RunWith(JUnitPlatform.class)
@@ -51,11 +51,11 @@ class ClientOperationDepositTest {
 
 		// THEN
 
-		Condition<Operation> isSaved = new Condition<>((operation) -> operation.getAmount().equals(amount),
+		Condition<Operation> savedOperation = new Condition<>((operation) -> operation.getAmount().equals(amount),
 				"checking if saved operation has the correct amount", amount);
 
 		Assertions.assertThat(result).isTrue();
-		Assertions.assertThat(client.getAccount().getHistory().getOperations()).isNotEmpty().has(isSaved,
+		Assertions.assertThat(client.getAccount().getHistory().getOperations()).isNotEmpty().has(savedOperation,
 				Index.atIndex(0));
 	}
 

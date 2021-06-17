@@ -2,6 +2,8 @@ package com.sfeir.kata.bank.domain.operation;
 
 import java.time.LocalDateTime;
 
+import com.sfeir.kata.bank.domain.operation.money.Money;
+
 import lombok.Builder;
 import lombok.Value;
 

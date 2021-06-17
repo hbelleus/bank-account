@@ -8,5 +8,9 @@ import lombok.Value;
 public class OperationHistory {
 
 	List<Operation> operations;
+	
+	public Boolean isEmpty() {
+		return this.operations.isEmpty();
+	}
 
 }

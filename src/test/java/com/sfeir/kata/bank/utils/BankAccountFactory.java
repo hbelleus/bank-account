@@ -4,9 +4,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import com.sfeir.kata.bank.domain.account.Account;
-import com.sfeir.kata.bank.domain.operation.Money;
 import com.sfeir.kata.bank.domain.operation.Operation;
 import com.sfeir.kata.bank.domain.operation.OperationHistory;
+import com.sfeir.kata.bank.domain.operation.money.Money;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

@@ -1,10 +1,12 @@
 package com.sfeir.kata.bank.domain.client;
 
+import java.util.function.Consumer;
+
 import com.sfeir.kata.bank.domain.account.Account;
-import com.sfeir.kata.bank.domain.operation.Money;
 import com.sfeir.kata.bank.domain.operation.Operation;
 import com.sfeir.kata.bank.domain.operation.OperationFactory;
 import com.sfeir.kata.bank.domain.operation.OperationHistory;
+import com.sfeir.kata.bank.domain.operation.money.Money;
 
 import io.vavr.Function2;
 import lombok.Builder;
@@ -21,12 +23,17 @@ public class Client implements ClientOperation {
 
 		var operation = OperationFactory.create(amount, account);
 
-		this.account.setBalance(operation.getBalanceResult());
+		this.updateAccountBalance().accept(operation.getBalanceResult());
+		
+		return this.saveOperation().apply(this.account.getHistory(), operation);
 
-		Function2<OperationHistory, Operation, Boolean> saveOperation = (history, ope) -> history.getOperations()
-				.add(ope);
+	}
 
-		return saveOperation.apply(this.account.getHistory(), operation);
+	private Consumer<Money> updateAccountBalance() {
+		return this.account::setBalance;
+	}
 
+	private Function2<OperationHistory, Operation, Boolean> saveOperation() {
+		return (history, ope) -> history.getOperations().add(ope);
 	}
 }
