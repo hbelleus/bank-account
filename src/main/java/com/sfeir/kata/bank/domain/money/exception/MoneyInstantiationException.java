@@ -1,4 +1,4 @@
-package com.sfeir.kata.bank.domain.operation.money.exception;
+package com.sfeir.kata.bank.domain.money.exception;
 
 public class MoneyInstantiationException extends RuntimeException {
 

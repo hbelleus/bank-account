@@ -12,8 +12,8 @@ import org.junit.runner.RunWith;
 
 import com.sfeir.kata.bank.domain.account.Account;
 import com.sfeir.kata.bank.domain.client.ClientOperation;
+import com.sfeir.kata.bank.domain.money.Money;
 import com.sfeir.kata.bank.domain.operation.Operation;
-import com.sfeir.kata.bank.domain.operation.money.Money;
 import com.sfeir.kata.bank.utils.BankClientFactory;
 
 @RunWith(JUnitPlatform.class)

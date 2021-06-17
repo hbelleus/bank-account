@@ -1,8 +1,8 @@
-package com.sfeir.kata.bank.domain.operation.money.validation;
+package com.sfeir.kata.bank.domain.money.validation;
 
 import java.math.BigDecimal;
 
-import com.sfeir.kata.bank.domain.operation.money.exception.MoneyInstantiationException;
+import com.sfeir.kata.bank.domain.money.exception.MoneyInstantiationException;
 
 public interface MoneyValidator {
 

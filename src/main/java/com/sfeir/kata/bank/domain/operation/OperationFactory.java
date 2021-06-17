@@ -3,7 +3,7 @@ package com.sfeir.kata.bank.domain.operation;
 import java.time.LocalDateTime;
 
 import com.sfeir.kata.bank.domain.account.Account;
-import com.sfeir.kata.bank.domain.operation.money.Money;
+import com.sfeir.kata.bank.domain.money.Money;
 import com.sfeir.kata.bank.domain.operation.validation.OperationValidator;
 
 import lombok.AccessLevel;

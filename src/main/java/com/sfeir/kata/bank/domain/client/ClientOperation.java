@@ -1,7 +1,7 @@
 package com.sfeir.kata.bank.domain.client;
 
 import com.sfeir.kata.bank.domain.account.Account;
-import com.sfeir.kata.bank.domain.operation.money.Money;
+import com.sfeir.kata.bank.domain.money.Money;
 
 public interface ClientOperation {
 

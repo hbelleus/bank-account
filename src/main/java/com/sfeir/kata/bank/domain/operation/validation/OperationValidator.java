@@ -1,8 +1,8 @@
 package com.sfeir.kata.bank.domain.operation.validation;
 
+import com.sfeir.kata.bank.domain.money.Money;
 import com.sfeir.kata.bank.domain.operation.OperationType;
 import com.sfeir.kata.bank.domain.operation.exception.UnauthorizedOperationException;
-import com.sfeir.kata.bank.domain.operation.money.Money;
 
 public interface OperationValidator {
 

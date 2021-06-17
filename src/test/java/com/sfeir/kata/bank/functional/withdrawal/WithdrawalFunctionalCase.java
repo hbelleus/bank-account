@@ -7,7 +7,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.params.provider.Arguments;
 
-import com.sfeir.kata.bank.domain.operation.money.Money;
+import com.sfeir.kata.bank.domain.money.Money;
 
 import io.vavr.Function1;
 
