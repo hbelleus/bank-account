@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 
+import com.sfeir.kata.bank.domain.account.Account;
 import com.sfeir.kata.bank.domain.client.ClientOperation;
 import com.sfeir.kata.bank.domain.operation.Operation;
 import com.sfeir.kata.bank.domain.operation.money.Money;
@@ -62,5 +63,24 @@ class ClientOperationWithdrawalTest {
 				() -> Assertions.assertThat(client.getAccount().getHistory().getOperations()).isNotEmpty()
 						.has(savedOperation, Index.atIndex(1)));
 
+	}
+
+	@Test()
+	void givenAnyPositiveAmount_WhenWithdrawal_thenAccountBalanceIsUpdated() {
+
+		// GIVEN
+		Money amount = Money.of(BigDecimal.valueOf(100));
+
+		Money expectedValue = Money.of(BigDecimal.valueOf(900));
+
+		// WHEN
+		client.deposit(amount);
+
+		// THEN
+		Condition<Account> accountBalanceIsUpdated = new Condition<>(
+				(account) -> account.getBalance().equals(expectedValue),
+				"checking if account balance has been updated");
+
+		Assertions.assertThat(client.getAccount()).is(accountBalanceIsUpdated);
 	}
 }
