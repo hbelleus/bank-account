@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import com.sfeir.kata.bank.domain.account.Account;
 import com.sfeir.kata.bank.domain.operation.money.Money;
+import com.sfeir.kata.bank.domain.operation.utils.OperationValidator;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,8 @@ import lombok.NoArgsConstructor;
 public class OperationFactory {
 
 	public static Operation create(Money amount, Account account, OperationType type) {
+		
+		OperationValidator.validate(amount.getAmount(), account.getBalance().getAmount(), type);
 
 		var balanceResult = account.getBalance().add(amount);
 
