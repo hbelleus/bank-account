@@ -26,4 +26,4 @@ Think of your personal bank account experience When in doubt, go for the simples
 
 # Additional condition:
 
-- It is not allowed to withdraw an amount greater than the current account balance.
+- It is not allowed to withdraw an amount larger than the current account balance.
