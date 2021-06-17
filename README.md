@@ -22,3 +22,8 @@ Think of your personal bank account experience When in doubt, go for the simples
 **As a** bank client  
 **I want to** see the history (operation, date, amount, balance)  of my operations  # Bank account kata
 Think of your personal bank account experience When in doubt, go for the simplest solution
+
+
+# Additional condition:
+
+- It is not allowed to withdraw an amount greater than the current account balance.

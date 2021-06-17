@@ -16,6 +16,8 @@ import com.sfeir.kata.bank.domain.operation.Operation;
 import com.sfeir.kata.bank.domain.operation.money.Money;
 import com.sfeir.kata.bank.utils.BankClientFactory;
 
+import io.vavr.Function0;
+
 @RunWith(JUnitPlatform.class)
 class ClientOperationWithdrawalTest {
 
@@ -82,5 +84,18 @@ class ClientOperationWithdrawalTest {
 				"checking if account balance has been updated correctly");
 
 		Assertions.assertThat(client.getAccount()).is(accountBalanceIsUpdated);
+	}
+	
+	@Test
+	void givenAnyPositiveAmountGreaterThanBalance_WhenWithdrawal_thenThrowsException() {
+
+		// GIVEN
+		Money amount = Money.of(BigDecimal.valueOf(1500));
+
+		// WHEN
+		Function0<Boolean> withdrawal = () -> client.withdrawal(amount);
+
+		// THEN
+		org.junit.jupiter.api.Assertions.assertThrows(Exception.class, withdrawal::apply);
 	}
 }
