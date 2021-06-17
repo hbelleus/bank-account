@@ -24,16 +24,16 @@ class ClientOperationHistoryPrintingTest {
 	}
 
 	@Test
-	void givenEmptyHistory_whenPrintOperationHistory_thenPrintHeaderOnly() {
+	void givenEmptyHistory_whenPrintOperationHistory_thenPrintMessage() {
 
 		// GIVEN
-		String header = "|OPERATION|AMOUNT|INITIAL BALANCE|BALANCE RESULT|";
+		String message = "No Operation";
 
 		// WHEN
 		client.printOperationHistory();
 
 		// THEN
-		org.junit.jupiter.api.Assertions.assertAll(() -> Mockito.verify(printer).println(header),
+		org.junit.jupiter.api.Assertions.assertAll(() -> Mockito.verify(printer).println(message),
 				() -> Mockito.verifyNoMoreInteractions(printer));
 	}
 

@@ -13,7 +13,6 @@ import com.sfeir.kata.bank.domain.operation.OperationType;
 import io.vavr.Function2;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 @Builder
@@ -21,7 +20,6 @@ public class Client implements ClientOperation {
 
 	private Account account;
 
-	@Setter
 	private PrintStream printer;
 
 	@Override
@@ -64,7 +62,7 @@ public class Client implements ClientOperation {
 	@Override
 	public void printOperationHistory() {
 
-		throw new UnsupportedOperationException("not yet implemented");
-
+		if (this.account.getHistory().isEmpty().booleanValue())
+			this.printer.println("No Operation");
 	}
 }
