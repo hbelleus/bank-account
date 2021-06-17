@@ -74,7 +74,7 @@ class ClientOperationWithdrawalTest {
 		Money expectedValue = Money.of(BigDecimal.valueOf(900));
 
 		// WHEN
-		client.deposit(amount);
+		client.withdrawal(amount);
 
 		// THEN
 		Condition<Account> accountBalanceIsUpdated = new Condition<>(

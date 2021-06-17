@@ -33,7 +33,9 @@ public class Client implements ClientOperation {
 	@Override
 	public boolean withdrawal(Money amount) {
 
-		var operation = OperationFactory.create(amount.toNegative(), account, OperationType.WITHDRAWAL);
+		var operation = OperationFactory.create(amount.toNegative(), this.account, OperationType.WITHDRAWAL);
+		
+		this.updateAccountBalance().accept(operation.getBalanceResult());
 
 		return this.saveOperation().apply(this.account.getHistory(), operation);
 	}
