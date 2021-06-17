@@ -11,11 +11,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class OperationFactory {
 
-	public static Operation create(Money amount, Account account) {
+	public static Operation create(Money amount, Account account, OperationType type) {
 
 		var balanceResult = account.getBalance().add(amount);
 
-		return Operation.builder().type(OperationType.DEPOSIT).amount(amount).date(LocalDateTime.now())
-				.initialBalance(amount).balanceResult(balanceResult).build();
+		return Operation.builder().type(type).amount(amount).date(LocalDateTime.now()).initialBalance(amount)
+				.balanceResult(balanceResult).build();
 	}
 }

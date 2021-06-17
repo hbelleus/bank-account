@@ -60,7 +60,7 @@ class ClientOperationWithdrawalTest {
 
 		org.junit.jupiter.api.Assertions.assertAll(() -> Assertions.assertThat(result).isTrue(),
 				() -> Assertions.assertThat(client.getAccount().getHistory().getOperations()).isNotEmpty()
-						.has(savedOperation, Index.atIndex(0)));
+						.has(savedOperation, Index.atIndex(1)));
 
 	}
 }
