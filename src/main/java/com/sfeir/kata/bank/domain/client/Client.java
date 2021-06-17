@@ -21,8 +21,12 @@ public class Client implements ClientOperation {
 	@Override
 	public boolean deposit(Money amount) {
 
+		var balanceResult = this.account.getBalance().add(amount);
+
 		var operation = Operation.builder().type(OperationType.DEPOSIT).amount(amount).date(LocalDateTime.now())
-				.build();
+				.initialBalance(amount).balanceResult(balanceResult).build();
+
+		this.account.setBalance(balanceResult);
 
 		Function2<OperationHistory, Operation, Boolean> saveOperation = (history, ope) -> history.getOperations()
 				.add(ope);
