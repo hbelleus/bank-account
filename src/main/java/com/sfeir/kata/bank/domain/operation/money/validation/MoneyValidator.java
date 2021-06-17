@@ -1,4 +1,4 @@
-package com.sfeir.kata.bank.domain.operation.money;
+package com.sfeir.kata.bank.domain.operation.money.validation;
 
 import java.math.BigDecimal;
 

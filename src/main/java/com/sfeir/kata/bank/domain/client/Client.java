@@ -22,29 +22,37 @@ public class Client implements ClientOperation {
 	@Override
 	public boolean deposit(Money amount) {
 
-		var operation = OperationFactory.create(amount, account, OperationType.DEPOSIT);
+		var operation = this.initOperation(amount, OperationType.DEPOSIT);
 
-		this.updateAccountBalance().accept(operation.getBalanceResult());
-
-		return this.saveOperation().apply(this.account.getHistory(), operation);
+		return this.finishOperation(operation);
 
 	}
 
 	@Override
 	public boolean withdrawal(Money amount) {
 
-		var operation = OperationFactory.create(amount.toNegative(), this.account, OperationType.WITHDRAWAL);
+		var operation = this.initOperation(amount.toNegative(), OperationType.WITHDRAWAL);
+
+		return this.finishOperation(operation);
+	}
+
+	private Operation initOperation(Money amount, OperationType operationtype) {
 		
+		return OperationFactory.create(amount, this.account, operationtype);
+	}
+
+	private Boolean finishOperation(Operation operation) {
+
 		this.updateAccountBalance().accept(operation.getBalanceResult());
 
 		return this.saveOperation().apply(this.account.getHistory(), operation);
 	}
-	
+
 	private Consumer<Money> updateAccountBalance() {
 		return this.account::setBalance;
 	}
 
 	private Function2<OperationHistory, Operation, Boolean> saveOperation() {
-		return (history, ope) -> history.getOperations().add(ope);
+		return (history, operation) -> history.getOperations().add(operation);
 	}
 }

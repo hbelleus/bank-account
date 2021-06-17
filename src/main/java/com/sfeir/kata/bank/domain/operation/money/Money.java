@@ -2,6 +2,8 @@ package com.sfeir.kata.bank.domain.operation.money;
 
 import java.math.BigDecimal;
 
+import com.sfeir.kata.bank.domain.operation.money.validation.MoneyValidator;
+
 import lombok.Value;
 
 @Value

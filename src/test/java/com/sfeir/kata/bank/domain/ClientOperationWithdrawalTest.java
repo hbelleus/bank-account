@@ -65,7 +65,7 @@ class ClientOperationWithdrawalTest {
 
 	}
 
-	@Test()
+	@Test
 	void givenAnyPositiveAmount_WhenWithdrawal_thenAccountBalanceIsUpdated() {
 
 		// GIVEN
@@ -79,7 +79,7 @@ class ClientOperationWithdrawalTest {
 		// THEN
 		Condition<Account> accountBalanceIsUpdated = new Condition<>(
 				(account) -> account.getBalance().equals(expectedValue),
-				"checking if account balance has been updated");
+				"checking if account balance has been updated correctly");
 
 		Assertions.assertThat(client.getAccount()).is(accountBalanceIsUpdated);
 	}
