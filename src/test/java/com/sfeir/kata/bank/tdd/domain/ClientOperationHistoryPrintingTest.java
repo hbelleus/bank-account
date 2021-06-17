@@ -4,16 +4,20 @@ import java.io.PrintStream;
 import java.math.BigDecimal;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
 
 import com.sfeir.kata.bank.domain.client.ClientOperation;
 import com.sfeir.kata.bank.domain.money.Money;
 import com.sfeir.kata.bank.utils.BankClientMockFactory;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(JUnitPlatform.class)
+@TestMethodOrder(OrderAnnotation.class)
 class ClientOperationHistoryPrintingTest {
 
 	private static final PrintStream printer = Mockito.mock(PrintStream.class);
@@ -26,6 +30,7 @@ class ClientOperationHistoryPrintingTest {
 	}
 
 	@Test
+	@Order(1)
 	void givenEmptyHistory_whenPrintOperationHistory_thenPrintMessage() {
 
 		// GIVEN
@@ -40,6 +45,7 @@ class ClientOperationHistoryPrintingTest {
 	}
 
 	@Test
+	@Order(2)
 	void givenNotEmptyHistory_whenPrintOperationHistory_thenPrinterCalledTwice() {
 
 		// GIVEN
@@ -54,14 +60,12 @@ class ClientOperationHistoryPrintingTest {
 	}
 
 	@Test
+	@Order(3)
 	void givenNotEmptyHistory_whenPrintOperationHistory_thenPrintTwoOperations() {
 
 		// GIVEN
 		var amount = 200;
 		client.deposit(Money.of(BigDecimal.valueOf(amount)));
-
-		String header = "|DATE|OPERATION|AMOUNT|BALANCE|";
-		String operation = client.getAccount().getHistory().getOperations().get(0).toString();
 
 		// WHEN
 		client.printOperationHistory();

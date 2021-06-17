@@ -62,12 +62,15 @@ public class Client implements ClientOperation {
 	@Override
 	public void printOperationHistory() {
 
+		if (Boolean.TRUE.equals(account.getHistory().isEmpty()))
+			this.printer.println("No Operation");
+		else {
 
 			this.printer.println("|DATE|OPERATION|AMOUNT|BALANCE|");
 
 			for (var operation : this.account.getHistory().getOperations()) {
 				this.printer.println(operation);
 			}
-		
+		}
 	}
 }
