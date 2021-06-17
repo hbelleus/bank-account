@@ -33,4 +33,8 @@ public class Money {
 
 		return new Money(this.amount.negate());
 	}
+
+	public Boolean isLargerThan(Money other) {
+		return amount.abs().compareTo(other.getAmount()) > 0;
+	}
 }

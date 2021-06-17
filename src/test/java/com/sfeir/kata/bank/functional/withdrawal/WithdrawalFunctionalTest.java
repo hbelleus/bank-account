@@ -1,4 +1,4 @@
-package com.sfeir.kata.bank.withdrawal;
+package com.sfeir.kata.bank.functional.withdrawal;
 
 import com.sfeir.kata.bank.domain.operation.money.Money;
 

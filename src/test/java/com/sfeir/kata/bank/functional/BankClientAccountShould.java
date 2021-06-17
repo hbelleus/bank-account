@@ -1,4 +1,4 @@
-package com.sfeir.kata.bank;
+package com.sfeir.kata.bank.functional;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.Condition;
@@ -10,15 +10,16 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 
-import com.sfeir.kata.bank.deposit.DepositFunctionalCase;
-import com.sfeir.kata.bank.deposit.DepositTestDefinition;
 import com.sfeir.kata.bank.domain.account.Account;
 import com.sfeir.kata.bank.domain.client.ClientOperation;
 import com.sfeir.kata.bank.domain.operation.Operation;
+import com.sfeir.kata.bank.domain.operation.exception.UnauthorizedOperationException;
 import com.sfeir.kata.bank.domain.operation.money.Money;
+import com.sfeir.kata.bank.functional.deposit.DepositFunctionalCase;
+import com.sfeir.kata.bank.functional.deposit.DepositTestDefinition;
+import com.sfeir.kata.bank.functional.withdrawal.WithdrawalFunctionalCase;
+import com.sfeir.kata.bank.functional.withdrawal.WithdrawalFunctionalTest;
 import com.sfeir.kata.bank.utils.BankClientFactory;
-import com.sfeir.kata.bank.withdrawal.WithdrawalFunctionalCase;
-import com.sfeir.kata.bank.withdrawal.WithdrawalFunctionalTest;
 
 import io.vavr.Function0;
 
@@ -108,7 +109,7 @@ class BankClientAccountShould {
 
 			// THEN
 
-			org.junit.jupiter.api.Assertions.assertThrows(IllegalArgumentException.class, () -> withdrawal.apply());
+			org.junit.jupiter.api.Assertions.assertThrows(UnauthorizedOperationException.class, () -> withdrawal.apply());
 
 		}
 	}
