@@ -21,7 +21,7 @@ import com.sfeir.kata.bank.functional.deposit.DepositFunctionalCase;
 import com.sfeir.kata.bank.functional.deposit.DepositTestDefinition;
 import com.sfeir.kata.bank.functional.withdrawal.WithdrawalFunctionalCase;
 import com.sfeir.kata.bank.functional.withdrawal.WithdrawalFunctionalTest;
-import com.sfeir.kata.bank.utils.BankClientFactory;
+import com.sfeir.kata.bank.utils.BankClientMockFactory;
 
 import io.vavr.Function0;
 
@@ -33,7 +33,7 @@ class BankClientAccountShould {
 	@BeforeEach
 	public void init() {
 
-		client = BankClientFactory.create();
+		client = BankClientMockFactory.create();
 	}
 
 	@Nested

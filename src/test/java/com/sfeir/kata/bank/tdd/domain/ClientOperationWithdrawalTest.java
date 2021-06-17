@@ -15,7 +15,7 @@ import com.sfeir.kata.bank.domain.client.ClientOperation;
 import com.sfeir.kata.bank.domain.money.Money;
 import com.sfeir.kata.bank.domain.operation.Operation;
 import com.sfeir.kata.bank.domain.operation.exception.UnauthorizedOperationException;
-import com.sfeir.kata.bank.utils.BankClientFactory;
+import com.sfeir.kata.bank.utils.BankClientMockFactory;
 
 import io.vavr.Function0;
 
@@ -27,7 +27,7 @@ class ClientOperationWithdrawalTest {
 	@BeforeEach
 	public void init() {
 
-		client = BankClientFactory.create();
+		client = BankClientMockFactory.create();
 
 		var initDeposit = Money.of(BigDecimal.valueOf(1000));
 

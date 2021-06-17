@@ -12,7 +12,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class BankAccountFactory {
+public class BankAccountMockFactory {
 
 	public static Account create() {
 

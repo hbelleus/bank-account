@@ -6,7 +6,7 @@ import org.assertj.core.api.Assertions;
 
 import com.sfeir.kata.bank.domain.client.ClientOperation;
 import com.sfeir.kata.bank.domain.money.Money;
-import com.sfeir.kata.bank.utils.BankClientFactory;
+import com.sfeir.kata.bank.utils.BankClientMockFactory;
 
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Then;
@@ -19,7 +19,7 @@ public class ClientDepositStepDefinition {
 
 	@Before
 	public void setUp() {
-		clientOperation = BankClientFactory.create();
+		clientOperation = BankClientMockFactory.create();
 	}
 
 	@When("^I deposit (\\d+) euros$")
