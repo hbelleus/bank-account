@@ -11,6 +11,6 @@ public interface OperationValidator {
 		var isOperationUnauthorized = Boolean.TRUE.equals(amount.isLargerThan(initialAmount));
 
 		if (OperationType.WITHDRAWAL == type && isOperationUnauthorized)
-			throw new UnauthorizedOperationException("Amount should be positive");
+			throw new UnauthorizedOperationException("Unauthorized operation. Contact your bank.");
 	}
 }

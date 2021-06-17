@@ -1,5 +1,7 @@
 package com.sfeir.kata.bank.functional;
 
+import java.math.BigDecimal;
+
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.Condition;
 import org.assertj.core.data.Index;
@@ -73,7 +75,8 @@ class BankClientAccountShould {
 		@MethodSource("givenAuthorizedAmount")
 		public void make_a_withdrawal_with_success(Money amount) {
 
-			// GIVEN input amount
+			// GIVEN an earlier deposit of 1000 and input amount
+			client.deposit(Money.of(BigDecimal.valueOf(500)));
 
 			var expectedBalance = client.getAccount().getBalance().add(amount.toNegative());
 
@@ -92,7 +95,7 @@ class BankClientAccountShould {
 			org.junit.jupiter.api.Assertions.assertAll(() -> Assertions.assertThat(result).isTrue(),
 					() -> Assertions.assertThat(client.getAccount()).is(accountWithSavedOperation),
 					() -> Assertions.assertThat(client.getAccount().getHistory().getOperations())
-							.has(operationWithCorrectAmount, Index.atIndex(0)),
+							.has(operationWithCorrectAmount, Index.atIndex(1)),
 					() -> Assertions.assertThat(client.getAccount().getBalance()).isEqualTo(expectedBalance));
 
 		}
@@ -109,7 +112,8 @@ class BankClientAccountShould {
 
 			// THEN
 
-			org.junit.jupiter.api.Assertions.assertThrows(UnauthorizedOperationException.class, () -> withdrawal.apply());
+			org.junit.jupiter.api.Assertions.assertThrows(UnauthorizedOperationException.class,
+					() -> withdrawal.apply());
 
 		}
 	}
