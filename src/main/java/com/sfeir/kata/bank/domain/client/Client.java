@@ -1,5 +1,6 @@
 package com.sfeir.kata.bank.domain.client;
 
+import java.io.PrintStream;
 import java.util.function.Consumer;
 
 import com.sfeir.kata.bank.domain.account.Account;
@@ -12,12 +13,16 @@ import com.sfeir.kata.bank.domain.operation.OperationType;
 import io.vavr.Function2;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Builder
 public class Client implements ClientOperation {
 
 	private Account account;
+
+	@Setter
+	private PrintStream printer;
 
 	@Override
 	public boolean deposit(Money amount) {
@@ -37,7 +42,7 @@ public class Client implements ClientOperation {
 	}
 
 	private Operation initOperation(Money amount, OperationType operationtype) {
-		
+
 		return OperationFactory.create(amount, this.account, operationtype);
 	}
 
@@ -54,5 +59,12 @@ public class Client implements ClientOperation {
 
 	private Function2<OperationHistory, Operation, Boolean> saveOperation() {
 		return (history, operation) -> history.getOperations().add(operation);
+	}
+
+	@Override
+	public void printOperationHistory() {
+
+		throw new UnsupportedOperationException("not yet implemented");
+
 	}
 }

@@ -10,4 +10,6 @@ public interface ClientOperation {
 	boolean deposit(Money amount);
 
 	boolean withdrawal(Money amount);
+
+	void printOperationHistory();
 }
