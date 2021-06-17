@@ -5,8 +5,10 @@ import java.time.LocalDateTime;
 import com.sfeir.kata.bank.domain.account.Account;
 import com.sfeir.kata.bank.domain.operation.Money;
 import com.sfeir.kata.bank.domain.operation.Operation;
+import com.sfeir.kata.bank.domain.operation.OperationHistory;
 import com.sfeir.kata.bank.domain.operation.OperationType;
 
+import io.vavr.Function2;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -22,7 +24,10 @@ public class Client implements ClientOperation {
 		var operation = Operation.builder().type(OperationType.DEPOSIT).amount(amount).date(LocalDateTime.now())
 				.build();
 
-		return this.account.getHistory().getOperations().add(operation);
+		Function2<OperationHistory, Operation, Boolean> saveOperation = (history, ope) -> history.getOperations()
+				.add(ope);
+
+		return saveOperation.apply(this.account.getHistory(), operation);
 
 	}
 }
