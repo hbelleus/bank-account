@@ -9,7 +9,7 @@ public class OperationHistory {
 
 	List<Operation> operations;
 	
-	public Boolean isEmpty() {
+	public boolean isEmpty() {
 		return this.operations.isEmpty();
 	}
 

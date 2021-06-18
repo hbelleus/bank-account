@@ -2,8 +2,6 @@ package com.sfeir.kata.bank.domain.money;
 
 import java.math.BigDecimal;
 
-import com.sfeir.kata.bank.domain.money.validation.MoneyValidator;
-
 import lombok.Value;
 
 @Value
@@ -17,9 +15,7 @@ public class Money {
 
 	public static Money of(BigDecimal amount) {
 
-		MoneyValidator.validate(amount);
-
-		return new Money(amount);
+		return new Money(amount.abs());
 	}
 
 	public Money add(Money money) {

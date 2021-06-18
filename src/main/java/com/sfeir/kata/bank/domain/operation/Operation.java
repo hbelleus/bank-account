@@ -3,13 +3,14 @@ package com.sfeir.kata.bank.domain.operation;
 import java.time.LocalDateTime;
 
 import com.sfeir.kata.bank.domain.money.Money;
+import com.sfeir.kata.bank.domain.operation.utils.DateFormatter;
 
 import lombok.Builder;
 import lombok.Value;
 
 @Value
 @Builder
-public class Operation {
+public class Operation implements Comparable<Operation> {
 
 	Money amount;
 	Money balanceResult;
@@ -19,14 +20,14 @@ public class Operation {
 	@Override
 	public String toString() {
 
-		var builder = new StringBuilder();
-
 		var format = "|%s|%s|%s|%s|";
 
-		builder.append(String.format(format, this.date, this.type, this.amount, this.balanceResult));
-		builder.append(System.lineSeparator());
-		
-		return builder.toString();
+		return String.format(format, DateFormatter.format(date), this.type, this.amount, this.balanceResult);
+	}
+
+	@Override
+	public int compareTo(Operation o) {
+		return this.getDate().compareTo(o.getDate());
 	}
 
 }

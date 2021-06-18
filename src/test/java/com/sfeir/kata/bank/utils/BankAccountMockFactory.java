@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class BankAccountMockFactory {
 
-	public static Account create() {
+	public static synchronized Account create() {
 
 		var operationHistory = new OperationHistory(new ArrayList<Operation>());
 		var initialBalance = Money.of(BigDecimal.ZERO);

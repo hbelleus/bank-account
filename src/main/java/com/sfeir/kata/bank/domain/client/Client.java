@@ -1,6 +1,5 @@
 package com.sfeir.kata.bank.domain.client;
 
-import java.io.PrintStream;
 import java.util.function.Consumer;
 
 import com.sfeir.kata.bank.domain.account.Account;
@@ -9,7 +8,11 @@ import com.sfeir.kata.bank.domain.operation.Operation;
 import com.sfeir.kata.bank.domain.operation.OperationFactory;
 import com.sfeir.kata.bank.domain.operation.OperationHistory;
 import com.sfeir.kata.bank.domain.operation.OperationType;
+import com.sfeir.kata.bank.domain.statement.AccountStatement;
+import com.sfeir.kata.bank.domain.statement.StatementPrinter;
+import com.sfeir.kata.bank.domain.statement.utils.AccountStatementFactory;
 
+import io.vavr.Function1;
 import io.vavr.Function2;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,14 +23,14 @@ public class Client implements ClientOperation {
 
 	private Account account;
 
-	private PrintStream printer;
+	private StatementPrinter printer;
 
 	@Override
 	public boolean deposit(Money amount) {
 
 		var operation = this.initOperation(amount, OperationType.DEPOSIT);
 
-		return this.finishOperation(operation);
+		return this.runOperation(operation);
 
 	}
 
@@ -36,7 +39,7 @@ public class Client implements ClientOperation {
 
 		var operation = this.initOperation(amount.toNegative(), OperationType.WITHDRAWAL);
 
-		return this.finishOperation(operation);
+		return this.runOperation(operation);
 	}
 
 	private Operation initOperation(Money amount, OperationType operationtype) {
@@ -44,7 +47,7 @@ public class Client implements ClientOperation {
 		return OperationFactory.create(amount, this.account, operationtype);
 	}
 
-	private Boolean finishOperation(Operation operation) {
+	private Boolean runOperation(Operation operation) {
 
 		this.updateAccountBalance().accept(operation.getBalanceResult());
 
@@ -62,15 +65,26 @@ public class Client implements ClientOperation {
 	@Override
 	public void printOperationHistory() {
 
-		if (Boolean.TRUE.equals(account.getHistory().isEmpty()))
-			this.printer.println("No Operation");
+		if (this.account.getHistory().isEmpty())
+
+			printMessage().accept("No Operation");
 		else {
 
-			this.printer.println("|DATE|OPERATION|AMOUNT|BALANCE|");
+			var statement = createStatement().apply(this.account.getHistory());
 
-			for (var operation : this.account.getHistory().getOperations()) {
-				this.printer.println(operation);
-			}
+			printStatement().accept(statement);
 		}
+	}
+
+	private Function1<OperationHistory, AccountStatement> createStatement() {
+		return AccountStatementFactory::createStatement;
+	}
+
+	private Consumer<AccountStatement> printStatement() {
+		return this.printer::print;
+	}
+
+	private Consumer<String> printMessage() {
+		return this.printer::print;
 	}
 }

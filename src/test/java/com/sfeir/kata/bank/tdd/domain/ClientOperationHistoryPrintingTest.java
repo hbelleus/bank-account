@@ -14,18 +14,23 @@ import org.mockito.Mockito;
 
 import com.sfeir.kata.bank.domain.client.ClientOperation;
 import com.sfeir.kata.bank.domain.money.Money;
+import com.sfeir.kata.bank.domain.statement.ConsolePrinter;
+import com.sfeir.kata.bank.domain.statement.StatementPrinter;
 import com.sfeir.kata.bank.utils.BankClientMockFactory;
 
 @RunWith(JUnitPlatform.class)
 @TestMethodOrder(OrderAnnotation.class)
 class ClientOperationHistoryPrintingTest {
 
-	private static final PrintStream printer = Mockito.mock(PrintStream.class);
+	private PrintStream printStream;
+	private StatementPrinter printer;
 	private ClientOperation client;
 
 	@BeforeEach
 	public void init() {
 
+		printStream = Mockito.mock(PrintStream.class);
+		printer = new ConsolePrinter(printStream);
 		client = BankClientMockFactory.create(printer);
 	}
 
@@ -40,8 +45,8 @@ class ClientOperationHistoryPrintingTest {
 		client.printOperationHistory();
 
 		// THEN
-		org.junit.jupiter.api.Assertions.assertAll(() -> Mockito.verify(printer).println(message),
-				() -> Mockito.verifyNoMoreInteractions(printer));
+		org.junit.jupiter.api.Assertions.assertAll(() -> Mockito.verify(printStream).println(message),
+				() -> Mockito.verifyNoMoreInteractions(printStream));
 	}
 
 	@Test
@@ -56,7 +61,7 @@ class ClientOperationHistoryPrintingTest {
 		client.printOperationHistory();
 
 		// THEN
-		Mockito.verify(printer, Mockito.times(2)).println(Mockito.anyString());
+		Mockito.verify(printStream, Mockito.times(2)).println(Mockito.anyString());
 	}
 
 	@Test
@@ -66,11 +71,12 @@ class ClientOperationHistoryPrintingTest {
 		// GIVEN
 		var amount = 200;
 		client.deposit(Money.of(BigDecimal.valueOf(amount)));
+		client.deposit(Money.of(BigDecimal.valueOf(amount)));
 
 		// WHEN
 		client.printOperationHistory();
 
 		// THEN
-		Mockito.verify(printer, Mockito.times(3)).println(Mockito.anyString());
+		Mockito.verify(printStream, Mockito.times(3)).println(Mockito.anyString());
 	}
 }
