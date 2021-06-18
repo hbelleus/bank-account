@@ -14,8 +14,8 @@ import org.mockito.Mockito;
 
 import com.sfeir.kata.bank.domain.client.ClientOperation;
 import com.sfeir.kata.bank.domain.money.Money;
-import com.sfeir.kata.bank.domain.statement.ConsolePrinter;
-import com.sfeir.kata.bank.domain.statement.StatementPrinter;
+import com.sfeir.kata.bank.domain.printer.ConsolePrinter;
+import com.sfeir.kata.bank.domain.printer.StatementPrinter;
 import com.sfeir.kata.bank.utils.BankClientMockFactory;
 
 @RunWith(JUnitPlatform.class)

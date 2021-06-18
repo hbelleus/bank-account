@@ -1,4 +1,6 @@
-package com.sfeir.kata.bank.domain.statement;
+package com.sfeir.kata.bank.domain.printer;
+
+import com.sfeir.kata.bank.domain.statement.AccountStatement;
 
 public interface StatementPrinter {
 

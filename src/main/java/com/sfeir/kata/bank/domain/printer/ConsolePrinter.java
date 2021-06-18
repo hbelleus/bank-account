@@ -1,7 +1,10 @@
-package com.sfeir.kata.bank.domain.statement;
+package com.sfeir.kata.bank.domain.printer;
 
 import java.io.PrintStream;
 import java.util.function.Consumer;
+
+import com.sfeir.kata.bank.domain.statement.AccountStatement;
+import com.sfeir.kata.bank.domain.statement.AccountStatementLine;
 
 import lombok.Value;
 

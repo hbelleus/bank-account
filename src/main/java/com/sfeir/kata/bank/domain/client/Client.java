@@ -8,8 +8,8 @@ import com.sfeir.kata.bank.domain.operation.Operation;
 import com.sfeir.kata.bank.domain.operation.OperationFactory;
 import com.sfeir.kata.bank.domain.operation.OperationHistory;
 import com.sfeir.kata.bank.domain.operation.OperationType;
+import com.sfeir.kata.bank.domain.printer.StatementPrinter;
 import com.sfeir.kata.bank.domain.statement.AccountStatement;
-import com.sfeir.kata.bank.domain.statement.StatementPrinter;
 import com.sfeir.kata.bank.domain.statement.utils.AccountStatementFactory;
 
 import io.vavr.Function1;

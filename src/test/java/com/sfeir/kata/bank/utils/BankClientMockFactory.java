@@ -2,7 +2,7 @@ package com.sfeir.kata.bank.utils;
 
 import com.sfeir.kata.bank.domain.client.Client;
 import com.sfeir.kata.bank.domain.client.ClientOperation;
-import com.sfeir.kata.bank.domain.statement.StatementPrinter;
+import com.sfeir.kata.bank.domain.printer.StatementPrinter;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
