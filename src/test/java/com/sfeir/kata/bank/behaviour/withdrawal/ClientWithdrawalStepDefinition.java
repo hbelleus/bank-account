@@ -41,7 +41,7 @@ public class ClientWithdrawalStepDefinition {
 	@When("^I withdraw (\\d+) euros$")
 	public void withdraw(BigDecimal amount) {
 
-		clientOperation.withdrawal(Money.of(amount));
+		clientOperation.withdraw(Money.of(amount));
 
 	}
 
@@ -53,6 +53,6 @@ public class ClientWithdrawalStepDefinition {
 	@Then("^withdrawal should be unauthorized$")
 	public void unauthorized() {
 		org.junit.jupiter.api.Assertions.assertThrows(UnauthorizedOperationException.class,
-				() -> clientOperation.withdrawal(this.amount));
+				() -> clientOperation.withdraw(this.amount));
 	}
 }

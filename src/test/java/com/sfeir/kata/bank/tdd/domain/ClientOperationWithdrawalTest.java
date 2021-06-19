@@ -41,7 +41,7 @@ class ClientOperationWithdrawalTest {
 		var amount = Money.of(BigDecimal.valueOf(100));
 
 		// WHEN
-		var result = client.withdrawal(amount);
+		var result = client.withdraw(amount);
 
 		// THEN
 		Assertions.assertThat(result).isInstanceOf(Boolean.class);
@@ -54,7 +54,7 @@ class ClientOperationWithdrawalTest {
 		var amount = Money.of(BigDecimal.valueOf(100));
 
 		// WHEN
-		var result = client.withdrawal(amount);
+		var result = client.withdraw(amount);
 
 		// THEN
 
@@ -77,7 +77,7 @@ class ClientOperationWithdrawalTest {
 		Money expectedValue = Money.of(BigDecimal.valueOf(900));
 
 		// WHEN
-		client.withdrawal(amount);
+		client.withdraw(amount);
 
 		// THEN
 		Condition<Account> accountBalanceIsUpdated = new Condition<>(
@@ -94,7 +94,7 @@ class ClientOperationWithdrawalTest {
 		Money amount = Money.of(BigDecimal.valueOf(1500));
 
 		// WHEN
-		Function0<Boolean> withdrawal = () -> client.withdrawal(amount);
+		Function0<Boolean> withdrawal = () -> client.withdraw(amount);
 
 		// THEN
 		org.junit.jupiter.api.Assertions.assertThrows(UnauthorizedOperationException.class, withdrawal::apply);

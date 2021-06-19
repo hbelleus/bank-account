@@ -39,7 +39,7 @@ public class ClientPrintingOperationStepDefinition {
 	@Given("^I withdraw (\\d+) euros$")
 	public void withdraw(BigDecimal amount) {
 
-		client.withdrawal(Money.of(amount));
+		client.withdraw(Money.of(amount));
 
 	}
 

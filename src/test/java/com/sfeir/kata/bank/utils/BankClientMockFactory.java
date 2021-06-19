@@ -1,7 +1,7 @@
 package com.sfeir.kata.bank.utils;
 
-import com.sfeir.kata.bank.domain.client.Client;
 import com.sfeir.kata.bank.domain.client.ClientOperation;
+import com.sfeir.kata.bank.domain.client.ClientOperationContext;
 import com.sfeir.kata.bank.domain.printer.StatementPrinter;
 
 import lombok.AccessLevel;
@@ -14,13 +14,13 @@ public class BankClientMockFactory {
 
 		var account = BankAccountMockFactory.create();
 
-		return Client.builder().account(account).build();
+		return ClientOperationContext.of(account, null);
 	}
 
 	public static ClientOperation create(StatementPrinter printer) {
 
 		var account = BankAccountMockFactory.create();
 
-		return Client.builder().account(account).printer(printer).build();
+		return ClientOperationContext.of(account, printer);
 	}
 }

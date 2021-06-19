@@ -75,7 +75,7 @@ class BankClientAccountShould {
 					() -> Assertions.assertThat(client.getAccount()).is(accountWithSavedOperation),
 					() -> Assertions.assertThat(client.getAccount().getHistory().getOperations())
 							.has(operationWithCorrectAmount, Index.atIndex(0)),
-					() -> Assertions.assertThat(client.getAccount().getBalance()).isEqualTo(amount));
+					() -> Assertions.assertThat(client.getAccount().getBalance().apply()).isEqualTo(amount));
 
 		}
 	}
@@ -91,10 +91,10 @@ class BankClientAccountShould {
 			// GIVEN an earlier deposit of 1000 and input amount
 			client.deposit(Money.of(BigDecimal.valueOf(500)));
 
-			var expectedBalance = client.getAccount().getBalance().add(amount.toNegative());
+			var expectedBalance = client.getAccount().getBalance().andThen(Money::toNegative).apply().apply();
 
 			// WHEN
-			final var result = client.withdrawal(amount);
+			final var result = client.withdraw(amount);
 
 			// THEN
 
@@ -102,14 +102,14 @@ class BankClientAccountShould {
 					"checking if account has not empty history", amount);
 
 			Condition<Operation> operationWithCorrectAmount = new Condition<>(
-					(operation) -> operation.getAmount().equals(amount.toNegative()),
+					(operation) -> operation.getAmount().equals(amount.toNegative().apply()),
 					"checking if saved operation has the correct amount");
 
 			org.junit.jupiter.api.Assertions.assertAll(() -> Assertions.assertThat(result).isTrue(),
 					() -> Assertions.assertThat(client.getAccount()).is(accountWithSavedOperation),
 					() -> Assertions.assertThat(client.getAccount().getHistory().getOperations())
 							.has(operationWithCorrectAmount, Index.atIndex(1)),
-					() -> Assertions.assertThat(client.getAccount().getBalance()).isEqualTo(expectedBalance));
+					() -> Assertions.assertThat(client.getAccount().getBalance().apply()).isEqualTo(expectedBalance));
 
 		}
 
@@ -121,7 +121,7 @@ class BankClientAccountShould {
 			// GIVEN input amount
 
 			// WHEN
-			Function0<Boolean> withdrawal = () -> client.withdrawal(amount);
+			Function0<Boolean> withdrawal = () -> client.withdraw(amount);
 
 			// THEN
 
@@ -151,7 +151,7 @@ class BankClientAccountShould {
 
 			// THEN
 			this.validate(expectedValue.concat(System.lineSeparator()));
-			
+
 			outputContent.reset();
 
 		}

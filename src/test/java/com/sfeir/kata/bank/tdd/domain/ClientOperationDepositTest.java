@@ -70,7 +70,7 @@ class ClientOperationDepositTest {
 
 		// THEN
 		Condition<Account> accountBalanceIsUpdated = new Condition<>(
-				(account) -> account.getBalance().equals(amount),
+				(account) -> account.getBalance().apply().equals(amount),
 				"checking if account balance has been updated", amount);
 		
 		Assertions.assertThat(client.getAccount()).is(accountBalanceIsUpdated);
