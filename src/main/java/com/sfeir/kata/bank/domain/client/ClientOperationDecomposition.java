@@ -15,7 +15,7 @@ import com.sfeir.kata.bank.domain.statement.utils.AccountStatementFactory;
 import io.vavr.Function1;
 import io.vavr.Function2;
 
-public interface ClientOperationDecomposition {
+interface ClientOperationDecomposition {
 
 	Account getAccount();
 

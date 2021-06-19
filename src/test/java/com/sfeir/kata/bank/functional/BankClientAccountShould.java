@@ -7,10 +7,10 @@ import java.math.BigDecimal;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.Condition;
 import org.assertj.core.data.Index;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -139,10 +139,14 @@ class BankClientAccountShould {
 		final StatementPrinter printer = new ConsolePrinter(new PrintStream(outputContent));
 		final ClientOperation internalClient = BankClientMockFactory.create(printer);
 
+		@AfterEach
+		public void tearDown() {
+			outputContent.reset();
+		}
+
 		@Override
 		@ParameterizedTest
 		@MethodSource
-		@Order(1)
 		public void print_statement_of_empty_history(String expectedValue) {
 
 			// GIVEN
@@ -150,16 +154,13 @@ class BankClientAccountShould {
 			internalClient.printOperationHistory();
 
 			// THEN
-			this.validate(expectedValue.concat(System.lineSeparator()));
-
-			outputContent.reset();
+			this.validateThatOutputIs(expectedValue.concat(System.lineSeparator()));
 
 		}
 
 		@Override
 		@ParameterizedTest
 		@MethodSource
-		@Order(2)
 		public void print_non_empty_statement(String expectedFormat) {
 
 			// GIVEN
@@ -175,10 +176,10 @@ class BankClientAccountShould {
 			internalClient.printOperationHistory();
 
 			// THEN
-			this.validate(expectedResult);
+			this.validateThatOutputIs(expectedResult);
 		}
 
-		private void validate(String expectedResult) {
+		private void validateThatOutputIs(String expectedResult) {
 			Assertions.assertThat(outputContent).hasToString(expectedResult);
 		}
 
