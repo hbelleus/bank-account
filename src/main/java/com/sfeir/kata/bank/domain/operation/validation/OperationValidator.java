@@ -1,16 +1,15 @@
 package com.sfeir.kata.bank.domain.operation.validation;
 
 import com.sfeir.kata.bank.domain.money.Money;
-import com.sfeir.kata.bank.domain.operation.OperationType;
 import com.sfeir.kata.bank.domain.operation.exception.UnauthorizedOperationException;
 
 public interface OperationValidator {
 
-	static void validate(Money amount, Money initialAmount, OperationType type) {
+	static void validateWithdrawal(Money incomingAmount, Money initialAmount) {
 
-		var isOperationUnauthorized = Boolean.TRUE.equals(amount.isLargerThan(initialAmount));
+		var isOperationUnauthorized = incomingAmount.isLargerThan(initialAmount);
 
-		if (OperationType.WITHDRAWAL == type && isOperationUnauthorized)
+		if (isOperationUnauthorized)
 			throw new UnauthorizedOperationException("Unauthorized operation. Contact your bank.");
 	}
 }

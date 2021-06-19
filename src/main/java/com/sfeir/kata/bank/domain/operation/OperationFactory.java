@@ -12,13 +12,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class OperationFactory {
 
-	public static Operation create(Money amount, Account account, OperationType type) {
+	public static Operation createDeposit(Money amount, Account account) {
 
-		OperationValidator.validate(amount, account.getBalance(), type);
+		return Operation.builder().type(OperationType.DEPOSIT).amount(amount).date(LocalDateTime.now())
+				.balanceResult(account.getBalance().apply().add().apply(amount)).build();
+	}
 
-		var balanceResult = account.getBalance().add(amount);
+	public static Operation createWithdrawal(Money amount, Account account) {
 
-		return Operation.builder().type(type).amount(amount).date(LocalDateTime.now())
-				.balanceResult(balanceResult).build();
+		OperationValidator.validateWithdrawal(amount, account.getBalance().apply());
+
+		amount = amount.toNegative().apply();
+
+		return Operation.builder().type(OperationType.WITHDRAWAL).amount(amount).date(LocalDateTime.now())
+				.balanceResult(account.getBalance().apply().add().apply(amount)).build();
 	}
 }

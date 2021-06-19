@@ -1,18 +1,12 @@
 package com.sfeir.kata.bank.domain.account;
 
-import com.sfeir.kata.bank.domain.money.Money;
 import com.sfeir.kata.bank.domain.operation.OperationHistory;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Value;
 
-@Getter
-@Builder
-public class Account {
+@Value
+public class Account implements AccountBalance {
 
-	@Setter
-	private Money balance;
 	private OperationHistory history;
 
 }

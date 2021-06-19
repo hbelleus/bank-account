@@ -1,15 +1,20 @@
 package com.sfeir.kata.bank.domain.client;
 
-import com.sfeir.kata.bank.domain.account.Account;
 import com.sfeir.kata.bank.domain.money.Money;
 
-public interface ClientOperation {
+public interface ClientOperation extends ClientOperationDecomposition {
 
-	Account getAccount();
+	default boolean deposit(Money amount) {
+		return deposit().andThen(saveOperation()).apply(amount, this.getAccount());
+	}
 
-	boolean deposit(Money amount);
+	default boolean withdraw(Money amount) {
+		return withdrawal().andThen(saveOperation()).apply(amount, this.getAccount());
+	}
 
-	boolean withdrawal(Money amount);
+	default void printOperationHistory() {
 
-	void printOperationHistory();
+		var statement = generateStatement().apply(this.getAccount().getHistory());
+		printStatement().accept(statement);
+	}
 }
