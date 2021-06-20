@@ -5,7 +5,7 @@ import com.sfeir.kata.bank.domain.operation.OperationHistory;
 import lombok.Value;
 
 @Value
-public class Account implements AccountBalance {
+public class Account implements AccountBalanceOperator {
 
 	private OperationHistory history;
 
