@@ -12,7 +12,7 @@ import com.sfeir.kata.bank.domain.money.Money;
 import io.vavr.Function1;
 
 @TestInstance(Lifecycle.PER_CLASS)
-public interface WithdrawalFunctionalCase {
+public interface WithdrawalTestSource {
 
 	Function1<Money, Arguments> createCase = (amount) -> Arguments.of(amount);
 

@@ -5,5 +5,5 @@ import lombok.Value;
 @Value
 public class AccountStatementLine {
 
-	String value;
+		String value;
 }

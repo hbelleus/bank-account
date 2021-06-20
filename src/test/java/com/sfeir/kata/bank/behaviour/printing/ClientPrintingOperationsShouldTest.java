@@ -9,6 +9,6 @@ import io.cucumber.junit.CucumberOptions.SnippetType;
 @RunWith(Cucumber.class)
 @CucumberOptions(features = "src/test/resources/features/printing_operations.feature", plugin = { "pretty",
 		"summary" }, snippets = SnippetType.CAMELCASE)
-public class ClientPrintingOperationsShould {
+public class ClientPrintingOperationsShouldTest {
 
 }

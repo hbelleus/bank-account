@@ -10,132 +10,133 @@ import org.junit.jupiter.api.Test;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 
-import com.sfeir.kata.bank.domain.client.ClientOperation;
+import com.sfeir.kata.bank.domain.client.IClientOperation;
 import com.sfeir.kata.bank.domain.money.Money;
 import com.sfeir.kata.bank.utils.BankClientMockFactory;
 
 @RunWith(JUnitPlatform.class)
-public class AccountBalanceTest {
+class AccountBalanceTest {
 
-	private ClientOperation clientOperator;
+		private IClientOperation clientOperator;
 
-	@BeforeEach
-	public void init() {
+		@BeforeEach
+		public void init() {
 
-		clientOperator = BankClientMockFactory.create();
+				clientOperator = BankClientMockFactory.create();
 
-		Assumptions.assumeThat(clientOperator.getAccount()
-		                                     .getBalance()
-		                                     .getAmount())
-		           .isEqualTo(BigDecimal.ZERO);
-	}
+				Assumptions.assumeThat(clientOperator.getAccount()
+				                                     .getBalance()
+				                                     .getAmount())
+				           .isEqualTo(BigDecimal.ZERO);
+		}
 
-	@Test
-	public void
-	  givenOneDepositOf1000_whenGettingBalance_ThenBalanceIs1000() {
+		@Test
+		void givenOneDepositOf1000_whenGettingBalance_ThenBalanceIs1000() {
 
-		// GIVEN
-		Money initialDeposit = Money.of(BigDecimal.valueOf(1000));
+				// GIVEN
+				Money initialDeposit = Money.of(BigDecimal.valueOf(1000));
 
-		var isOperationSaved = clientOperator.deposit(initialDeposit);
+				var isOperationSaved = clientOperator.deposit(initialDeposit);
 
-		Assumptions.assumeThat(isOperationSaved).isTrue();
+				Assumptions.assumeThat(isOperationSaved).isTrue();
 
-		Money expectedValue = Money.of(BigDecimal.valueOf(1000));
+				Money expectedValue = Money.of(BigDecimal.valueOf(1000));
 
-		// WHEN
-		var balanceResult = this.clientOperator.getAccount()
-		                                       .getBalance();
+				// WHEN
+				var balanceResult = this.clientOperator.getAccount()
+				                                       .getBalance();
 
-		// THEN
-		Assertions.assertThat(balanceResult)
-		          .isEqualTo(expectedValue);
-	}
+				// THEN
+				Assertions.assertThat(balanceResult)
+				          .isEqualTo(expectedValue);
+		}
 
-	@Test
-	public void
-	  givenOneDepositOf1000AndAWithDrawalOf500_whenGettingBalance_ThenBalanceIs500() {
+		@Test
+		void givenOneDepositOf1000AndAWithDrawalOf500_whenGettingBalance_ThenBalanceIs500() {
 
-		// GIVEN
-		Money initialDeposit = Money.of(BigDecimal.valueOf(1000));
-		Money withdrawal = Money.of(BigDecimal.valueOf(500));
+				// GIVEN
+				Money initialDeposit = Money.of(BigDecimal.valueOf(1000));
+				Money withdrawal = Money.of(BigDecimal.valueOf(500));
 
-		var isFirstOperationSaved = clientOperator.deposit(initialDeposit);
-		var isSecondOperationSaved = clientOperator.withdraw(withdrawal);
+				var isFirstOperationSaved = clientOperator.deposit(initialDeposit);
+				var isSecondOperationSaved = clientOperator.withdraw(withdrawal);
 
-		Assumptions.assumeThat(isFirstOperationSaved).isTrue();
-		Assumptions.assumeThat(isSecondOperationSaved).isTrue();
+				Assumptions.assumeThat(isFirstOperationSaved)
+				           .isTrue();
+				Assumptions.assumeThat(isSecondOperationSaved)
+				           .isTrue();
 
-		Money expectedValue = Money.of(BigDecimal.valueOf(500));
+				Money expectedValue = Money.of(BigDecimal.valueOf(500));
 
-		// WHEN
-		var balanceResult = this.clientOperator.getAccount()
-		                                       .getBalance();
+				// WHEN
+				var balanceResult = this.clientOperator.getAccount()
+				                                       .getBalance();
 
-		// THEN
-		Assertions.assertThat(balanceResult)
-		          .isEqualTo(expectedValue);
+				// THEN
+				Assertions.assertThat(balanceResult)
+				          .isEqualTo(expectedValue);
 
-	}
+		}
 
-	@Test
-	public void
-	  givenOneDepositOf1000And2WithDrawalsOf200_whenGettingBalance_ThenBalanceIs600() {
+		@Test
+		void givenOneDepositOf1000And2WithDrawalsOf200_whenGettingBalance_ThenBalanceIs600() {
 
-		// GIVEN
-		Money initialDeposit = Money.of(BigDecimal.valueOf(1000));
-		Money withdrawal = Money.of(BigDecimal.valueOf(200));
+				// GIVEN
+				Money initialDeposit = Money.of(BigDecimal.valueOf(1000));
+				Money withdrawal = Money.of(BigDecimal.valueOf(200));
 
-		var isFirstOperationSaved = clientOperator.deposit(initialDeposit);
-		var isSecondOperationSaved = clientOperator.withdraw(withdrawal);
-		var isThirdOperationSaved = clientOperator.withdraw(withdrawal);
+				var isFirstOperationSaved = clientOperator.deposit(initialDeposit);
+				var isSecondOperationSaved = clientOperator.withdraw(withdrawal);
+				var isThirdOperationSaved = clientOperator.withdraw(withdrawal);
 
-		List.of(isFirstOperationSaved, isSecondOperationSaved,
-		        isThirdOperationSaved)
-		    .stream()
-		    .forEach(isOperationSaved -> Assumptions.assumeThat(isOperationSaved)
-		                                            .isTrue());
+				List.of(isFirstOperationSaved,
+				        isSecondOperationSaved,
+				        isThirdOperationSaved)
+				    .stream()
+				    .forEach(isOperationSaved -> Assumptions.assumeThat(isOperationSaved)
+				                                            .isTrue());
 
-		Money expectedValue = Money.of(BigDecimal.valueOf(600));
+				Money expectedValue = Money.of(BigDecimal.valueOf(600));
 
-		// WHEN
-		var balanceResult = this.clientOperator.getAccount()
-		                                       .getBalance();
+				// WHEN
+				var balanceResult = this.clientOperator.getAccount()
+				                                       .getBalance();
 
-		// THEN
-		Assertions.assertThat(balanceResult)
-		          .isEqualTo(expectedValue);
-	}
+				// THEN
+				Assertions.assertThat(balanceResult)
+				          .isEqualTo(expectedValue);
+		}
 
-	@Test
-	public void
-	  givenOneDepositOf1000And2WithDrawalsOf200AndOneDepositOf100_whenGettingBalance_ThenBalanceIs700() {
+		@Test
+		void givenOneDepositOf1000And2WithDrawalsOf200AndOneDepositOf100_whenGettingBalance_ThenBalanceIs700() {
 
-		// GIVEN
-		Money initialDeposit = Money.of(BigDecimal.valueOf(1000));
-		Money withdrawal = Money.of(BigDecimal.valueOf(200));
-		Money finalDeposit = Money.of(BigDecimal.valueOf(100));
+				// GIVEN
+				Money initialDeposit = Money.of(BigDecimal.valueOf(1000));
+				Money withdrawal = Money.of(BigDecimal.valueOf(200));
+				Money finalDeposit = Money.of(BigDecimal.valueOf(100));
 
-		var isFirstOperationSaved = clientOperator.deposit(initialDeposit);
-		var isSecondOperationSaved = clientOperator.withdraw(withdrawal);
-		var isThirdOperationSaved = clientOperator.withdraw(withdrawal);
-		var isFourthOperationSaved = clientOperator.deposit(finalDeposit);
+				var isFirstOperationSaved = clientOperator.deposit(initialDeposit);
+				var isSecondOperationSaved = clientOperator.withdraw(withdrawal);
+				var isThirdOperationSaved = clientOperator.withdraw(withdrawal);
+				var isFourthOperationSaved = clientOperator.deposit(finalDeposit);
 
-		List.of(isFirstOperationSaved, isSecondOperationSaved,
-		        isThirdOperationSaved, isFourthOperationSaved)
-		    .stream()
-		    .forEach(isOperationSaved -> Assumptions.assumeThat(isOperationSaved)
-		                                            .isTrue());
+				List.of(isFirstOperationSaved,
+				        isSecondOperationSaved,
+				        isThirdOperationSaved,
+				        isFourthOperationSaved)
+				    .stream()
+				    .forEach(isOperationSaved -> Assumptions.assumeThat(isOperationSaved)
+				                                            .isTrue());
 
-		Money expectedValue = Money.of(BigDecimal.valueOf(700));
+				Money expectedValue = Money.of(BigDecimal.valueOf(700));
 
-		// WHEN
-		var balanceResult = this.clientOperator.getAccount()
-		                                       .getBalance();
+				// WHEN
+				var balanceResult = this.clientOperator.getAccount()
+				                                       .getBalance();
 
-		// THEN
-		Assertions.assertThat(balanceResult)
-		          .isEqualTo(expectedValue);
-	}
+				// THEN
+				Assertions.assertThat(balanceResult)
+				          .isEqualTo(expectedValue);
+		}
 
 }

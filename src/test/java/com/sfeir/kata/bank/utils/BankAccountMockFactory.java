@@ -1,10 +1,9 @@
 package com.sfeir.kata.bank.utils;
 
-import java.util.ArrayList;
+import org.eclipse.collections.impl.list.mutable.MutableListFactoryImpl;
 
 import com.sfeir.kata.bank.domain.account.Account;
-import com.sfeir.kata.bank.domain.operation.Operation;
-import com.sfeir.kata.bank.domain.operation.OperationHistory;
+import com.sfeir.kata.bank.domain.operation.factory.OperationHistory;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -12,10 +11,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class BankAccountMockFactory {
 
-	public static Account create() {
+		public static Account create() {
 
-		var operationHistory = new OperationHistory(new ArrayList<Operation>());
+				var operationHistory = new OperationHistory(MutableListFactoryImpl.INSTANCE.of());
 
-		return new Account(operationHistory);
-	}
+				return new Account(operationHistory);
+		}
 }

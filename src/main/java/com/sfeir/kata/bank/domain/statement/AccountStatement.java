@@ -1,11 +1,11 @@
 package com.sfeir.kata.bank.domain.statement;
 
-import java.util.List;
+import org.eclipse.collections.api.list.ImmutableList;
 
 import lombok.Value;
 
 @Value
 public class AccountStatement {
 
-	List<AccountStatementLine> lines;
+		ImmutableList<AccountStatementLine> lines;
 }

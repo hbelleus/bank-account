@@ -4,9 +4,9 @@ import java.math.BigDecimal;
 
 import org.assertj.core.api.Assertions;
 
-import com.sfeir.kata.bank.domain.client.ClientOperation;
+import com.sfeir.kata.bank.domain.client.IClientOperation;
 import com.sfeir.kata.bank.domain.money.Money;
-import com.sfeir.kata.bank.domain.operation.exception.UnauthorizedOperationException;
+import com.sfeir.kata.bank.domain.operation.validation.exception.UnauthorizedOperationException;
 import com.sfeir.kata.bank.utils.BankClientMockFactory;
 
 import io.cucumber.java.Before;
@@ -16,7 +16,7 @@ import io.cucumber.java.en.When;
 
 public class ClientWithdrawalStepDefinition {
 
-	private ClientOperation clientOperation;
+	private IClientOperation clientOperation;
 	private Money amount;
 
 	@Before
@@ -47,7 +47,15 @@ public class ClientWithdrawalStepDefinition {
 
 	@Then("^My balance should be (\\d+)$")
 	public void my_balance_should_be(BigDecimal expectedBalance) {
-		Assertions.assertThat(clientOperation.getAccount().getBalance()).isEqualTo(Money.of(expectedBalance));
+
+		org.junit.jupiter.api.Assertions.assertAll(
+				() -> Assertions.assertThat(clientOperation.getAccount().getHistory().getOperations()).hasSize(2),
+				() -> Assertions
+						.assertThat(clientOperation.getAccount().getHistory().getOperations().get(1).getBalanceResult())
+						.hasFieldOrPropertyWithValue("amount", expectedBalance),
+				() -> Assertions.assertThat(clientOperation.getAccount().getHistory().getOperations().get(1))
+						.hasFieldOrPropertyWithValue("balanceResult",
+								clientOperation.getAccount().getBalance()));
 	}
 
 	@Then("^withdrawal should be unauthorized$")

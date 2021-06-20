@@ -5,10 +5,10 @@ import java.math.BigDecimal;
 
 import org.mockito.Mockito;
 
-import com.sfeir.kata.bank.domain.client.ClientOperation;
+import com.sfeir.kata.bank.domain.client.IClientOperation;
 import com.sfeir.kata.bank.domain.money.Money;
 import com.sfeir.kata.bank.domain.printer.ConsolePrinter;
-import com.sfeir.kata.bank.domain.printer.StatementPrinter;
+import com.sfeir.kata.bank.domain.printer.IStatementPrinter;
 import com.sfeir.kata.bank.utils.BankClientMockFactory;
 
 import io.cucumber.java.Before;
@@ -19,8 +19,8 @@ import io.cucumber.java.en.When;
 public class ClientPrintingOperationStepDefinition {
 
 	private PrintStream printStream;
-	private StatementPrinter printer;
-	private ClientOperation client;
+	private IStatementPrinter printer;
+	private IClientOperation client;
 
 	@Before
 	public void setUp() {
@@ -59,6 +59,5 @@ public class ClientPrintingOperationStepDefinition {
 	@Then("^the printer should be called (\\d+) times$")
 	public void printer_is_called_3_times(int value) {
 		Mockito.verify(printStream, Mockito.times(value)).println(Mockito.anyString());
-		;
 	}
 }

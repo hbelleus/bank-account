@@ -1,4 +1,4 @@
-package com.sfeir.kata.bank.domain.operation.exception;
+package com.sfeir.kata.bank.domain.operation.validation.exception;
 
 public class UnauthorizedOperationException extends RuntimeException {
 

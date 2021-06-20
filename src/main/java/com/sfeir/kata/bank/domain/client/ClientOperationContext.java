@@ -1,17 +1,18 @@
 package com.sfeir.kata.bank.domain.client;
 
 import com.sfeir.kata.bank.domain.account.Account;
-import com.sfeir.kata.bank.domain.printer.StatementPrinter;
+import com.sfeir.kata.bank.domain.printer.IStatementPrinter;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor(staticName = "of")
 @Getter
-public class ClientOperationContext implements ClientOperation {
+public class ClientOperationContext
+    implements IClientOperation {
 
-	private final Account account;
+		private final Account account;
 
-	private final StatementPrinter printer;
+		private final IStatementPrinter printer;
 
 }

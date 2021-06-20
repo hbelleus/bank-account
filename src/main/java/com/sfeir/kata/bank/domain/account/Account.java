@@ -1,12 +1,12 @@
 package com.sfeir.kata.bank.domain.account;
 
-import com.sfeir.kata.bank.domain.operation.OperationHistory;
+import com.sfeir.kata.bank.domain.operation.factory.OperationHistory;
 
 import lombok.Value;
 
 @Value
-public class Account implements AccountBalanceOperator {
+public class Account implements IAccountBalanceOperator {
 
-	private OperationHistory history;
+		private OperationHistory history;
 
 }
