@@ -4,7 +4,7 @@ import org.eclipse.collections.impl.list.mutable.MutableListFactoryImpl;
 
 import com.sfeir.kata.bank.domain.account.Account;
 import com.sfeir.kata.bank.domain.account.IAccountOperator;
-import com.sfeir.kata.bank.domain.operation.factory.OperationHistory;
+import com.sfeir.kata.bank.domain.operation.OperationHistory;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

@@ -6,8 +6,8 @@ import java.util.function.Function;
 
 import com.sfeir.kata.bank.domain.money.Money;
 import com.sfeir.kata.bank.domain.operation.Operation;
+import com.sfeir.kata.bank.domain.operation.OperationHistory;
 import com.sfeir.kata.bank.domain.operation.factory.OperationFactory;
-import com.sfeir.kata.bank.domain.operation.factory.OperationHistory;
 import com.sfeir.kata.bank.domain.printer.IStatementPrinter;
 import com.sfeir.kata.bank.domain.statement.AccountStatement;
 import com.sfeir.kata.bank.domain.statement.factory.AccountStatementFactory;

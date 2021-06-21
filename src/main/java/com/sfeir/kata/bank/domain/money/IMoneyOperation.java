@@ -9,7 +9,7 @@ public interface IMoneyOperation {
 
 		BigDecimal getAmount();
 
-		default Function1<Money, Money> add() {
+		default Function1<Money, Money> addMoney() {
 				return money -> Money.of(this.getAmount()
 				                             .add(money.getAmount()));
 		}

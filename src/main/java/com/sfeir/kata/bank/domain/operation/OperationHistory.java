@@ -1,8 +1,6 @@
-package com.sfeir.kata.bank.domain.operation.factory;
+package com.sfeir.kata.bank.domain.operation;
 
 import org.eclipse.collections.api.list.MutableList;
-
-import com.sfeir.kata.bank.domain.operation.Operation;
 
 import io.vavr.Function1;
 import lombok.Value;

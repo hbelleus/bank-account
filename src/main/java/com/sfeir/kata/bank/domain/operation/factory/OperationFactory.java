@@ -12,13 +12,22 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class OperationFactory {
 
+		@NoArgsConstructor(access = AccessLevel.PRIVATE)
+		private static class OperationBalanceCalculator {
+
+				static Money calculateBalance(Money balance,
+				                              Money amount) {
+						return balance.addMoney().apply(amount);
+				}
+		}
+
 		public static Operation createDeposit(Money amount,
 		                                      Money balance) {
 
 				return initBuild().type(OperationType.DEPOSIT)
 				                  .amount(amount)
-				                  .balanceResult(balance.add()
-				                                        .apply(amount))
+				                  .balanceResult(OperationBalanceCalculator.calculateBalance(balance,
+				                                                                             amount))
 				                  .build();
 		}
 
@@ -32,8 +41,8 @@ public class OperationFactory {
 
 				return initBuild().type(OperationType.WITHDRAWAL)
 				                  .amount(negativeAmount)
-				                  .balanceResult(balance.add()
-				                                        .apply(negativeAmount))
+				                  .balanceResult(OperationBalanceCalculator.calculateBalance(balance,
+				                                                                             negativeAmount))
 				                  .build();
 		}
 

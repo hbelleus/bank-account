@@ -1,6 +1,6 @@
 package com.sfeir.kata.bank.domain.account;
 
-import com.sfeir.kata.bank.domain.operation.factory.OperationHistory;
+import com.sfeir.kata.bank.domain.operation.OperationHistory;
 
 import lombok.Value;
 

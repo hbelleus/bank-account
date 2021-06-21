@@ -3,7 +3,7 @@ package com.sfeir.kata.bank.domain.statement.factory;
 import org.eclipse.collections.api.list.ImmutableList;
 import org.eclipse.collections.impl.collector.Collectors2;
 
-import com.sfeir.kata.bank.domain.operation.factory.OperationHistory;
+import com.sfeir.kata.bank.domain.operation.OperationHistory;
 import com.sfeir.kata.bank.domain.statement.AccountStatement;
 import com.sfeir.kata.bank.domain.statement.AccountStatementLine;
 

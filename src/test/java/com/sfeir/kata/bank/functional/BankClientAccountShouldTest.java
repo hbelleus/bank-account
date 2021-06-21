@@ -116,7 +116,7 @@ class BankClientAccountShouldTest {
 						// GIVEN an earlier deposit of 500 and input amount
 						var initMoney = Money.of(BigDecimal.valueOf(500));
 
-						var expectedBalance = initMoney.add()
+						var expectedBalance = initMoney.addMoney()
 						                               .apply(amount.toNegative()
 						                                            .apply());
 
