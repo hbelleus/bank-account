@@ -2,5 +2,4 @@
 /.project
 /bin/
 /.classpath
-/org.eclipse.core.resources.prefs
-/org.eclipse.jdt.core.prefs
+/.settings/
