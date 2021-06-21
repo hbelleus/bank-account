@@ -9,7 +9,7 @@ import com.sfeir.kata.bank.domain.operation.Operation;
 import com.sfeir.kata.bank.domain.operation.OperationHistory;
 import com.sfeir.kata.bank.domain.operation.factory.OperationFactory;
 import com.sfeir.kata.bank.domain.printer.IStatementPrinter;
-import com.sfeir.kata.bank.domain.statement.AccountStatement;
+import com.sfeir.kata.bank.domain.statement.IAccountStatement;
 import com.sfeir.kata.bank.domain.statement.factory.AccountStatementFactory;
 
 import io.vavr.Function1;
@@ -33,12 +33,12 @@ interface IAccountOperationDecomposition {
 				return this.getHistory().getOperations()::add;
 		}
 
-		default Function<OperationHistory, AccountStatement>
+		default Function<OperationHistory, IAccountStatement>
 		    generateStatement() {
 				return AccountStatementFactory::createStatement;
 		}
 
-		default Consumer<AccountStatement>
+		default Consumer<IAccountStatement>
 		    printStatement(IStatementPrinter printer) {
 				return printer::print;
 		}

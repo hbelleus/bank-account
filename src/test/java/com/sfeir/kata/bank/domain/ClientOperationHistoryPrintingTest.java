@@ -16,6 +16,7 @@ import com.sfeir.kata.bank.domain.client.IClientOperator;
 import com.sfeir.kata.bank.domain.money.Money;
 import com.sfeir.kata.bank.domain.printer.IStatementPrinter;
 import com.sfeir.kata.bank.infra.printer.ConsolePrinter;
+import com.sfeir.kata.bank.infra.printer.IConsolePrinter;
 import com.sfeir.kata.bank.utils.BankClientMockFactory;
 
 @RunWith(JUnitPlatform.class)
@@ -39,7 +40,7 @@ class ClientOperationHistoryPrintingTest {
 		void givenEmptyHistory_whenPrintOperationHistory_thenPrintMessage() {
 
 				// GIVEN
-				String message = IStatementPrinter.STATEMENT_HEADER;
+				String message = IConsolePrinter.STATEMENT_HEADER;
 
 				// WHEN
 				client.printOperationHistory();

@@ -7,6 +7,8 @@ import com.sfeir.kata.bank.domain.printer.IStatementPrinter;
 
 public interface IConsolePrinter extends IStatementPrinter {
 
+		static final String STATEMENT_HEADER = "|DATE|OPERATION|AMOUNT|BALANCE|";
+	
 		PrintStream getPrinter();
 
 		@SuppressWarnings("resource")

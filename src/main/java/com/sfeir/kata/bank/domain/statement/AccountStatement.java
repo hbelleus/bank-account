@@ -5,7 +5,7 @@ import org.eclipse.collections.api.list.ImmutableList;
 import lombok.Value;
 
 @Value
-public class AccountStatement {
+public class AccountStatement implements IAccountStatement {
 
-		ImmutableList<AccountStatementLine> lines;
+		ImmutableList<IAccountStatementLine> lines;
 }

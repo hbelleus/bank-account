@@ -1,9 +1,18 @@
 package com.sfeir.kata.bank.domain.statement;
 
+import lombok.Builder;
 import lombok.Value;
 
 @Value
-public class AccountStatementLine {
+@Builder
+public class AccountStatementLine implements IAccountStatementLine {
 
-		String value;
+	String type;
+
+	String amount;
+
+	String balance;
+
+	String date;
+
 }

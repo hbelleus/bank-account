@@ -5,7 +5,8 @@ import org.eclipse.collections.impl.collector.Collectors2;
 
 import com.sfeir.kata.bank.domain.operation.OperationHistory;
 import com.sfeir.kata.bank.domain.statement.AccountStatement;
-import com.sfeir.kata.bank.domain.statement.AccountStatementLine;
+import com.sfeir.kata.bank.domain.statement.IAccountStatement;
+import com.sfeir.kata.bank.domain.statement.IAccountStatementLine;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -13,10 +14,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class AccountStatementFactory {
 
-		public static AccountStatement
+		public static IAccountStatement
 		    createStatement(OperationHistory history) {
 
-				ImmutableList<AccountStatementLine> lines = history.getOperations()
+				ImmutableList<IAccountStatementLine> lines = history.getOperations()
 				                                                   .toReversed()
 				                                                   .stream()
 				                                                   .map(AccountStatementLineFactory::of)
