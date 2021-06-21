@@ -1,6 +1,6 @@
 package com.sfeir.kata.bank.domain.operation.factory;
 
-import com.sfeir.kata.bank.domain.money.Money;
+import com.sfeir.kata.bank.domain.money.IMoneyOperator;
 import com.sfeir.kata.bank.domain.operation.Operation;
 import com.sfeir.kata.bank.domain.operation.OperationType;
 import com.sfeir.kata.bank.domain.operation.date.OperationDate;
@@ -15,14 +15,16 @@ public class OperationFactory {
 		@NoArgsConstructor(access = AccessLevel.PRIVATE)
 		private static class OperationBalanceCalculator {
 
-				static Money calculateBalance(Money balance,
-				                              Money amount) {
+				static IMoneyOperator
+				    calculateBalance(IMoneyOperator balance,
+				                     IMoneyOperator amount) {
 						return balance.addMoney().apply(amount);
 				}
 		}
 
-		public static Operation createDeposit(Money amount,
-		                                      Money balance) {
+		public static Operation
+		    createDeposit(IMoneyOperator amount,
+		                  IMoneyOperator balance) {
 
 				return initBuild().type(OperationType.DEPOSIT)
 				                  .amount(amount)
@@ -32,7 +34,8 @@ public class OperationFactory {
 		}
 
 		public static Operation
-		    createWithdrawal(Money amount, Money balance) {
+		    createWithdrawal(IMoneyOperator amount,
+		                     IMoneyOperator balance) {
 
 				OperationValidator.validateWithdrawal(amount,
 				                                      balance);

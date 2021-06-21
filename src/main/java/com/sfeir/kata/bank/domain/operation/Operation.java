@@ -1,6 +1,6 @@
 package com.sfeir.kata.bank.domain.operation;
 
-import com.sfeir.kata.bank.domain.money.Money;
+import com.sfeir.kata.bank.domain.money.IMoneyOperator;
 import com.sfeir.kata.bank.domain.operation.date.OperationDate;
 
 import lombok.Builder;
@@ -10,8 +10,9 @@ import lombok.Value;
 @Builder
 public class Operation {
 
-		Money         amount;
-		Money         balanceResult;
+		IMoneyOperator amount;
+		IMoneyOperator balanceResult;
+
 		OperationDate date;
 		OperationType type;
 

@@ -4,7 +4,8 @@ import java.math.BigDecimal;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import com.sfeir.kata.bank.domain.money.Money;
+import com.sfeir.kata.bank.domain.money.IMoneyOperator;
+import com.sfeir.kata.bank.domain.money.factory.BankMoneyFactory;
 import com.sfeir.kata.bank.domain.operation.Operation;
 import com.sfeir.kata.bank.domain.operation.OperationHistory;
 import com.sfeir.kata.bank.domain.operation.factory.OperationFactory;
@@ -20,11 +21,14 @@ interface IAccountOperationDecomposition {
 
 		OperationHistory getHistory();
 
-		default Function2<Money, Money, Operation> deposit() {
+		default
+		    Function2<IMoneyOperator, IMoneyOperator, Operation>
+		    deposit() {
 				return OperationFactory::createDeposit;
 		}
 
-		default Function2<Money, Money, Operation>
+		default
+		    Function2<IMoneyOperator, IMoneyOperator, Operation>
 		    withdrawal() {
 				return OperationFactory::createWithdrawal;
 		}
@@ -43,7 +47,7 @@ interface IAccountOperationDecomposition {
 				return printer::print;
 		}
 
-		default Money getBalance() {
+		default IMoneyOperator getBalance() {
 
 				var numberOfOperations = this.getHistory()
 				                             .getOperations()
@@ -56,6 +60,6 @@ interface IAccountOperationDecomposition {
 				                                     .get(lastOperationIndex));
 
 				return lastOperation.map(Operation::getBalanceResult)
-				                    .getOrElse(Money.of(BigDecimal.ZERO));
+				                    .getOrElse(BankMoneyFactory.create(BigDecimal.ZERO));
 		}
 }

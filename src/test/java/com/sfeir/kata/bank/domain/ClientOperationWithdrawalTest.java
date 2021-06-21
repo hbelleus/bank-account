@@ -12,10 +12,11 @@ import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 
 import com.sfeir.kata.bank.domain.client.IClientOperator;
-import com.sfeir.kata.bank.domain.money.Money;
+import com.sfeir.kata.bank.domain.client.factory.BankClientFactory;
+import com.sfeir.kata.bank.domain.money.IMoneyOperator;
+import com.sfeir.kata.bank.domain.money.factory.BankMoneyFactory;
 import com.sfeir.kata.bank.domain.operation.Operation;
 import com.sfeir.kata.bank.domain.operation.validation.exception.UnauthorizedOperationException;
-import com.sfeir.kata.bank.utils.BankClientMockFactory;
 
 import io.vavr.Function0;
 
@@ -27,9 +28,9 @@ class ClientOperationWithdrawalTest {
 		@BeforeEach
 		public void init() {
 
-				client = BankClientMockFactory.create();
+				client = BankClientFactory.create();
 
-				var initDeposit = Money.of(BigDecimal.valueOf(1000));
+				var initDeposit = BankMoneyFactory.create(1000);
 
 				client.deposit(initDeposit);
 		}
@@ -38,7 +39,7 @@ class ClientOperationWithdrawalTest {
 		void givenAnyAmount_WhenWithdrawal_thenReturnBoolean() {
 
 				// GIVEN
-				var amount = Money.of(BigDecimal.valueOf(100));
+				var amount = BankMoneyFactory.create(BigDecimal.valueOf(100));
 
 				// WHEN
 				var result = client.withdraw(amount);
@@ -52,7 +53,7 @@ class ClientOperationWithdrawalTest {
 		void givenPositiveAmount_WhenWithdrawal_thenOperationIsSaved() {
 
 				// GIVEN
-				var amount = Money.of(BigDecimal.valueOf(100));
+				var amount = BankMoneyFactory.create(BigDecimal.valueOf(100));
 
 				// WHEN
 				var result = client.withdraw(amount);
@@ -78,20 +79,22 @@ class ClientOperationWithdrawalTest {
 		void givenAnyPositiveAmount_WhenWithdrawal_thenAccountBalanceIsUpdated() {
 
 				// GIVEN
-				Money amount = Money.of(BigDecimal.valueOf(100));
+				var amount = BankMoneyFactory.create(BigDecimal.valueOf(100));
 
-				Money expectedValue = Money.of(BigDecimal.valueOf(900));
+				var expectedValue = BankMoneyFactory.create(BigDecimal.valueOf(900));
+
+				var initialBalance = BankMoneyFactory.create(1000);
 
 				Assumptions.assumeThat(client.getAccount()
 				                             .getBalance()
-				                             .equals(Money.of(BigDecimal.valueOf(1000))));
+				                             .equals(initialBalance));
 
 				// WHEN
 				client.withdraw(amount);
 
 				// THEN
-				Condition<Money> hasBeenUpdated = new Condition<>((money) -> money.equals(expectedValue), String.format("matching expected balance of %s",
-				                                                                                                        expectedValue));
+				Condition<IMoneyOperator> hasBeenUpdated = new Condition<>((money) -> money.equals(expectedValue), String.format("matching expected balance of %s",
+				                                                                                                                 expectedValue));
 
 				Assertions.assertThat(client.getAccount()
 				                            .getBalance())
@@ -102,9 +105,9 @@ class ClientOperationWithdrawalTest {
 		void givenPositiveAmount_WhenWithdrawalTwice_thenAccountBalanceIsUpdated() {
 
 				// GIVEN
-				Money amount = Money.of(BigDecimal.valueOf(100));
+				var amount = BankMoneyFactory.create(100);
 
-				Money expectedValue = Money.of(BigDecimal.valueOf(800));
+				var expectedValue = BankMoneyFactory.create(800);
 
 				// WHEN
 				final var resultOperationSave1 = client.withdraw(amount);
@@ -125,8 +128,8 @@ class ClientOperationWithdrawalTest {
 				          .isNotEmpty()
 				          .has(savedOperation, Index.atIndex(2));
 
-				Condition<Money> hasBeenUpdated = new Condition<>((money) -> money.equals(expectedValue), String.format("matching expected balance of %s",
-				                                                                                                        expectedValue));
+				Condition<IMoneyOperator> hasBeenUpdated = new Condition<>((money) -> money.equals(expectedValue), String.format("matching expected balance of %s",
+				                                                                                                                 expectedValue));
 
 				Assertions.assertThat(client.getAccount()
 				                            .getBalance())
@@ -137,7 +140,7 @@ class ClientOperationWithdrawalTest {
 		void givenAnyPositiveAmountGreaterThanBalance_WhenWithdrawal_thenThrowsException() {
 
 				// GIVEN
-				Money amount = Money.of(BigDecimal.valueOf(1500));
+				var amount = BankMoneyFactory.create(1500);
 
 				// WHEN
 				Function0<Boolean> withdrawal = () -> client.withdraw(amount);

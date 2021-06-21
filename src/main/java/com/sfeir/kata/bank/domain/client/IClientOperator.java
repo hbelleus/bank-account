@@ -1,7 +1,7 @@
 package com.sfeir.kata.bank.domain.client;
 
 import com.sfeir.kata.bank.domain.account.IAccountOperator;
-import com.sfeir.kata.bank.domain.money.Money;
+import com.sfeir.kata.bank.domain.money.IMoneyOperator;
 import com.sfeir.kata.bank.domain.printer.IStatementPrinter;
 
 public interface IClientOperator {
@@ -10,11 +10,11 @@ public interface IClientOperator {
 
 		IStatementPrinter getPrinter();
 
-		default boolean deposit(Money amount) {
+		default boolean deposit(IMoneyOperator amount) {
 				return this.getAccount().deposit(amount);
 		}
 
-		default boolean withdraw(Money amount) {
+		default boolean withdraw(IMoneyOperator amount) {
 				return this.getAccount().withdraw(amount);
 		}
 

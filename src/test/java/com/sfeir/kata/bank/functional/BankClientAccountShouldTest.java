@@ -23,7 +23,9 @@ import org.junit.runner.RunWith;
 
 import com.sfeir.kata.bank.domain.account.IAccountOperator;
 import com.sfeir.kata.bank.domain.client.IClientOperator;
-import com.sfeir.kata.bank.domain.money.Money;
+import com.sfeir.kata.bank.domain.client.factory.BankClientFactory;
+import com.sfeir.kata.bank.domain.money.IMoneyOperator;
+import com.sfeir.kata.bank.domain.money.factory.BankMoneyFactory;
 import com.sfeir.kata.bank.domain.operation.Operation;
 import com.sfeir.kata.bank.domain.operation.validation.exception.UnauthorizedOperationException;
 import com.sfeir.kata.bank.domain.printer.IStatementPrinter;
@@ -33,8 +35,7 @@ import com.sfeir.kata.bank.functional.printing.PrintingOperationsTest;
 import com.sfeir.kata.bank.functional.printing.PrintingOperationsTestDefinition;
 import com.sfeir.kata.bank.functional.withdrawal.WithdrawalTestDefinition;
 import com.sfeir.kata.bank.functional.withdrawal.WithdrawalTestSource;
-import com.sfeir.kata.bank.infra.printer.ConsolePrinter;
-import com.sfeir.kata.bank.utils.BankClientMockFactory;
+import com.sfeir.kata.bank.infra.printer.console.ConsolePrinter;
 
 import io.vavr.Function0;
 
@@ -47,7 +48,7 @@ class BankClientAccountShouldTest {
 		@BeforeEach
 		public void init() {
 
-				client = BankClientMockFactory.create();
+				client = BankClientFactory.create();
 		}
 
 		@Nested
@@ -58,7 +59,7 @@ class BankClientAccountShouldTest {
 				@Override
 				@ParameterizedTest
 				@MethodSource("generatePositiveAmount")
-				public void make_a_deposit(Money amount) {
+				public void make_a_deposit(IMoneyOperator amount) {
 
 						// GIVEN input amount
 
@@ -98,7 +99,7 @@ class BankClientAccountShouldTest {
 				@BeforeEach
 				public void init() {
 
-						var initMoney = Money.of(BigDecimal.valueOf(500));
+						var initMoney = BankMoneyFactory.create(BigDecimal.valueOf(500));
 
 						client.deposit(initMoney);
 
@@ -111,10 +112,10 @@ class BankClientAccountShouldTest {
 				@ParameterizedTest
 				@MethodSource("givenAuthorizedAmount")
 				public void
-				    make_a_withdrawal_with_success(Money amount) {
+				    make_a_withdrawal_with_success(IMoneyOperator amount) {
 
 						// GIVEN an earlier deposit of 500 and input amount
-						var initMoney = Money.of(BigDecimal.valueOf(500));
+						var initMoney = BankMoneyFactory.create(500);
 
 						var expectedBalance = initMoney.addMoney()
 						                               .apply(amount.toNegative()
@@ -159,7 +160,7 @@ class BankClientAccountShouldTest {
 				@ParameterizedTest
 				@MethodSource("givenUnauthorizedAmount")
 				public void
-				    make_an_unauthorized_withdrawal(Money amount) {
+				    make_an_unauthorized_withdrawal(IMoneyOperator amount) {
 
 						// GIVEN input amount
 
@@ -183,7 +184,7 @@ class BankClientAccountShouldTest {
 
 				final ByteArrayOutputStream outputContent  = new ByteArrayOutputStream();
 				final IStatementPrinter     printer        = new ConsolePrinter(new PrintStream(outputContent));
-				final IClientOperator       internalClient = BankClientMockFactory.create(printer);
+				final IClientOperator       internalClient = BankClientFactory.create(printer);
 
 				@AfterEach
 				public void tearDown() {
@@ -212,7 +213,9 @@ class BankClientAccountShouldTest {
 				    print_non_empty_statement(String expectedFormat) {
 
 						// GIVEN
-						internalClient.deposit(Money.of(BigDecimal.valueOf(10000)));
+						var initialAmount = BankMoneyFactory.create(10000);
+
+						internalClient.deposit(initialAmount);
 
 						var operation = internalClient.getAccount()
 						                              .getHistory()

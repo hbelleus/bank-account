@@ -1,17 +1,17 @@
 package com.sfeir.kata.bank.domain.account;
 
-import com.sfeir.kata.bank.domain.money.Money;
+import com.sfeir.kata.bank.domain.money.IMoneyOperator;
 import com.sfeir.kata.bank.domain.printer.IStatementPrinter;
 
 public interface IAccountOperator
     extends IAccountOperationDecomposition {
 
-		default boolean deposit(Money amount) {
+		default boolean deposit(IMoneyOperator amount) {
 				return deposit().andThen(saveOperation())
 				                .apply(amount, this.getBalance());
 		}
 
-		default boolean withdraw(Money amount) {
+		default boolean withdraw(IMoneyOperator amount) {
 				return withdrawal().andThen(saveOperation())
 				                   .apply(amount,
 				                          this.getBalance());

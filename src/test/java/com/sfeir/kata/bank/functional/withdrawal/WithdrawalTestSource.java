@@ -1,33 +1,35 @@
 package com.sfeir.kata.bank.functional.withdrawal;
 
-import java.math.BigDecimal;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.params.provider.Arguments;
 
-import com.sfeir.kata.bank.domain.money.Money;
+import com.sfeir.kata.bank.domain.money.IMoneyOperator;
+import com.sfeir.kata.bank.domain.money.factory.BankMoneyFactory;
 
 import io.vavr.Function1;
 
 @TestInstance(Lifecycle.PER_CLASS)
 public interface WithdrawalTestSource {
 
-	Function1<Money, Arguments> createCase = (amount) -> Arguments.of(amount);
+		Function1<IMoneyOperator, Arguments> createCase = (amount) -> Arguments.of(amount);
 
-	public static Stream<Arguments> givenAuthorizedAmount() {
+		public static Stream<Arguments>
+		    givenAuthorizedAmount() {
 
-		var case1 = createCase.apply(Money.of(new BigDecimal("0")));
-		var case2 = createCase.apply(Money.of(new BigDecimal("500")));
+				var case1 = createCase.apply(BankMoneyFactory.create("0"));
+				var case2 = createCase.apply(BankMoneyFactory.create("500"));
 
-		return Stream.of(case1, case2);
-	}
+				return Stream.of(case1, case2);
+		}
 
-	public static Stream<Arguments> givenUnauthorizedAmount() {
+		public static Stream<Arguments>
+		    givenUnauthorizedAmount() {
 
-		var case1 = createCase.apply(Money.of(new BigDecimal("1000")));
+				var case1 = createCase.apply(BankMoneyFactory.create("1000"));
 
-		return Stream.of(case1);
-	}
+				return Stream.of(case1);
+		}
 }

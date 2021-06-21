@@ -1,7 +1,5 @@
 package com.sfeir.kata.bank.domain;
 
-import java.math.BigDecimal;
-
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.Condition;
 import org.assertj.core.data.Index;
@@ -12,9 +10,9 @@ import org.junit.runner.RunWith;
 
 import com.sfeir.kata.bank.domain.account.IAccountOperator;
 import com.sfeir.kata.bank.domain.client.IClientOperator;
-import com.sfeir.kata.bank.domain.money.Money;
+import com.sfeir.kata.bank.domain.client.factory.BankClientFactory;
+import com.sfeir.kata.bank.domain.money.factory.BankMoneyFactory;
 import com.sfeir.kata.bank.domain.operation.Operation;
-import com.sfeir.kata.bank.utils.BankClientMockFactory;
 
 @RunWith(JUnitPlatform.class)
 class ClientOperationDepositTest {
@@ -24,14 +22,14 @@ class ClientOperationDepositTest {
 		@BeforeEach
 		public void init() {
 
-				client = BankClientMockFactory.create();
+				client = BankClientFactory.create();
 		}
 
 		@Test()
 		void givenAnyAmount_whenDeposit_thenResultIsBoolean() {
 
 				// GIVEN
-				Money amount = Money.of(BigDecimal.valueOf(100));
+				var amount = BankMoneyFactory.create(100);
 
 				// WHEN
 				final var result = client.deposit(amount);
@@ -45,7 +43,7 @@ class ClientOperationDepositTest {
 		void givenAnyPositiveAmount_whenDeposit_thenOperationIsSaved() {
 
 				// GIVEN
-				Money amount = Money.of(BigDecimal.valueOf(100));
+				var amount = BankMoneyFactory.create(100);
 
 				// WHEN
 				final var result = client.deposit(amount);
@@ -67,7 +65,7 @@ class ClientOperationDepositTest {
 		void givenAnyPositiveAmount_whenDeposit_thenAccountBalanceIsUpdated() {
 
 				// GIVEN
-				Money amount = Money.of(BigDecimal.valueOf(100));
+				var amount = BankMoneyFactory.create(100);
 
 				// WHEN
 				client.deposit(amount);

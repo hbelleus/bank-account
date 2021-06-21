@@ -11,8 +11,8 @@ import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 
 import com.sfeir.kata.bank.domain.client.IClientOperator;
-import com.sfeir.kata.bank.domain.money.Money;
-import com.sfeir.kata.bank.utils.BankClientMockFactory;
+import com.sfeir.kata.bank.domain.client.factory.BankClientFactory;
+import com.sfeir.kata.bank.domain.money.factory.BankMoneyFactory;
 
 @RunWith(JUnitPlatform.class)
 class AccountBalanceTest {
@@ -22,7 +22,7 @@ class AccountBalanceTest {
 		@BeforeEach
 		public void init() {
 
-				clientOperator = BankClientMockFactory.create();
+				clientOperator = BankClientFactory.create();
 
 				Assumptions.assumeThat(clientOperator.getAccount()
 				                                     .getBalance()
@@ -34,13 +34,13 @@ class AccountBalanceTest {
 		void givenOneDepositOf1000_whenGettingBalance_ThenBalanceIs1000() {
 
 				// GIVEN
-				Money initialDeposit = Money.of(BigDecimal.valueOf(1000));
+				var initialDeposit = BankMoneyFactory.create(1000);
 
 				var isOperationSaved = clientOperator.deposit(initialDeposit);
 
 				Assumptions.assumeThat(isOperationSaved).isTrue();
 
-				Money expectedValue = Money.of(BigDecimal.valueOf(1000));
+				var expectedValue = BankMoneyFactory.create(1000);
 
 				// WHEN
 				var balanceResult = this.clientOperator.getAccount()
@@ -55,18 +55,15 @@ class AccountBalanceTest {
 		void givenOneDepositOf1000AndAWithDrawalOf500_whenGettingBalance_ThenBalanceIs500() {
 
 				// GIVEN
-				Money initialDeposit = Money.of(BigDecimal.valueOf(1000));
-				Money withdrawal = Money.of(BigDecimal.valueOf(500));
+				var initialDeposit = BankMoneyFactory.create(1000);
+				var withdrawal = BankMoneyFactory.create(500);
 
-				var isFirstOperationSaved = clientOperator.deposit(initialDeposit);
-				var isSecondOperationSaved = clientOperator.withdraw(withdrawal);
-
-				Assumptions.assumeThat(isFirstOperationSaved)
+				Assumptions.assumeThat(clientOperator.deposit(initialDeposit))
 				           .isTrue();
-				Assumptions.assumeThat(isSecondOperationSaved)
+				Assumptions.assumeThat(clientOperator.withdraw(withdrawal))
 				           .isTrue();
 
-				Money expectedValue = Money.of(BigDecimal.valueOf(500));
+				var expectedValue = BankMoneyFactory.create(500);
 
 				// WHEN
 				var balanceResult = this.clientOperator.getAccount()
@@ -82,21 +79,17 @@ class AccountBalanceTest {
 		void givenOneDepositOf1000And2WithDrawalsOf200_whenGettingBalance_ThenBalanceIs600() {
 
 				// GIVEN
-				Money initialDeposit = Money.of(BigDecimal.valueOf(1000));
-				Money withdrawal = Money.of(BigDecimal.valueOf(200));
+				var initialDeposit = BankMoneyFactory.create(1000);
+				var withdrawal = BankMoneyFactory.create(200);
 
-				var isFirstOperationSaved = clientOperator.deposit(initialDeposit);
-				var isSecondOperationSaved = clientOperator.withdraw(withdrawal);
-				var isThirdOperationSaved = clientOperator.withdraw(withdrawal);
-
-				List.of(isFirstOperationSaved,
-				        isSecondOperationSaved,
-				        isThirdOperationSaved)
+				List.of(clientOperator.deposit(initialDeposit),
+				        clientOperator.withdraw(withdrawal),
+				        clientOperator.withdraw(withdrawal))
 				    .stream()
 				    .forEach(isOperationSaved -> Assumptions.assumeThat(isOperationSaved)
 				                                            .isTrue());
 
-				Money expectedValue = Money.of(BigDecimal.valueOf(600));
+				var expectedValue = BankMoneyFactory.create(600);
 
 				// WHEN
 				var balanceResult = this.clientOperator.getAccount()
@@ -111,24 +104,19 @@ class AccountBalanceTest {
 		void givenOneDepositOf1000And2WithDrawalsOf200AndOneDepositOf100_whenGettingBalance_ThenBalanceIs700() {
 
 				// GIVEN
-				Money initialDeposit = Money.of(BigDecimal.valueOf(1000));
-				Money withdrawal = Money.of(BigDecimal.valueOf(200));
-				Money finalDeposit = Money.of(BigDecimal.valueOf(100));
+				var initialDeposit = BankMoneyFactory.create(1000);
+				var withdrawal = BankMoneyFactory.create(200);
+				var finalDeposit = BankMoneyFactory.create(100);
 
-				var isFirstOperationSaved = clientOperator.deposit(initialDeposit);
-				var isSecondOperationSaved = clientOperator.withdraw(withdrawal);
-				var isThirdOperationSaved = clientOperator.withdraw(withdrawal);
-				var isFourthOperationSaved = clientOperator.deposit(finalDeposit);
-
-				List.of(isFirstOperationSaved,
-				        isSecondOperationSaved,
-				        isThirdOperationSaved,
-				        isFourthOperationSaved)
+				List.of(clientOperator.deposit(initialDeposit),
+				        clientOperator.withdraw(withdrawal),
+				        clientOperator.withdraw(withdrawal),
+				        clientOperator.deposit(finalDeposit))
 				    .stream()
 				    .forEach(isOperationSaved -> Assumptions.assumeThat(isOperationSaved)
 				                                            .isTrue());
 
-				Money expectedValue = Money.of(BigDecimal.valueOf(700));
+				var expectedValue = BankMoneyFactory.create(700);
 
 				// WHEN
 				var balanceResult = this.clientOperator.getAccount()
