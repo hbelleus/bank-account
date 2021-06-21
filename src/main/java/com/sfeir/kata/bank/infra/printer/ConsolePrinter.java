@@ -1,4 +1,4 @@
-package com.sfeir.kata.bank.domain.printer;
+package com.sfeir.kata.bank.infra.printer;
 
 import java.io.PrintStream;
 

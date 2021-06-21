@@ -1,6 +1,5 @@
 package com.sfeir.kata.bank.domain.operation.factory;
 
-import com.sfeir.kata.bank.domain.account.Account;
 import com.sfeir.kata.bank.domain.money.Money;
 import com.sfeir.kata.bank.domain.operation.Operation;
 import com.sfeir.kata.bank.domain.operation.OperationType;
@@ -14,28 +13,26 @@ import lombok.NoArgsConstructor;
 public class OperationFactory {
 
 		public static Operation createDeposit(Money amount,
-		                                      Account account) {
+		                                      Money balance) {
 
 				return initBuild().type(OperationType.DEPOSIT)
 				                  .amount(amount)
-				                  .balanceResult(account.getBalance()
-				                                        .add()
+				                  .balanceResult(balance.add()
 				                                        .apply(amount))
 				                  .build();
 		}
 
 		public static Operation
-		    createWithdrawal(Money amount, Account account) {
+		    createWithdrawal(Money amount, Money balance) {
 
 				OperationValidator.validateWithdrawal(amount,
-				                                      account.getBalance());
+				                                      balance);
 
 				var negativeAmount = amount.toNegative().apply();
 
 				return initBuild().type(OperationType.WITHDRAWAL)
 				                  .amount(negativeAmount)
-				                  .balanceResult(account.getBalance()
-				                                        .add()
+				                  .balanceResult(balance.add()
 				                                        .apply(negativeAmount))
 				                  .build();
 		}

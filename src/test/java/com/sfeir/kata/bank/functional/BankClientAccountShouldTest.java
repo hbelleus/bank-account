@@ -22,11 +22,10 @@ import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 
 import com.sfeir.kata.bank.domain.account.Account;
-import com.sfeir.kata.bank.domain.client.IClientOperation;
+import com.sfeir.kata.bank.domain.client.IClientOperatior;
 import com.sfeir.kata.bank.domain.money.Money;
 import com.sfeir.kata.bank.domain.operation.Operation;
 import com.sfeir.kata.bank.domain.operation.validation.exception.UnauthorizedOperationException;
-import com.sfeir.kata.bank.domain.printer.ConsolePrinter;
 import com.sfeir.kata.bank.domain.printer.IStatementPrinter;
 import com.sfeir.kata.bank.functional.deposit.DepositTestDefinition;
 import com.sfeir.kata.bank.functional.deposit.DepositTestSource;
@@ -34,6 +33,7 @@ import com.sfeir.kata.bank.functional.printing.PrintingOperationsTest;
 import com.sfeir.kata.bank.functional.printing.PrintingOperationsTestDefinition;
 import com.sfeir.kata.bank.functional.withdrawal.WithdrawalTestDefinition;
 import com.sfeir.kata.bank.functional.withdrawal.WithdrawalTestSource;
+import com.sfeir.kata.bank.infra.printer.ConsolePrinter;
 import com.sfeir.kata.bank.utils.BankClientMockFactory;
 
 import io.vavr.Function0;
@@ -42,7 +42,7 @@ import io.vavr.Function0;
 @TestMethodOrder(OrderAnnotation.class)
 class BankClientAccountShouldTest {
 
-		private IClientOperation client;
+		private IClientOperatior client;
 
 		@BeforeEach
 		public void init() {
@@ -183,7 +183,7 @@ class BankClientAccountShouldTest {
 
 				final ByteArrayOutputStream outputContent  = new ByteArrayOutputStream();
 				final IStatementPrinter     printer        = new ConsolePrinter(new PrintStream(outputContent));
-				final IClientOperation      internalClient = BankClientMockFactory.create(printer);
+				final IClientOperatior      internalClient = BankClientMockFactory.create(printer);
 
 				@AfterEach
 				public void tearDown() {

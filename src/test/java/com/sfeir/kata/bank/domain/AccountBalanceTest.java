@@ -10,14 +10,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 
-import com.sfeir.kata.bank.domain.client.IClientOperation;
+import com.sfeir.kata.bank.domain.client.IClientOperatior;
 import com.sfeir.kata.bank.domain.money.Money;
 import com.sfeir.kata.bank.utils.BankClientMockFactory;
 
 @RunWith(JUnitPlatform.class)
 class AccountBalanceTest {
 
-		private IClientOperation clientOperator;
+		private IClientOperatior clientOperator;
 
 		@BeforeEach
 		public void init() {

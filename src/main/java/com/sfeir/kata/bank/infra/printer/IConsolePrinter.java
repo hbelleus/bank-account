@@ -1,7 +1,9 @@
-package com.sfeir.kata.bank.domain.printer;
+package com.sfeir.kata.bank.infra.printer;
 
 import java.io.PrintStream;
 import java.util.function.Consumer;
+
+import com.sfeir.kata.bank.domain.printer.IStatementPrinter;
 
 public interface IConsolePrinter extends IStatementPrinter {
 

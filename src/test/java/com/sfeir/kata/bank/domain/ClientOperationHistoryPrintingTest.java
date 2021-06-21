@@ -12,10 +12,10 @@ import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 
-import com.sfeir.kata.bank.domain.client.IClientOperation;
+import com.sfeir.kata.bank.domain.client.IClientOperatior;
 import com.sfeir.kata.bank.domain.money.Money;
-import com.sfeir.kata.bank.domain.printer.ConsolePrinter;
 import com.sfeir.kata.bank.domain.printer.IStatementPrinter;
+import com.sfeir.kata.bank.infra.printer.ConsolePrinter;
 import com.sfeir.kata.bank.utils.BankClientMockFactory;
 
 @RunWith(JUnitPlatform.class)
@@ -24,7 +24,7 @@ class ClientOperationHistoryPrintingTest {
 
 		private PrintStream       printStream;
 		private IStatementPrinter printer;
-		private IClientOperation  client;
+		private IClientOperatior  client;
 
 		@BeforeEach
 		public void init() {

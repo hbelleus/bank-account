@@ -5,11 +5,12 @@ import com.sfeir.kata.bank.domain.operation.validation.exception.UnauthorizedOpe
 
 public interface OperationValidator {
 
-	static void validateWithdrawal(Money incomingAmount, Money initialAmount) {
+		static void validateWithdrawal(Money incomingAmount,
+		                               Money initialBalance) {
 
-		var isOperationUnauthorized = incomingAmount.isLargerThan(initialAmount);
+				var isOperationUnauthorized = incomingAmount.isLargerThan(initialBalance);
 
-		if (isOperationUnauthorized)
-			throw new UnauthorizedOperationException("Unauthorized operation. Contact your bank.");
-	}
+				if (isOperationUnauthorized)
+						throw new UnauthorizedOperationException("Unauthorized operation. Contact your bank.");
+		}
 }

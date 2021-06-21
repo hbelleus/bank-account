@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 
-import com.sfeir.kata.bank.domain.client.IClientOperation;
+import com.sfeir.kata.bank.domain.client.IClientOperatior;
 import com.sfeir.kata.bank.domain.money.Money;
 import com.sfeir.kata.bank.domain.operation.Operation;
 import com.sfeir.kata.bank.domain.operation.validation.exception.UnauthorizedOperationException;
@@ -22,7 +22,7 @@ import io.vavr.Function0;
 @RunWith(JUnitPlatform.class)
 class ClientOperationWithdrawalTest {
 
-		private IClientOperation client;
+		private IClientOperatior client;
 
 		@BeforeEach
 		public void init() {
