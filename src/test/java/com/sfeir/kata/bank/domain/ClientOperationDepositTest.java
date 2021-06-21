@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 
-import com.sfeir.kata.bank.domain.account.Account;
-import com.sfeir.kata.bank.domain.client.IClientOperatior;
+import com.sfeir.kata.bank.domain.account.IAccountOperator;
+import com.sfeir.kata.bank.domain.client.IClientOperator;
 import com.sfeir.kata.bank.domain.money.Money;
 import com.sfeir.kata.bank.domain.operation.Operation;
 import com.sfeir.kata.bank.utils.BankClientMockFactory;
@@ -19,7 +19,7 @@ import com.sfeir.kata.bank.utils.BankClientMockFactory;
 @RunWith(JUnitPlatform.class)
 class ClientOperationDepositTest {
 
-		private IClientOperatior client;
+		private IClientOperator client;
 
 		@BeforeEach
 		public void init() {
@@ -73,8 +73,8 @@ class ClientOperationDepositTest {
 				client.deposit(amount);
 
 				// THEN
-				Condition<Account> accountBalanceIsUpdated = new Condition<>((account) -> account.getBalance()
-				                                                                                 .equals(amount), "checking if account balance has been updated", amount);
+				Condition<IAccountOperator> accountBalanceIsUpdated = new Condition<>((account) -> account.getBalance()
+				                                                                                          .equals(amount), "checking if account balance has been updated", amount);
 
 				Assertions.assertThat(client.getAccount())
 				          .is(accountBalanceIsUpdated);

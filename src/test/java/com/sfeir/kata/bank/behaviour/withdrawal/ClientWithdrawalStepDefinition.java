@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 import org.assertj.core.api.Assertions;
 
-import com.sfeir.kata.bank.domain.client.IClientOperatior;
+import com.sfeir.kata.bank.domain.client.IClientOperator;
 import com.sfeir.kata.bank.domain.money.Money;
 import com.sfeir.kata.bank.domain.operation.validation.exception.UnauthorizedOperationException;
 import com.sfeir.kata.bank.utils.BankClientMockFactory;
@@ -16,7 +16,7 @@ import io.cucumber.java.en.When;
 
 public class ClientWithdrawalStepDefinition {
 
-	private IClientOperatior clientOperation;
+	private IClientOperator clientOperation;
 	private Money amount;
 
 	@Before

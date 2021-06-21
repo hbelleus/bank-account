@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 
 import org.mockito.Mockito;
 
-import com.sfeir.kata.bank.domain.client.IClientOperatior;
+import com.sfeir.kata.bank.domain.client.IClientOperator;
 import com.sfeir.kata.bank.domain.money.Money;
 import com.sfeir.kata.bank.domain.printer.IStatementPrinter;
 import com.sfeir.kata.bank.infra.printer.ConsolePrinter;
@@ -20,7 +20,7 @@ public class ClientPrintingOperationStepDefinition {
 
 	private PrintStream printStream;
 	private IStatementPrinter printer;
-	private IClientOperatior client;
+	private IClientOperator client;
 
 	@Before
 	public void setUp() {

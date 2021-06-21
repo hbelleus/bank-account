@@ -4,7 +4,7 @@ import com.sfeir.kata.bank.domain.account.IAccountOperator;
 import com.sfeir.kata.bank.domain.money.Money;
 import com.sfeir.kata.bank.domain.printer.IStatementPrinter;
 
-public interface IClientOperatior {
+public interface IClientOperator {
 
 		IAccountOperator getAccount();
 

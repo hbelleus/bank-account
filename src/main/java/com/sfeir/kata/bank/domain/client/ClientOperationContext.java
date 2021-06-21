@@ -9,7 +9,7 @@ import lombok.Getter;
 @AllArgsConstructor(staticName = "of")
 @Getter
 public class ClientOperationContext
-    implements IClientOperatior {
+    implements IClientOperator {
 
 		private final IAccountOperator account;
 

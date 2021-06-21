@@ -21,8 +21,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 
-import com.sfeir.kata.bank.domain.account.Account;
-import com.sfeir.kata.bank.domain.client.IClientOperatior;
+import com.sfeir.kata.bank.domain.account.IAccountOperator;
+import com.sfeir.kata.bank.domain.client.IClientOperator;
 import com.sfeir.kata.bank.domain.money.Money;
 import com.sfeir.kata.bank.domain.operation.Operation;
 import com.sfeir.kata.bank.domain.operation.validation.exception.UnauthorizedOperationException;
@@ -42,7 +42,7 @@ import io.vavr.Function0;
 @TestMethodOrder(OrderAnnotation.class)
 class BankClientAccountShouldTest {
 
-		private IClientOperatior client;
+		private IClientOperator client;
 
 		@BeforeEach
 		public void init() {
@@ -67,8 +67,8 @@ class BankClientAccountShouldTest {
 
 						// THEN
 
-						Condition<Account> accountWithSavedOperation = new Condition<>((account) -> !account.getHistory()
-						                                                                                    .isEmpty(), "checking if account has not empty history", amount);
+						Condition<IAccountOperator> accountWithSavedOperation = new Condition<>((account) -> !account.getHistory()
+						                                                                                             .isEmpty(), "checking if account has not empty history", amount);
 
 						Condition<Operation> operationWithCorrectAmount = new Condition<>((operation) -> operation.getAmount()
 						                                                                                          .equals(amount), "checking if saved operation has the correct amount");
@@ -125,8 +125,8 @@ class BankClientAccountShouldTest {
 
 						// THEN
 
-						Condition<Account> accountWithSavedOperation = new Condition<>((account) -> !account.getHistory()
-						                                                                                    .isEmpty(), "checking if account has not empty history", amount);
+						Condition<IAccountOperator> accountWithSavedOperation = new Condition<>((account) -> !account.getHistory()
+						                                                                                             .isEmpty(), "checking if account has not empty history", amount);
 
 						Condition<Operation> operationWithCorrectAmount = new Condition<>((operation) -> operation.getAmount()
 						                                                                                          .equals(amount.toNegative()
@@ -183,7 +183,7 @@ class BankClientAccountShouldTest {
 
 				final ByteArrayOutputStream outputContent  = new ByteArrayOutputStream();
 				final IStatementPrinter     printer        = new ConsolePrinter(new PrintStream(outputContent));
-				final IClientOperatior      internalClient = BankClientMockFactory.create(printer);
+				final IClientOperator       internalClient = BankClientMockFactory.create(printer);
 
 				@AfterEach
 				public void tearDown() {
