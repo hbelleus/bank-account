@@ -1,0 +1,7 @@
+com\sfeir\kata\bank\infra\printer\console\IConsoleFormatter.class
+com\sfeir\kata\bank\infra\printer\IStatementPrinter.class
+com\sfeir\kata\bank\infra\client\factory\ClientOperationContext.class
+com\sfeir\kata\bank\infra\client\factory\BankClientFactory.class
+com\sfeir\kata\bank\infra\client\IClientOperator.class
+com\sfeir\kata\bank\infra\printer\console\IConsolePrinter.class
+com\sfeir\kata\bank\infra\printer\console\ConsolePrinter.class

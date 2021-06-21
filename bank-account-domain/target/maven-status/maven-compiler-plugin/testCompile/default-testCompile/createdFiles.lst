@@ -1,0 +1,5 @@
+com\sfeir\kata\bank\domain\OperationTestSuite.class
+com\sfeir\kata\bank\domain\OperationDepositTest.class
+com\sfeir\kata\bank\domain\AccountBalanceTest.class
+com\sfeir\kata\bank\domain\OperationWithdrawalTest.class
+com\sfeir\kata\bank\domain\OperationStatementTest.class
