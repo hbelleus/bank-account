@@ -7,10 +7,10 @@ import org.assertj.core.api.Assumptions;
 import org.mockito.Mockito;
 
 import com.sfeir.kata.bank.domain.client.ClientService;
+import com.sfeir.kata.bank.domain.client.account.statement.AccountStatementService;
 import com.sfeir.kata.bank.domain.client.factory.BankClientFactory;
 import com.sfeir.kata.bank.domain.client.printer.StatementPrinterService;
 import com.sfeir.kata.bank.domain.money.factory.BankMoneyFactory;
-import com.sfeir.kata.bank.infra.printer.console.ConsolePrinter;
 
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
@@ -26,7 +26,7 @@ public class ClientPrintingOperationStepDefinition {
 		@Before
 		public void init() {
 				printStream = Mockito.mock(PrintStream.class);
-				printer     = new ConsolePrinter(printStream);
+				printer     = printStream::print;
 				client      = BankClientFactory.create(printer);
 		}
 
@@ -55,16 +55,16 @@ public class ClientPrintingOperationStepDefinition {
 
 		}
 
-		@Then("it should print {string}")
-		public void it_should_print(String message) {
+		@Then("it should print the statement")
+		public void it_should_print() {
 				org.junit.jupiter.api.Assertions.assertAll(() -> Mockito.verify(printStream)
-				                                                        .println(message),
+				                                                        .print(Mockito.isA(AccountStatementService.class)),
 				                                           () -> Mockito.verifyNoMoreInteractions(printStream));
 		}
 
-		@Then("^the printer should be called (\\d+) times$")
-		public void printer_is_called_3_times(int value) {
+		@Then("^the printer should be called (\\d+) time$")
+		public void printer_is_called_1_time(int value) {
 				Mockito.verify(printStream, Mockito.times(value))
-				       .println(Mockito.anyString());
+				       .print(Mockito.isA(AccountStatementService.class));
 		}
 }
