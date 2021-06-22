@@ -3,9 +3,9 @@ package com.sfeir.kata.bank.infra.printer.console;
 import java.io.PrintStream;
 import java.util.function.Consumer;
 
-import com.sfeir.kata.bank.domain.printer.IStatementPrinter;
+import com.sfeir.kata.bank.domain.client.printer.StatementPrinterService;
 
-public interface IConsolePrinter extends IStatementPrinter {
+public interface IConsolePrinter extends StatementPrinterService {
 
 		static final String STATEMENT_HEADER = "|DATE|OPERATION|AMOUNT|BALANCE|";
 

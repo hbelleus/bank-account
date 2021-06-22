@@ -4,10 +4,10 @@ import java.math.BigDecimal;
 
 import org.assertj.core.api.Assertions;
 
-import com.sfeir.kata.bank.domain.money.IMoneyOperator;
+import com.sfeir.kata.bank.domain.client.ClientService;
+import com.sfeir.kata.bank.domain.client.factory.BankClientFactory;
+import com.sfeir.kata.bank.domain.money.MoneyService;
 import com.sfeir.kata.bank.domain.money.factory.BankMoneyFactory;
-import com.sfeir.kata.bank.infra.client.IClientOperator;
-import com.sfeir.kata.bank.infra.client.factory.BankClientFactory;
 
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Then;
@@ -15,12 +15,12 @@ import io.cucumber.java.en.When;
 
 public class ClientDepositStepDefinition {
 
-		private IClientOperator clientOperation;
-		private IMoneyOperator  amount;
+		private ClientService client;
+		private MoneyService  amount;
 
 		@Before
-		public void setUp() {
-				clientOperation = BankClientFactory.create();
+		public void init() {
+				client = BankClientFactory.create();
 		}
 
 		@When("^I deposit (\\d+) euros$")
@@ -28,15 +28,16 @@ public class ClientDepositStepDefinition {
 
 				this.amount = BankMoneyFactory.create(amount);
 
-				clientOperation.deposit(this.amount);
+				client.deposit().apply(this.amount);
 
 		}
 
 		@Then("^My balance should be (\\d+)")
 		public void
 		    my_balance_should_be(BigDecimal expectedBalance) {
-				Assertions.assertThat(clientOperation.getAccount()
-				                                     .getBalance())
+				Assertions.assertThat(client.getAccount()
+				                            .getBalance()
+				                            .apply())
 				          .isEqualTo(amount);
 		}
 }

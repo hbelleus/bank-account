@@ -10,22 +10,23 @@ import org.junit.jupiter.api.Test;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 
-import com.sfeir.kata.bank.domain.account.IAccountOperator;
-import com.sfeir.kata.bank.domain.account.factory.BankAccountFactory;
+import com.sfeir.kata.bank.domain.client.account.AccountService;
+import com.sfeir.kata.bank.domain.client.account.factory.BankAccountFactory;
 import com.sfeir.kata.bank.domain.money.factory.BankMoneyFactory;
 
 @RunWith(JUnitPlatform.class)
 class AccountBalanceTest {
 
-		private IAccountOperator accountOperator;
+		private AccountService account;
 
 		@BeforeEach
 		public void init() {
 
-				accountOperator = BankAccountFactory.create();
+				account = BankAccountFactory.create();
 
-				Assumptions.assumeThat(accountOperator.getBalance()
-				                                      .getAmount())
+				Assumptions.assumeThat(account.getBalance()
+				                              .apply()
+				                              .getAmount())
 				           .isEqualTo(BigDecimal.ZERO);
 		}
 
@@ -35,14 +36,16 @@ class AccountBalanceTest {
 				// GIVEN
 				var initialDeposit = BankMoneyFactory.create(1000);
 
-				var isOperationSaved = accountOperator.deposit(initialDeposit);
+				var isOperationSaved = account.deposit()
+				                              .apply(initialDeposit);
 
 				Assumptions.assumeThat(isOperationSaved).isTrue();
 
 				var expectedValue = BankMoneyFactory.create(1000);
 
 				// WHEN
-				var balanceResult = this.accountOperator.getBalance();
+				var balanceResult = this.account.getBalance()
+				                                .apply();
 
 				// THEN
 				Assertions.assertThat(balanceResult)
@@ -56,15 +59,17 @@ class AccountBalanceTest {
 				var initialDeposit = BankMoneyFactory.create(1000);
 				var withdrawal = BankMoneyFactory.create(500);
 
-				Assumptions.assumeThat(accountOperator.deposit(initialDeposit))
+				Assumptions.assumeThat(account.deposit()
+				                              .apply(initialDeposit))
 				           .isTrue();
-				Assumptions.assumeThat(accountOperator.withdraw(withdrawal))
+				Assumptions.assumeThat(account.withdraw()
+				                              .apply(withdrawal))
 				           .isTrue();
 
 				var expectedValue = BankMoneyFactory.create(500);
 
 				// WHEN
-				var balanceResult = accountOperator.getBalance();
+				var balanceResult = account.getBalance().apply();
 
 				// THEN
 				Assertions.assertThat(balanceResult)
@@ -79,9 +84,9 @@ class AccountBalanceTest {
 				var initialDeposit = BankMoneyFactory.create(1000);
 				var withdrawal = BankMoneyFactory.create(200);
 
-				List.of(accountOperator.deposit(initialDeposit),
-				        accountOperator.withdraw(withdrawal),
-				        accountOperator.withdraw(withdrawal))
+				List.of(account.deposit().apply(initialDeposit),
+				        account.withdraw().apply(withdrawal),
+				        account.withdraw().apply(withdrawal))
 				    .stream()
 				    .forEach(isOperationSaved -> Assumptions.assumeThat(isOperationSaved)
 				                                            .isTrue());
@@ -89,7 +94,8 @@ class AccountBalanceTest {
 				var expectedValue = BankMoneyFactory.create(600);
 
 				// WHEN
-				var balanceResult = this.accountOperator.getBalance();
+				var balanceResult = this.account.getBalance()
+				                                .apply();
 
 				// THEN
 				Assertions.assertThat(balanceResult)
@@ -104,10 +110,10 @@ class AccountBalanceTest {
 				var withdrawal = BankMoneyFactory.create(200);
 				var finalDeposit = BankMoneyFactory.create(100);
 
-				List.of(accountOperator.deposit(initialDeposit),
-				        accountOperator.withdraw(withdrawal),
-				        accountOperator.withdraw(withdrawal),
-				        accountOperator.deposit(finalDeposit))
+				List.of(account.deposit().apply(initialDeposit),
+				        account.withdraw().apply(withdrawal),
+				        account.withdraw().apply(withdrawal),
+				        account.deposit().apply(finalDeposit))
 				    .stream()
 				    .forEach(isOperationSaved -> Assumptions.assumeThat(isOperationSaved)
 				                                            .isTrue());
@@ -115,7 +121,8 @@ class AccountBalanceTest {
 				var expectedValue = BankMoneyFactory.create(700);
 
 				// WHEN
-				var balanceResult = this.accountOperator.getBalance();
+				var balanceResult = this.account.getBalance()
+				                                .apply();
 
 				// THEN
 				Assertions.assertThat(balanceResult)

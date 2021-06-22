@@ -11,19 +11,19 @@ import org.junit.jupiter.api.Test;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 
-import com.sfeir.kata.bank.domain.account.IAccountOperator;
-import com.sfeir.kata.bank.domain.account.factory.BankAccountFactory;
-import com.sfeir.kata.bank.domain.money.IMoneyOperator;
+import com.sfeir.kata.bank.domain.client.account.AccountService;
+import com.sfeir.kata.bank.domain.client.account.factory.BankAccountFactory;
+import com.sfeir.kata.bank.domain.client.account.operation.Operation;
+import com.sfeir.kata.bank.domain.client.account.operation.specification.exception.UnauthorizedOperationException;
+import com.sfeir.kata.bank.domain.money.MoneyService;
 import com.sfeir.kata.bank.domain.money.factory.BankMoneyFactory;
-import com.sfeir.kata.bank.domain.operation.Operation;
-import com.sfeir.kata.bank.domain.operation.validation.exception.UnauthorizedOperationException;
 
 import io.vavr.Function0;
 
 @RunWith(JUnitPlatform.class)
 class OperationWithdrawalTest {
 
-		private IAccountOperator account;
+		private AccountService account;
 
 		@BeforeEach
 		public void init() {
@@ -32,7 +32,7 @@ class OperationWithdrawalTest {
 
 				var initDeposit = BankMoneyFactory.create(1000);
 
-				account.deposit(initDeposit);
+				account.deposit().apply(initDeposit);
 		}
 
 		@Test
@@ -42,7 +42,7 @@ class OperationWithdrawalTest {
 				var amount = BankMoneyFactory.create(BigDecimal.valueOf(100));
 
 				// WHEN
-				var result = account.withdraw(amount);
+				var result = account.withdraw().apply(amount);
 
 				// THEN
 				Assertions.assertThat(result)
@@ -56,7 +56,7 @@ class OperationWithdrawalTest {
 				var amount = BankMoneyFactory.create(BigDecimal.valueOf(100));
 
 				// WHEN
-				var result = account.withdraw(amount);
+				var result = account.withdraw().apply(amount);
 
 				// THEN
 
@@ -85,16 +85,17 @@ class OperationWithdrawalTest {
 				var initialBalance = BankMoneyFactory.create(1000);
 
 				Assumptions.assumeThat(account.getBalance()
+				                              .apply()
 				                              .equals(initialBalance));
 
 				// WHEN
-				account.withdraw(amount);
+				account.withdraw().apply(amount);
 
 				// THEN
-				Condition<IMoneyOperator> hasBeenUpdated = new Condition<>((money) -> money.equals(expectedValue), String.format("matching expected balance of %s",
-				                                                                                                                 expectedValue));
+				Condition<MoneyService> hasBeenUpdated = new Condition<>((money) -> money.equals(expectedValue), String.format("matching expected balance of %s",
+				                                                                                                               expectedValue));
 
-				Assertions.assertThat(account.getBalance())
+				Assertions.assertThat(account.getBalance().apply())
 				          .is(hasBeenUpdated);
 		}
 
@@ -107,8 +108,10 @@ class OperationWithdrawalTest {
 				var expectedValue = BankMoneyFactory.create(800);
 
 				// WHEN
-				final var resultOperationSave1 = account.withdraw(amount);
-				final var resultOperationSave2 = account.withdraw(amount);
+				final var resultOperationSave1 = account.withdraw()
+				                                        .apply(amount);
+				final var resultOperationSave2 = account.withdraw()
+				                                        .apply(amount);
 
 				// THEN
 				org.junit.jupiter.api.Assertions.assertAll(() -> Assertions.assertThat(resultOperationSave1)
@@ -124,10 +127,10 @@ class OperationWithdrawalTest {
 				          .isNotEmpty()
 				          .has(savedOperation, Index.atIndex(2));
 
-				Condition<IMoneyOperator> hasBeenUpdated = new Condition<>((money) -> money.equals(expectedValue), String.format("matching expected balance of %s",
-				                                                                                                                 expectedValue));
+				Condition<MoneyService> hasBeenUpdated = new Condition<>((money) -> money.equals(expectedValue), String.format("matching expected balance of %s",
+				                                                                                                               expectedValue));
 
-				Assertions.assertThat(account.getBalance())
+				Assertions.assertThat(account.getBalance().apply())
 				          .is(hasBeenUpdated);
 		}
 
@@ -138,7 +141,8 @@ class OperationWithdrawalTest {
 				var amount = BankMoneyFactory.create(1500);
 
 				// WHEN
-				Function0<Boolean> withdrawal = () -> account.withdraw(amount);
+				Function0<Boolean> withdrawal = () -> account.withdraw()
+				                                             .apply(amount);
 
 				// THEN
 				org.junit.jupiter.api.Assertions.assertThrows(UnauthorizedOperationException.class,

@@ -4,31 +4,33 @@ import java.math.BigDecimal;
 
 import org.assertj.core.api.Assertions;
 
-import com.sfeir.kata.bank.domain.money.IMoneyOperator;
+import com.sfeir.kata.bank.domain.client.ClientService;
+import com.sfeir.kata.bank.domain.client.account.operation.specification.exception.UnauthorizedOperationException;
+import com.sfeir.kata.bank.domain.client.factory.BankClientFactory;
+import com.sfeir.kata.bank.domain.money.MoneyService;
 import com.sfeir.kata.bank.domain.money.factory.BankMoneyFactory;
-import com.sfeir.kata.bank.domain.operation.validation.exception.UnauthorizedOperationException;
-import com.sfeir.kata.bank.infra.client.IClientOperator;
-import com.sfeir.kata.bank.infra.client.factory.BankClientFactory;
 
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.vavr.Function0;
 
 public class ClientWithdrawalStepDefinition {
 
-		private IClientOperator clientOperation;
-		private IMoneyOperator  amount;
+		private ClientService client;
+		private MoneyService  amount;
 
 		@Before
-		public void setUp() {
-				clientOperation = BankClientFactory.create();
+		public void init() {
+				client = BankClientFactory.create();
 		}
 
 		@When("^I deposit (\\d+) euros$")
 		public void deposit(BigDecimal amount) {
 
-				clientOperation.deposit(BankMoneyFactory.create(amount));
+				client.deposit()
+				      .apply(BankMoneyFactory.create(amount));
 
 		}
 
@@ -42,7 +44,8 @@ public class ClientWithdrawalStepDefinition {
 		@When("^I withdraw (\\d+) euros$")
 		public void withdraw(BigDecimal amount) {
 
-				clientOperation.withdraw(BankMoneyFactory.create(amount));
+				client.withdraw()
+				      .apply(BankMoneyFactory.create(amount));
 
 		}
 
@@ -50,29 +53,34 @@ public class ClientWithdrawalStepDefinition {
 		public void
 		    my_balance_should_be(BigDecimal expectedBalance) {
 
-				org.junit.jupiter.api.Assertions.assertAll(() -> Assertions.assertThat(clientOperation.getAccount()
-				                                                                                      .getHistory()
-				                                                                                      .getOperations())
+				org.junit.jupiter.api.Assertions.assertAll(() -> Assertions.assertThat(client.getAccount()
+				                                                                             .getHistory()
+				                                                                             .getOperations())
 				                                                           .hasSize(2),
-				                                           () -> Assertions.assertThat(clientOperation.getAccount()
-				                                                                                      .getHistory()
-				                                                                                      .getOperations()
-				                                                                                      .get(1)
-				                                                                                      .getBalanceResult())
+				                                           () -> Assertions.assertThat(client.getAccount()
+				                                                                             .getHistory()
+				                                                                             .getOperations()
+				                                                                             .get(1)
+				                                                                             .getBalanceResult())
 				                                                           .hasFieldOrPropertyWithValue("amount",
 				                                                                                        expectedBalance),
-				                                           () -> Assertions.assertThat(clientOperation.getAccount()
-				                                                                                      .getHistory()
-				                                                                                      .getOperations()
-				                                                                                      .get(1))
+				                                           () -> Assertions.assertThat(client.getAccount()
+				                                                                             .getHistory()
+				                                                                             .getOperations()
+				                                                                             .get(1))
 				                                                           .hasFieldOrPropertyWithValue("balanceResult",
-				                                                                                        clientOperation.getAccount()
-				                                                                                                       .getBalance()));
+				                                                                                        client.getAccount()
+				                                                                                              .getBalance()
+				                                                                                              .apply()));
 		}
 
 		@Then("^withdrawal should be unauthorized$")
 		public void unauthorized() {
+
+				Function0<Boolean> withdrawal = () -> client.withdraw()
+				                                            .apply(this.amount);
+
 				org.junit.jupiter.api.Assertions.assertThrows(UnauthorizedOperationException.class,
-				                                              () -> clientOperation.withdraw(this.amount));
+				                                              () -> withdrawal.apply());
 		}
 }

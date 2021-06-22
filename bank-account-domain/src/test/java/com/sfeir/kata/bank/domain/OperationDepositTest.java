@@ -8,15 +8,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 
-import com.sfeir.kata.bank.domain.account.IAccountOperator;
-import com.sfeir.kata.bank.domain.account.factory.BankAccountFactory;
+import com.sfeir.kata.bank.domain.client.account.AccountService;
+import com.sfeir.kata.bank.domain.client.account.factory.BankAccountFactory;
+import com.sfeir.kata.bank.domain.client.account.operation.Operation;
 import com.sfeir.kata.bank.domain.money.factory.BankMoneyFactory;
-import com.sfeir.kata.bank.domain.operation.Operation;
 
 @RunWith(JUnitPlatform.class)
 class OperationDepositTest {
 
-		private IAccountOperator account;
+		private AccountService account;
 
 		@BeforeEach
 		public void init() {
@@ -31,7 +31,7 @@ class OperationDepositTest {
 				var amount = BankMoneyFactory.create(100);
 
 				// WHEN
-				final var result = account.deposit(amount);
+				final var result = account.deposit().apply(amount);
 
 				// THEN
 				Assertions.assertThat(result)
@@ -45,7 +45,7 @@ class OperationDepositTest {
 				var amount = BankMoneyFactory.create(100);
 
 				// WHEN
-				final var result = account.deposit(amount);
+				final var result = account.deposit().apply(amount);
 
 				// THEN
 
@@ -66,11 +66,12 @@ class OperationDepositTest {
 				var amount = BankMoneyFactory.create(100);
 
 				// WHEN
-				account.deposit(amount);
+				account.deposit().apply(amount);
 
 				// THEN
-				Condition<IAccountOperator> accountBalanceIsUpdated = new Condition<>((account) -> account.getBalance()
-				                                                                                          .equals(amount), "checking if account balance has been updated", amount);
+				Condition<AccountService> accountBalanceIsUpdated = new Condition<>((account) -> account.getBalance()
+				                                                                                        .apply()
+				                                                                                        .equals(amount), "checking if account balance has been updated", amount);
 
 				Assertions.assertThat(account)
 				          .is(accountBalanceIsUpdated);

@@ -6,10 +6,10 @@ import java.math.BigDecimal;
 import org.assertj.core.api.Assumptions;
 import org.mockito.Mockito;
 
+import com.sfeir.kata.bank.domain.client.ClientService;
+import com.sfeir.kata.bank.domain.client.factory.BankClientFactory;
+import com.sfeir.kata.bank.domain.client.printer.StatementPrinterService;
 import com.sfeir.kata.bank.domain.money.factory.BankMoneyFactory;
-import com.sfeir.kata.bank.domain.printer.IStatementPrinter;
-import com.sfeir.kata.bank.infra.client.IClientOperator;
-import com.sfeir.kata.bank.infra.client.factory.BankClientFactory;
 import com.sfeir.kata.bank.infra.printer.console.ConsolePrinter;
 
 import io.cucumber.java.Before;
@@ -19,12 +19,12 @@ import io.cucumber.java.en.When;
 
 public class ClientPrintingOperationStepDefinition {
 
-		private PrintStream       printStream;
-		private IStatementPrinter printer;
-		private IClientOperator   client;
+		private PrintStream             printStream;
+		private StatementPrinterService printer;
+		private ClientService           client;
 
 		@Before
-		public void setUp() {
+		public void init() {
 				printStream = Mockito.mock(PrintStream.class);
 				printer     = new ConsolePrinter(printStream);
 				client      = BankClientFactory.create(printer);
@@ -33,16 +33,18 @@ public class ClientPrintingOperationStepDefinition {
 		@Given("^I deposit (\\d+) euros$")
 		public void deposit(BigDecimal amount) {
 
-				Assumptions.assumeThat(client.deposit(BankMoneyFactory.create(amount)))
+				Assumptions.assumeThat(client.deposit()
+				                             .apply(BankMoneyFactory.create(amount)))
 				           .isTrue();
 
 		}
 
 		@Given("^I withdraw (\\d+) euros$")
 		public void withdraw(BigDecimal amount) {
-				
-				Assumptions.assumeThat(client.withdraw(BankMoneyFactory.create(amount)))
-        .isTrue();
+
+				Assumptions.assumeThat(client.withdraw()
+				                             .apply(BankMoneyFactory.create(amount)))
+				           .isTrue();
 
 		}
 

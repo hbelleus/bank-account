@@ -10,15 +10,15 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 
-import com.sfeir.kata.bank.domain.account.IAccountOperator;
-import com.sfeir.kata.bank.domain.account.factory.BankAccountFactory;
+import com.sfeir.kata.bank.domain.client.account.AccountService;
+import com.sfeir.kata.bank.domain.client.account.factory.BankAccountFactory;
 import com.sfeir.kata.bank.domain.money.factory.BankMoneyFactory;
 
 @RunWith(JUnitPlatform.class)
 @TestMethodOrder(OrderAnnotation.class)
 class OperationStatementTest {
 
-		private IAccountOperator account;
+		private AccountService account;
 
 		@BeforeEach
 		public void init() {
@@ -33,7 +33,7 @@ class OperationStatementTest {
 				// GIVEN
 
 				// WHEN
-				var statement = account.getStatement();
+				var statement = account.generateStatement().apply();
 
 				// THEN
 				Assertions.assertThat(statement.getLines())
@@ -48,18 +48,21 @@ class OperationStatementTest {
 				// GIVEN
 				var amount = BankMoneyFactory.create(200);
 
-				Assumptions.assumeThat(account.deposit(amount))
+				Assumptions.assumeThat(account.deposit()
+				                              .apply(amount))
 				           .isTrue();
 
 				// WHEN
-				var statement = account.getStatement();
+				var statement = account.generateStatement().apply();
 
 				// THEN
 				Assertions.assertThat(statement.getLines())
 				          .isNotEmpty()
 				          .hasSize(1)
-				          .anyMatch(line -> amount.toString().equals(line.getAmount()))
-				          .anyMatch(line -> amount.toString().equals(line.getBalance()));
+				          .anyMatch(line -> amount.toString()
+				                                  .equals(line.getAmount()))
+				          .anyMatch(line -> amount.toString()
+				                                  .equals(line.getBalance()));
 		}
 
 		@Test
@@ -69,9 +72,11 @@ class OperationStatementTest {
 				// GIVEN
 				var amount = BankMoneyFactory.create(200);
 
-				Assumptions.assumeThat(account.deposit(amount))
+				Assumptions.assumeThat(account.deposit()
+				                              .apply(amount))
 				           .isTrue();
-				Assumptions.assumeThat(account.deposit(amount))
+				Assumptions.assumeThat(account.deposit()
+				                              .apply(amount))
 				           .isTrue();
 
 				var expectedValue = amount.addMoney()
@@ -79,7 +84,7 @@ class OperationStatementTest {
 				                          .toString();
 
 				// WHEN
-				var statement = account.getStatement();
+				var statement = account.generateStatement().apply();
 
 				// THEN
 				Assertions.assertThat(statement.getLines())
