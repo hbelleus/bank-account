@@ -36,20 +36,6 @@ class OperationWithdrawalTest {
 		}
 
 		@Test
-		void givenAnyAmount_WhenWithdrawal_thenReturnBoolean() {
-
-				// GIVEN
-				var amount = BankMoneyFactory.create(BigDecimal.valueOf(100));
-
-				// WHEN
-				var result = account.withdraw().apply(amount);
-
-				// THEN
-				Assertions.assertThat(result)
-				          .isInstanceOf(Boolean.class);
-		}
-
-		@Test
 		void givenPositiveAmount_WhenWithdrawal_thenOperationIsSaved() {
 
 				// GIVEN
@@ -75,7 +61,7 @@ class OperationWithdrawalTest {
 		}
 
 		@Test
-		void givenAnyPositiveAmount_WhenWithdrawal_thenAccountBalanceIsUpdated() {
+		void givenAnyPositiveAmount_WhenWithdrawal_thenAccountBalanceIsCorrectlyUpdated() {
 
 				// GIVEN
 				var amount = BankMoneyFactory.create(BigDecimal.valueOf(100));
@@ -100,7 +86,7 @@ class OperationWithdrawalTest {
 		}
 
 		@Test
-		void givenPositiveAmount_WhenWithdrawalTwice_thenAccountBalanceIsUpdated() {
+		void givenPositiveAmount_WhenWithdrawalTwice_thenAccountBalanceIsCorrectlyUpdated() {
 
 				// GIVEN
 				var amount = BankMoneyFactory.create(100);
