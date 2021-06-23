@@ -16,7 +16,7 @@ public interface AuthorizedOperationSpecification {
 						                                                            .apply(initialBalance);
 
 						if (isOperationUnauthorized)
-								throw new UnauthorizedOperationException("Unauthorized operation. Contact your bank.");
+								throw new UnauthorizedOperationException("Unauthorized operation. Tried to withdraw an amount larger than account balance..");
 				};
 
 		}
