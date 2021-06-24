@@ -17,6 +17,12 @@ public interface MoneyService {
 				                                            .add(money.getAmount()));
 		}
 
+		default Function1<MoneyService, MoneyService>
+		    retrieveMoney() {
+				return money -> BankMoneyFactory.create(this.getAmount()
+				                                            .subtract(money.getAmount()));
+		}
+
 		default Function0<MoneyService> toNegative() {
 				return () -> BankMoneyFactory.create(this.getAmount()
 				                                         .negate());
