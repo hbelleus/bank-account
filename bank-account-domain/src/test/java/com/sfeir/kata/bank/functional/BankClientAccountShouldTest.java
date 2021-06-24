@@ -26,8 +26,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.sfeir.kata.bank.domain.client.ClientService;
 import com.sfeir.kata.bank.domain.client.account.AccountService;
-import com.sfeir.kata.bank.domain.client.account.operation.Operation;
-import com.sfeir.kata.bank.domain.client.account.operation.OperationHistory;
+import com.sfeir.kata.bank.domain.client.account.operation.factory.Operation;
+import com.sfeir.kata.bank.domain.client.account.operation.factory.OperationHistoryFactory;
 import com.sfeir.kata.bank.domain.client.account.operation.specification.exception.UnauthorizedOperationException;
 import com.sfeir.kata.bank.domain.client.account.statement.factory.AccountStatementFactory;
 import com.sfeir.kata.bank.domain.client.factory.BankClientFactory;
@@ -52,7 +52,7 @@ class BankClientAccountShouldTest {
 		@BeforeEach
 		public void init() {
 
-				client = BankClientFactory.create();
+				client = BankClientFactory.createClient();
 		}
 
 		@Nested
@@ -143,7 +143,7 @@ class BankClientAccountShouldTest {
 						                                                                                          .equals(amount.toNegative()
 						                                                                                                        .apply()), "checking if saved operation has the correct amount");
 
-						Condition<Operation> operationWithCorrectBalanceResult = new Condition<>((operation) -> operation.getBalanceResult()
+						Condition<Operation> operationWithCorrectBalanceResult = new Condition<>((operation) -> operation.getBalance()
 						                                                                                                 .equals(expectedBalance), "checking if saved operation has the correct balance result");
 
 						org.junit.jupiter.api.Assertions.assertAll(() -> Assertions.assertThat(result)
@@ -201,7 +201,7 @@ class BankClientAccountShouldTest {
 
 						output = new ByteArrayOutputStream();
 						StatementPrinterService localPrinter = new PrintStream(output)::print;
-						internalClient = BankClientFactory.create(localPrinter);
+						internalClient = BankClientFactory.createClient(localPrinter);
 
 				}
 
@@ -210,7 +210,9 @@ class BankClientAccountShouldTest {
 				public void print_statement_of_empty_history() {
 
 						// GIVEN
-						var expectedStatement = AccountStatementFactory.createStatement(new OperationHistory(MutableListFactoryImpl.INSTANCE.empty()));
+						var withEmptyHistory = OperationHistoryFactory.initializeHistory()
+						                                              .apply();
+						var expectedStatement = AccountStatementFactory.createStatement(withEmptyHistory);
 
 						// WHEN
 						internalClient.printOperationHistory();
@@ -234,9 +236,10 @@ class BankClientAccountShouldTest {
 						                              .getOperations()
 						                              .getFirst();
 
-						var historyContainingOneOperation = MutableListFactoryImpl.INSTANCE.of(operation);
+						var historyContainingOneOperation = OperationHistoryFactory.populateHistory()
+						                                                           .apply(MutableListFactoryImpl.INSTANCE.of(operation));
 
-						var expectedStatement = AccountStatementFactory.createStatement(new OperationHistory(historyContainingOneOperation));
+						var expectedStatement = AccountStatementFactory.createStatement(historyContainingOneOperation);
 
 						// WHEN
 						internalClient.printOperationHistory();

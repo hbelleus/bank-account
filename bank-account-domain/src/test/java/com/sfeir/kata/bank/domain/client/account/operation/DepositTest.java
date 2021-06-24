@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 
+import com.sfeir.kata.bank.domain.client.account.operation.factory.Deposit;
+import com.sfeir.kata.bank.domain.client.account.operation.factory.OperationFactory;
 import com.sfeir.kata.bank.domain.money.factory.BankMoneyFactory;
 
 @RunWith(JUnitPlatform.class)
@@ -27,18 +29,20 @@ class DepositTest {
 				var amount = BankMoneyFactory.create(BigDecimal.valueOf(100));
 
 				// WHEN
-				var result = new NewDeposit(amount, balance);
+				var result = OperationFactory.initDeposit()
+				                             .apply(amount,
+				                                    balance);
 
 				// THEN
 				var expectedValue = BankMoneyFactory.create(1100);
 
-				Condition<NewDeposit> isAmountCorrect = new Condition<>((deposit) -> deposit.getAmount()
-				                                                                            .equals(amount), "checking if saved operation has the correct amount "
-				                                                                                + amount);
+				Condition<Deposit> isAmountCorrect = new Condition<>((deposit) -> deposit.getAmount()
+				                                                                         .equals(amount), "checking if saved operation has the correct amount "
+				                                                                             + amount);
 
-				Condition<NewDeposit> isBalanceCorrect = new Condition<>((deposit) -> deposit.getBalance()
-				                                                                             .equals(expectedValue), "checking if operation has the correct resulting balance "
-				                                                                                 + balance);
+				Condition<Deposit> isBalanceCorrect = new Condition<>((deposit) -> deposit.getBalance()
+				                                                                          .equals(expectedValue), "checking if operation has the correct resulting balance "
+				                                                                              + balance);
 
 				Assertions.assertThat(result)
 				          .has(isAmountCorrect)

@@ -8,7 +8,7 @@ import com.sfeir.kata.bank.domain.money.MoneyService;
 public interface AuthorizedOperationSpecification {
 
 		static BiConsumer<MoneyService, MoneyService>
-		    validateWithdrawal() {
+		    isWithdrawalAuthorized() {
 
 				return (incomingAmount, initialBalance) -> {
 

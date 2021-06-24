@@ -31,7 +31,7 @@ public class ConsolePrinter
 
 				StatementPrinterService printer = new ConsolePrinter(System.out);
 
-				ClientService client = BankClientFactory.create(printer);
+				ClientService client = BankClientFactory.createClient(printer);
 
 				client.deposit()
 				      .apply(BankMoneyFactory.create(10000));

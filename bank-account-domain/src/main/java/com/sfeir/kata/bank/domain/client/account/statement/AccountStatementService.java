@@ -7,4 +7,6 @@ import com.sfeir.kata.bank.domain.client.account.statement.line.AccountStatement
 public interface AccountStatementService {
 
 		ImmutableList<AccountStatementLineService> getLines();
+		
+		
 }

@@ -5,6 +5,7 @@ import com.sfeir.kata.bank.domain.client.printer.StatementPrinterService;
 import com.sfeir.kata.bank.domain.money.MoneyService;
 
 import io.vavr.Function1;
+import io.vavr.control.Try;
 
 public interface ClientService {
 
@@ -22,9 +23,9 @@ public interface ClientService {
 
 		default void printOperationHistory() {
 
-				this.getPrinter()
-				    .print(this.getAccount()
-				               .generateStatement()
-				               .apply());
+				Try.of(() -> this.getAccount()
+				                 .generateStatement()
+				                 .apply())
+				   .onSuccess(this.getPrinter()::print);
 		}
 }

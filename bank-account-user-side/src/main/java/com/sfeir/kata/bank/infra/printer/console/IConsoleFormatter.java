@@ -6,12 +6,15 @@ import io.vavr.Function1;
 
 public interface IConsoleFormatter {
 
-	default Function1<AccountStatementLineService, String> format() {
-		
-		return statementLine -> String.format("|%s|%s|%s|%s|",
-												statementLine.getDate(),
-								                statementLine.getType(),
-								                statementLine.getAmount(),
-								                statementLine.getBalance());
-	}
+		static final String STATEMENT_HEADER = "|DATE|OPERATION|AMOUNT|BALANCE|";
+
+		default Function1<AccountStatementLineService, String>
+		    format() {
+
+				return statementLine -> String.format("|%s|%s|%s|%s|",
+				                                      statementLine.getDate(),
+				                                      statementLine.getType(),
+				                                      statementLine.getAmount(),
+				                                      statementLine.getBalance());
+		}
 }

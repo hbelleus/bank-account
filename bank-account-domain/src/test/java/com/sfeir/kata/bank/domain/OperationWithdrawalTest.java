@@ -12,8 +12,8 @@ import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 
 import com.sfeir.kata.bank.domain.client.account.AccountService;
-import com.sfeir.kata.bank.domain.client.account.factory.BankAccountFactory;
-import com.sfeir.kata.bank.domain.client.account.operation.Operation;
+import com.sfeir.kata.bank.domain.client.account.factory.AccountFactory;
+import com.sfeir.kata.bank.domain.client.account.operation.factory.Operation;
 import com.sfeir.kata.bank.domain.client.account.operation.specification.exception.UnauthorizedOperationException;
 import com.sfeir.kata.bank.domain.money.MoneyService;
 import com.sfeir.kata.bank.domain.money.factory.BankMoneyFactory;
@@ -28,7 +28,7 @@ class OperationWithdrawalTest {
 		@BeforeEach
 		public void init() {
 
-				account = BankAccountFactory.create();
+				account = AccountFactory.createAccount().apply();
 
 				var initDeposit = BankMoneyFactory.create(1000);
 
@@ -105,7 +105,7 @@ class OperationWithdrawalTest {
 				                                           () -> Assertions.assertThat(resultOperationSave2)
 				                                                           .isTrue());
 
-				Condition<Operation> savedOperation = new Condition<>((operation) -> operation.getBalanceResult()
+				Condition<Operation> savedOperation = new Condition<>((operation) -> operation.getBalance()
 				                                                                              .equals(expectedValue), "with correct amount of", expectedValue);
 
 				Assertions.assertThat(account.getHistory()

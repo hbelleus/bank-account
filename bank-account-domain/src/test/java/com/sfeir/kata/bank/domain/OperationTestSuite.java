@@ -1,4 +1,4 @@
-package com.sfeir.kata.bank;
+package com.sfeir.kata.bank.domain;
 
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.platform.suite.api.SelectPackages;

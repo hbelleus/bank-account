@@ -1,6 +1,6 @@
 package com.sfeir.kata.bank.domain.client.account.statement.line.factory;
 
-import com.sfeir.kata.bank.domain.client.account.operation.Operation;
+import com.sfeir.kata.bank.domain.client.account.operation.factory.Operation;
 import com.sfeir.kata.bank.domain.client.account.statement.line.AccountStatementLineService;
 
 import io.vavr.Function1;
@@ -24,7 +24,7 @@ public class AccountStatementLineFactory {
 				    readOperationAsLine() {
 						return operation -> AccountStatementLine.builder()
 																.amount(operation.getAmount().toString())
-																.balance(operation.getBalanceResult().toString())
+																.balance(operation.getBalance().toString())
 																.date(operation.getDate().toString())
 																.type(operation.getType().name())
 																.build();

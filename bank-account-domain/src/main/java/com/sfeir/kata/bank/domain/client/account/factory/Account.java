@@ -1,7 +1,7 @@
 package com.sfeir.kata.bank.domain.client.account.factory;
 
 import com.sfeir.kata.bank.domain.client.account.AccountService;
-import com.sfeir.kata.bank.domain.client.account.operation.OperationHistory;
+import com.sfeir.kata.bank.domain.client.account.operation.factory.OperationHistory;
 
 import lombok.Value;
 

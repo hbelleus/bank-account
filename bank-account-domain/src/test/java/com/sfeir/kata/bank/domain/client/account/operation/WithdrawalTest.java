@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 
+import com.sfeir.kata.bank.domain.client.account.operation.factory.OperationFactory;
+import com.sfeir.kata.bank.domain.client.account.operation.factory.Withdrawal;
 import com.sfeir.kata.bank.domain.client.account.operation.specification.exception.UnauthorizedOperationException;
 import com.sfeir.kata.bank.domain.money.MoneyService;
 import com.sfeir.kata.bank.domain.money.factory.BankMoneyFactory;
@@ -32,19 +34,21 @@ class WithdrawalTest {
 				var amount = BankMoneyFactory.create(BigDecimal.valueOf(100));
 
 				// WHEN
-				var result = new NewWithdrawal(amount, balance);
+				var result = OperationFactory.initWithdrawal()
+				                             .apply(amount,
+				                                    balance);
 
 				// THEN
 				var expectedValue = BankMoneyFactory.create(900);
 
-				Condition<NewWithdrawal> isAmountCorrect = new Condition<>((withdrawal) -> withdrawal.getAmount()
-				                                                                                     .equals(amount.toNegative()
-				                                                                                                   .apply()), "checking if saved operation has the correct amount "
-				                                                                                                       + amount);
+				Condition<Withdrawal> isAmountCorrect = new Condition<>((withdrawal) -> withdrawal.getAmount()
+				                                                                                  .equals(amount.toNegative()
+				                                                                                                .apply()), "checking if saved operation has the correct amount "
+				                                                                                                    + amount);
 
-				Condition<NewWithdrawal> isBalanceCorrect = new Condition<>((withdrawal) -> withdrawal.getBalance()
-				                                                                                      .equals(expectedValue), "checking if operation has the correct resulting balance "
-				                                                                                          + balance);
+				Condition<Withdrawal> isBalanceCorrect = new Condition<>((withdrawal) -> withdrawal.getBalance()
+				                                                                                   .equals(expectedValue), "checking if operation has the correct resulting balance "
+				                                                                                       + balance);
 
 				Assertions.assertThat(result)
 				          .has(isAmountCorrect)
@@ -67,7 +71,9 @@ class WithdrawalTest {
 				           .is(greatherThanBalance);
 
 				// WHEN
-				Function0<NewWithdrawal> withdrawal = () -> new NewWithdrawal(amount, balance);
+				Function0<Withdrawal> withdrawal = () -> OperationFactory.initWithdrawal()
+				                                                         .apply(amount,
+				                                                                balance);
 
 				// THEN
 				org.junit.jupiter.api.Assertions.assertThrows(UnauthorizedOperationException.class,

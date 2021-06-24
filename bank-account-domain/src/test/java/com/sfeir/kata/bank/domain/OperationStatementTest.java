@@ -13,7 +13,7 @@ import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 
 import com.sfeir.kata.bank.domain.client.account.AccountService;
-import com.sfeir.kata.bank.domain.client.account.factory.BankAccountFactory;
+import com.sfeir.kata.bank.domain.client.account.factory.AccountFactory;
 import com.sfeir.kata.bank.domain.client.account.operation.OperationType;
 import com.sfeir.kata.bank.domain.money.factory.BankMoneyFactory;
 
@@ -26,7 +26,7 @@ class OperationStatementTest {
 		@BeforeEach
 		public void init() {
 
-				account = BankAccountFactory.create();
+				account = AccountFactory.createAccount().apply();
 		}
 
 		@Test

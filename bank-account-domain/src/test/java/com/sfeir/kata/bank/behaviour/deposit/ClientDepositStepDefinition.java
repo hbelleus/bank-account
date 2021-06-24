@@ -20,7 +20,7 @@ public class ClientDepositStepDefinition {
 
 		@Before
 		public void init() {
-				client = BankClientFactory.create();
+				client = BankClientFactory.createClient();
 		}
 
 		@When("^I deposit (\\d+) euros$")

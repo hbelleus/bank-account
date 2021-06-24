@@ -1,15 +1,15 @@
-package com.sfeir.kata.bank.domain.client.account.operation;
+package com.sfeir.kata.bank.domain.client.account.operation.factory;
 
+import com.sfeir.kata.bank.domain.client.account.operation.OperationType;
 import com.sfeir.kata.bank.domain.client.account.operation.date.OperationDate;
 import com.sfeir.kata.bank.domain.money.MoneyService;
 
-import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
-@Getter(value = AccessLevel.PROTECTED)
+@Getter
 @EqualsAndHashCode
-public abstract class NewOperation {
+public abstract class Operation {
 
 		protected MoneyService amount;
 		protected MoneyService balance;

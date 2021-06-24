@@ -27,7 +27,7 @@ public class ClientPrintingOperationStepDefinition {
 		public void init() {
 				printStream = Mockito.mock(PrintStream.class);
 				printer     = printStream::print;
-				client      = BankClientFactory.create(printer);
+				client      = BankClientFactory.createClient(printer);
 		}
 
 		@Given("^I deposit (\\d+) euros$")

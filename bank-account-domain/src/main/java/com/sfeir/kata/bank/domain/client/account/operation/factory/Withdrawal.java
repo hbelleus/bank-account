@@ -1,5 +1,6 @@
-package com.sfeir.kata.bank.domain.client.account.operation;
+package com.sfeir.kata.bank.domain.client.account.operation.factory;
 
+import com.sfeir.kata.bank.domain.client.account.operation.OperationType;
 import com.sfeir.kata.bank.domain.client.account.operation.specification.AuthorizedOperationSpecification;
 import com.sfeir.kata.bank.domain.money.MoneyService;
 
@@ -8,12 +9,11 @@ import lombok.Value;
 
 @Value
 @EqualsAndHashCode(callSuper = true)
-public class NewWithdrawal extends NewOperation {
+public class Withdrawal extends Operation {
 
-		NewWithdrawal(MoneyService amount,
-		              MoneyService balance) {
+		Withdrawal(MoneyService amount, MoneyService balance) {
 
-				AuthorizedOperationSpecification.validateWithdrawal()
+				AuthorizedOperationSpecification.isWithdrawalAuthorized()
 				                                .accept(amount,
 				                                        balance);
 

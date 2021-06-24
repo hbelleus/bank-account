@@ -1,11 +1,11 @@
 package com.sfeir.kata.bank.domain.client.account.statement.factory;
 
-import org.eclipse.collections.api.list.ImmutableList;
+import java.util.stream.Collectors;
+
 import org.eclipse.collections.impl.collector.Collectors2;
 
 import com.sfeir.kata.bank.domain.client.account.operation.OperationHistoryService;
 import com.sfeir.kata.bank.domain.client.account.statement.AccountStatementService;
-import com.sfeir.kata.bank.domain.client.account.statement.line.AccountStatementLineService;
 import com.sfeir.kata.bank.domain.client.account.statement.line.factory.AccountStatementLineFactory;
 
 import lombok.AccessLevel;
@@ -17,12 +17,12 @@ public class AccountStatementFactory {
 		public static AccountStatementService
 		    createStatement(OperationHistoryService history) {
 
-				ImmutableList<AccountStatementLineService> lines = history.getOperations()
-				                                                          .toReversed()
-				                                                          .stream()
-				                                                          .map(AccountStatementLineFactory::of)
-				                                                          .collect(Collectors2.toImmutableList());
+				return history.reverse()
+				              .apply()
+				              .stream()
+				              .map(AccountStatementLineFactory::of)
+				              .collect(Collectors.collectingAndThen(Collectors2.toImmutableList(),
+				                                                    AccountStatement::new));
 
-				return new AccountStatement(lines);
 		}
 }

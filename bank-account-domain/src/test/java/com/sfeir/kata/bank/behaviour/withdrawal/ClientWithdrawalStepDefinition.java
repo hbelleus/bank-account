@@ -23,7 +23,7 @@ public class ClientWithdrawalStepDefinition {
 
 		@Before
 		public void init() {
-				client = BankClientFactory.create();
+				client = BankClientFactory.createClient();
 		}
 
 		@When("^I deposit (\\d+) euros$")
@@ -61,14 +61,14 @@ public class ClientWithdrawalStepDefinition {
 				                                                                             .getHistory()
 				                                                                             .getOperations()
 				                                                                             .get(1)
-				                                                                             .getBalanceResult())
+				                                                                             .getBalance())
 				                                                           .hasFieldOrPropertyWithValue("amount",
 				                                                                                        expectedBalance),
 				                                           () -> Assertions.assertThat(client.getAccount()
 				                                                                             .getHistory()
 				                                                                             .getOperations()
 				                                                                             .get(1))
-				                                                           .hasFieldOrPropertyWithValue("balanceResult",
+				                                                           .hasFieldOrPropertyWithValue("balance",
 				                                                                                        client.getAccount()
 				                                                                                              .getBalance()
 				                                                                                              .apply()));
