@@ -11,7 +11,7 @@
 	
 	<artifactId>bank-account-user-side</artifactId>
 	<name>bank-account-kata user side</name>
-	<description>Containing user side components as printer or client context</description>
+	<description>Containing user side components as printer implementation</description>
 
 
 	<dependencies>
