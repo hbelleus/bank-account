@@ -24,6 +24,7 @@ import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.sfeir.kata.bank.domain.client.ClientOperationService;
 import com.sfeir.kata.bank.domain.client.ClientService;
 import com.sfeir.kata.bank.domain.client.account.AccountService;
 import com.sfeir.kata.bank.domain.client.account.operation.factory.Operation;
@@ -47,7 +48,7 @@ import io.vavr.Function0;
 @TestMethodOrder(OrderAnnotation.class)
 class BankClientAccountShouldTest {
 
-		private ClientService client;
+		private ClientOperationService client;
 
 		@BeforeEach
 		public void init() {
@@ -125,7 +126,7 @@ class BankClientAccountShouldTest {
 						// GIVEN an earlier deposit of 500 and input amount
 						var initMoney = BankMoneyFactory.create(500);
 
-						var expectedBalance = initMoney.addMoney()
+						var expectedBalance = initMoney.putMoney()
 						                               .apply(amount.toNegative()
 						                                            .apply());
 

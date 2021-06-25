@@ -11,7 +11,7 @@ import lombok.Value;
 public class Deposit extends Operation {
 
 		Deposit(MoneyService amount, MoneyService balance) {
-				super.of(amount, balance.addMoney().apply(amount),
+				super.of(amount, balance.putMoney().apply(amount),
 				         OperationType.DEPOSIT);
 		}
 }

@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 import org.assertj.core.api.Assertions;
 
-import com.sfeir.kata.bank.domain.client.ClientService;
+import com.sfeir.kata.bank.domain.client.ClientOperationService;
 import com.sfeir.kata.bank.domain.client.factory.BankClientFactory;
 import com.sfeir.kata.bank.domain.money.MoneyService;
 import com.sfeir.kata.bank.domain.money.factory.BankMoneyFactory;
@@ -15,7 +15,7 @@ import io.cucumber.java.en.When;
 
 public class ClientDepositStepDefinition {
 
-		private ClientService client;
+		private ClientOperationService client;
 		private MoneyService  amount;
 
 		@Before

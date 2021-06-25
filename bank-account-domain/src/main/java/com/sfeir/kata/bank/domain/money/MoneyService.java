@@ -12,7 +12,7 @@ public interface MoneyService {
 		BigDecimal getAmount();
 
 		default Function1<MoneyService, MoneyService>
-		    addMoney() {
+		    putMoney() {
 				return money -> BankMoneyFactory.create(this.getAmount()
 				                                            .add(money.getAmount()));
 		}

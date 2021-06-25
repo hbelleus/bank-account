@@ -114,7 +114,7 @@ class OperationStatementTest {
 				                              .apply(amount))
 				           .isTrue();
 
-				var expectedValue = amount.addMoney()
+				var expectedValue = amount.putMoney()
 				                          .apply(amount)
 				                          .toString();
 

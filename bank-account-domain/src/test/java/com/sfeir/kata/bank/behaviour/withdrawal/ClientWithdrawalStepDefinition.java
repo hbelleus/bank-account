@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 import org.assertj.core.api.Assertions;
 
-import com.sfeir.kata.bank.domain.client.ClientService;
+import com.sfeir.kata.bank.domain.client.ClientOperationService;
 import com.sfeir.kata.bank.domain.client.account.operation.specification.exception.UnauthorizedOperationException;
 import com.sfeir.kata.bank.domain.client.factory.BankClientFactory;
 import com.sfeir.kata.bank.domain.money.MoneyService;
@@ -18,7 +18,7 @@ import io.vavr.Function0;
 
 public class ClientWithdrawalStepDefinition {
 
-		private ClientService client;
+		private ClientOperationService client;
 		private MoneyService  amount;
 
 		@Before

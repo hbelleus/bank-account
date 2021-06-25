@@ -4,15 +4,18 @@ import com.sfeir.kata.bank.domain.client.ClientService;
 import com.sfeir.kata.bank.domain.client.account.AccountService;
 import com.sfeir.kata.bank.domain.client.printer.StatementPrinterService;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
-@AllArgsConstructor(staticName = "of")
 @Getter
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
 class Client implements ClientService {
 
-		private final AccountService account;
+	private final AccountService account;
 
-		private final StatementPrinterService printer;
+	private final StatementPrinterService printer;
 
 }
