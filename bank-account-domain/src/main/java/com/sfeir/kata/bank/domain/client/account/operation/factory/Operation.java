@@ -1,7 +1,8 @@
 package com.sfeir.kata.bank.domain.client.account.operation.factory;
 
 import com.sfeir.kata.bank.domain.client.account.operation.OperationType;
-import com.sfeir.kata.bank.domain.client.account.operation.date.OperationDate;
+import com.sfeir.kata.bank.domain.client.account.operation.date.OperationDateService;
+import com.sfeir.kata.bank.domain.client.account.operation.date.factory.OperationDateFactory;
 import com.sfeir.kata.bank.domain.money.MoneyService;
 
 import lombok.EqualsAndHashCode;
@@ -14,8 +15,8 @@ public abstract class Operation {
 		protected MoneyService amount;
 		protected MoneyService balance;
 
-		protected OperationDate date;
-		protected OperationType type;
+		protected OperationDateService date;
+		protected OperationType 	   type;
 
 		protected void of(MoneyService amount,
 		                  MoneyService balance,
@@ -23,7 +24,7 @@ public abstract class Operation {
 
 				this.amount  = amount;
 				this.balance = balance;
-				this.date    = new OperationDate();
+				this.date    = OperationDateFactory.now().apply();
 				this.type    = type;
 		}
 
