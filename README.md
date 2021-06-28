@@ -31,8 +31,8 @@ Think of your personal bank account experience When in doubt, go for the simples
 
 # Functional analysis:
 
--> Ubiquitous language definition
--> DDD bounded context
+- Ubiquitous language definition
+- DDD bounded context
 
 A client has an account where he can make a deposit or a withdrawal.
 A deposit consists in putting money in a bank account.
@@ -42,14 +42,13 @@ A statement is a view of operation history details.
 Each line of a statement corresponds to an operation (amount, balance, date, type of operation).
 A client can see the statement through a printing service.
 
-Objects:
+###Objects:
 
 - money 
 - client > account > operationHistory > operations ( deposit / withdrawal )
 - statement > statementLine 
 - printer
-					
-
+				
 
 # Solution:
 
@@ -58,5 +57,5 @@ Objects:
 - Hexagonal architecture
 - Functional programming with vavr.io
 - Collection handling with eclipse.collection
-- Diamond TDD with Junit5 + assertj / BDD with cucumber + gherkin
+- Diamond TDD with Junit5 + assertj / BDD with Junit5 + Cucumber + Gherkin
 
