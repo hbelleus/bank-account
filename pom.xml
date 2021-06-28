@@ -128,10 +128,6 @@
 						<properties>
 							<configurationParameters>
 								cucumber.filter.tags=@deposit or @withdrawal or @printing
-								cucumber.snippet-type=camelcase
-								cucumber.execution.parallel.enabled=true
-								cucumber.execution.parallel.config.strategy=fixed
-								cucumber.execution.parallel.config.fixed.parallelism=4
 								cucumber.plugin=pretty,summary
 								cucumber.publish.quiet=true
 							</configurationParameters>

@@ -1,5 +1,6 @@
 package com.sfeir.kata.bank.behaviour.printing;
 
-public class ClientPrintingOperationTest {
+import io.cucumber.junit.platform.engine.Cucumber;
 
-}
+@Cucumber
+public class ClientPrintingOperationTest {}
