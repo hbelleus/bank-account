@@ -3,7 +3,6 @@ package com.sfeir.kata.bank.domain;
 import java.util.regex.Pattern;
 
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.Assumptions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
@@ -15,122 +14,95 @@ import org.junit.runner.RunWith;
 import com.sfeir.kata.bank.domain.client.account.AccountService;
 import com.sfeir.kata.bank.domain.client.account.factory.AccountFactory;
 import com.sfeir.kata.bank.domain.client.account.operation.OperationType;
-import com.sfeir.kata.bank.domain.money.factory.BankMoneyFactory;
+import com.sfeir.kata.bank.domain.money.factory.MoneyFactory;
 
 @RunWith(JUnitPlatform.class)
 @TestMethodOrder(OrderAnnotation.class)
 class OperationStatementTest {
 
-		private AccountService account;
+	private AccountService account;
 
-		@BeforeEach
-		public void init() {
+	@BeforeEach
+	public void init() {
 
-				account = AccountFactory.createAccount().apply();
-		}
+		account = AccountFactory.createAccount().apply();
+	}
 
-		@Test
-		@Order(1)
-		void givenEmptyHistory_whenGetStatement_thenStatementIsEmpty() {
+	@Test
+	@Order(1)
+	void givenEmptyHistory_whenGetStatement_thenStatementIsEmpty() {
 
-				// GIVEN
+		// GIVEN
 
-				// WHEN
-				var statement = account.generateStatement().apply();
+		// WHEN
+		var statement = account.generateStatement().apply();
 
-				// THEN
-				Assertions.assertThat(statement.getLines())
-				          .isEmpty();
+		// THEN
+		Assertions.assertThat(statement.getLines()).isEmpty();
 
-		}
+	}
 
-		@Test
-		@Order(2)
-		void givenNotEmptyHistory_whenGetStatement_thenStatementHasOneLine() {
+	@Test
+	@Order(2)
+	void givenNotEmptyHistory_whenGetStatement_thenStatementHasOneLine() {
 
-				// GIVEN
-				var amount = BankMoneyFactory.create(200);
+		// GIVEN
+		var amount = MoneyFactory.create(200);
 
-				Assumptions.assumeThat(account.deposit()
-				                              .apply(amount))
-				           .isTrue();
+		account.deposit().accept(amount);
 
-				// WHEN
-				var statement = account.generateStatement().apply();
+		// WHEN
+		var statement = account.generateStatement().apply();
 
-				// THEN
-				Assertions.assertThat(statement.getLines())
-				          .isNotEmpty()
-				          .hasSize(1)
-				          .anyMatch(line -> amount.toString()
-				                                  .equals(line.getAmount()))
-				          .anyMatch(line -> amount.toString()
-				                                  .equals(line.getBalance()));
+		// THEN
+		Assertions.assertThat(statement.getLines()).isNotEmpty().hasSize(1)
+				.anyMatch(line -> amount.toString().equals(line.getAmount()))
+				.anyMatch(line -> amount.toString().equals(line.getBalance()));
 
-		}
+	}
 
-		@Test
-		@Order(2)
-		void givenNotEmptyHistory_whenGetStatement_thenStatementHasOneLineWithGoodFormat() {
+	@Test
+	@Order(2)
+	void givenNotEmptyHistory_whenGetStatement_thenStatementHasOneLineWithGoodFormat() {
 
-				// GIVEN
-				var amount = BankMoneyFactory.create(200);
+		// GIVEN
+		var amount = MoneyFactory.create(200);
 
-				Assumptions.assumeThat(account.deposit()
-				                              .apply(amount))
-				           .isTrue();
+		account.deposit().accept(amount);
 
-				// WHEN
-				var statement = account.generateStatement().apply();
+		// WHEN
+		var statement = account.generateStatement().apply();
 
-				// THEN
-				Pattern datePattern = Pattern.compile("\\d{2}/\\d{2}/\\d{4} \\d{2}:\\d{2}:\\d{2}");
+		// THEN
+		Pattern datePattern = Pattern.compile("\\d{2}/\\d{2}/\\d{4} \\d{2}:\\d{2}:\\d{2}");
 
-				Assertions.assertThat(statement.getLines())
-				          .isNotEmpty()
-				          .hasSize(1)
-				          .anyMatch(line -> amount.toString()
-				                                  .equals(line.getAmount()))
-				          .anyMatch(line -> amount.toString()
-				                                  .equals(line.getBalance()))
-				          .anyMatch(line -> OperationType.DEPOSIT.name()
-				                                                 .equals(line.getType()))
-				          .anyMatch(line -> true == datePattern.asPredicate()
-				                                               .test(line.getDate()));
+		Assertions.assertThat(statement.getLines()).isNotEmpty().hasSize(1)
+				.anyMatch(line -> amount.toString().equals(line.getAmount()))
+				.anyMatch(line -> amount.toString().equals(line.getBalance()))
+				.anyMatch(line -> OperationType.DEPOSIT.name().equals(line.getType()))
+				.anyMatch(line -> true == datePattern.asPredicate().test(line.getDate()));
 
-		}
+	}
 
-		@Test
-		@Order(3)
-		void givenNotEmptyHistory_whenGetStatement_thenStatementHasTwoLine() {
+	@Test
+	@Order(3)
+	void givenNotEmptyHistory_whenGetStatement_thenStatementHasTwoLine() {
 
-				// GIVEN
-				var amount = BankMoneyFactory.create(200);
+		// GIVEN
+		var amount = MoneyFactory.create(200);
 
-				Assumptions.assumeThat(account.deposit()
-				                              .apply(amount))
-				           .isTrue();
-				Assumptions.assumeThat(account.deposit()
-				                              .apply(amount))
-				           .isTrue();
+		account.deposit().accept(amount);
+		account.deposit().accept(amount);
 
-				var expectedValue = amount.putMoney()
-				                          .apply(amount)
-				                          .toString();
+		var expectedValue = amount.putMoney().apply(amount).toString();
 
-				// WHEN
-				var statement = account.generateStatement().apply();
+		// WHEN
+		var statement = account.generateStatement().apply();
 
-				// THEN
-				Assertions.assertThat(statement.getLines())
-				          .isNotEmpty()
-				          .hasSize(2)
-				          .allMatch(line -> amount.toString()
-				                                  .equals(line.getAmount()));
+		// THEN
+		Assertions.assertThat(statement.getLines()).isNotEmpty().hasSize(2)
+				.allMatch(line -> amount.toString().equals(line.getAmount()));
 
-				Assertions.assertThat(statement.getLines())
-				          .first()
-				          .hasFieldOrPropertyWithValue("balance",
-				                                       expectedValue);
-		}
+		Assertions.assertThat(statement.getLines()).first().hasFieldOrPropertyWithValue("balance", expectedValue);
+	}
 }

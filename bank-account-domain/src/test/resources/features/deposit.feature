@@ -5,5 +5,5 @@ Feature: Make a deposit
     Then My balance should be 0
     
   Scenario: Deposit 500 euros and verify balance
-    When I deposit 0 euros
+    When I deposit 500 euros
     Then My balance should be 500

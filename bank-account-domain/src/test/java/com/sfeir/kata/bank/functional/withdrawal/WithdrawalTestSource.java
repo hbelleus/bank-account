@@ -7,7 +7,7 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.params.provider.Arguments;
 
 import com.sfeir.kata.bank.domain.money.MoneyService;
-import com.sfeir.kata.bank.domain.money.factory.BankMoneyFactory;
+import com.sfeir.kata.bank.domain.money.factory.MoneyFactory;
 
 import io.vavr.Function1;
 
@@ -19,8 +19,8 @@ public interface WithdrawalTestSource {
 		public static Stream<Arguments>
 		    givenAuthorizedAmount() {
 
-				var case1 = createCase.apply(BankMoneyFactory.create("0"));
-				var case2 = createCase.apply(BankMoneyFactory.create("500"));
+				var case1 = createCase.apply(MoneyFactory.create("0"));
+				var case2 = createCase.apply(MoneyFactory.create("500"));
 
 				return Stream.of(case1, case2);
 		}
@@ -28,7 +28,7 @@ public interface WithdrawalTestSource {
 		public static Stream<Arguments>
 		    givenUnauthorizedAmount() {
 
-				var case1 = createCase.apply(BankMoneyFactory.create("1000"));
+				var case1 = createCase.apply(MoneyFactory.create("1000"));
 
 				return Stream.of(case1);
 		}

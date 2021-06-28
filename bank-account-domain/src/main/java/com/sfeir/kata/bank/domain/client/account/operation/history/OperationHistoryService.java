@@ -1,6 +1,7 @@
 package com.sfeir.kata.bank.domain.client.account.operation.history;
 
 import java.util.Optional;
+import java.util.function.Consumer;
 
 import org.eclipse.collections.api.list.ImmutableList;
 import org.eclipse.collections.api.list.MutableList;
@@ -14,16 +15,20 @@ public interface OperationHistoryService {
 
 		MutableList<OperationService> getOperations();
 
-		default Function1<OperationService, Boolean> addOperation() {
-				return this.getOperations()::add;
+		default Consumer<OperationService> addOperation() {
+				return operation -> this.getOperations().add(0, operation);
 		}
 		
 		default Function0<Boolean> isEmpty() {
 			return this.getOperations()::isEmpty;
 		}
+		
+		default Function0<Integer> size() {
+			return this.getOperations()::size;
+		}
 
-		default Function0<MutableList<OperationService>> reverseLastOperationFirst() {
-				return this.getOperations()::toReversed;
+		default Function0<ImmutableList<OperationService>> readOperation() {
+				return this.getOperations()::toImmutable;
 		}
 
 		default
@@ -35,8 +40,8 @@ public interface OperationHistoryService {
 
 		default Function0<Optional<OperationService>>
 		    getLastOperation() {
-				return reverseLastOperationFirst()
-					   .andThen(MutableList::toImmutable)
-					   .andThen(pickFirst());
+				
+				return (readOperation())
+						.andThen(pickFirst());
 		}
 }

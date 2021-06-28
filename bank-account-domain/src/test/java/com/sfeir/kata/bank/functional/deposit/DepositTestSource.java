@@ -8,7 +8,7 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.params.provider.Arguments;
 
 import com.sfeir.kata.bank.domain.money.MoneyService;
-import com.sfeir.kata.bank.domain.money.factory.BankMoneyFactory;
+import com.sfeir.kata.bank.domain.money.factory.MoneyFactory;
 
 import io.vavr.Function1;
 
@@ -20,8 +20,8 @@ public interface DepositTestSource {
 		public static Stream<Arguments>
 		    generatePositiveAmount() {
 
-				var case1 = createCase.apply(BankMoneyFactory.create(BigDecimal.ZERO));
-				var case2 = createCase.apply(BankMoneyFactory.create("2788.90"));
+				var case1 = createCase.apply(MoneyFactory.create(BigDecimal.ZERO));
+				var case2 = createCase.apply(MoneyFactory.create("2788.90"));
 
 				return Stream.of(case1, case2);
 		}

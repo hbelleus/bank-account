@@ -11,7 +11,7 @@ import org.junit.runner.RunWith;
 
 import com.sfeir.kata.bank.domain.client.account.operation.factory.Deposit;
 import com.sfeir.kata.bank.domain.client.account.operation.factory.OperationFactory;
-import com.sfeir.kata.bank.domain.money.factory.BankMoneyFactory;
+import com.sfeir.kata.bank.domain.money.factory.MoneyFactory;
 
 @RunWith(JUnitPlatform.class)
 class DepositTest {
@@ -25,8 +25,8 @@ class DepositTest {
 		void givenAmountOf100AndInitialBalanceOf1000_WhenWithdrawal_thenResultingBalanceIs900() {
 
 				// GIVEN
-				var balance = BankMoneyFactory.create(1000);
-				var amount = BankMoneyFactory.create(BigDecimal.valueOf(100));
+				var balance = MoneyFactory.create(1000);
+				var amount = MoneyFactory.create(BigDecimal.valueOf(100));
 
 				// WHEN
 				var result = OperationFactory.initDeposit()
@@ -34,7 +34,7 @@ class DepositTest {
 				                                    balance);
 
 				// THEN
-				var expectedValue = BankMoneyFactory.create(1100);
+				var expectedValue = MoneyFactory.create(1100);
 
 				Condition<Deposit> isAmountCorrect = new Condition<>((deposit) -> deposit.getAmount()
 				                                                                         .equals(amount), "checking if saved operation has the correct amount "

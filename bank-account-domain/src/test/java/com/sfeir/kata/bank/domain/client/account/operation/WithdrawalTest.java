@@ -14,7 +14,7 @@ import com.sfeir.kata.bank.domain.client.account.operation.factory.OperationFact
 import com.sfeir.kata.bank.domain.client.account.operation.factory.Withdrawal;
 import com.sfeir.kata.bank.domain.client.account.operation.specification.exception.UnauthorizedOperationException;
 import com.sfeir.kata.bank.domain.money.MoneyService;
-import com.sfeir.kata.bank.domain.money.factory.BankMoneyFactory;
+import com.sfeir.kata.bank.domain.money.factory.MoneyFactory;
 
 import io.vavr.Function0;
 
@@ -30,8 +30,8 @@ class WithdrawalTest {
 		void givenAmountOf100AndInitialBalanceOf1000_WhenWithdrawal_thenResultingBalanceIs900() {
 
 				// GIVEN
-				var balance = BankMoneyFactory.create(1000);
-				var amount = BankMoneyFactory.create(BigDecimal.valueOf(100));
+				var balance = MoneyFactory.create(1000);
+				var amount = MoneyFactory.create(BigDecimal.valueOf(100));
 
 				// WHEN
 				var result = OperationFactory.initWithdrawal()
@@ -39,7 +39,7 @@ class WithdrawalTest {
 				                                    balance);
 
 				// THEN
-				var expectedValue = BankMoneyFactory.create(900);
+				var expectedValue = MoneyFactory.create(900);
 
 				Condition<Withdrawal> isAmountCorrect = new Condition<>((withdrawal) -> withdrawal.getAmount()
 				                                                                                  .equals(amount.toNegative()
@@ -60,8 +60,8 @@ class WithdrawalTest {
 		void givenAnyPositiveAmountGreaterThanBalance_WhenWithdrawal_thenThrowsException() {
 
 				// GIVEN
-				var balance = BankMoneyFactory.create(1000);
-				var amount = BankMoneyFactory.create(1500);
+				var balance = MoneyFactory.create(1000);
+				var amount = MoneyFactory.create(1500);
 
 				Condition<MoneyService> greatherThanBalance = new Condition<>((money) -> money.isLargerThan()
 				                                                                              .apply(balance), "checking if amount is greater than balance "

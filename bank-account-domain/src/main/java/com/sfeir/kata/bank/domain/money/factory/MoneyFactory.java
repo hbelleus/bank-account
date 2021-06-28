@@ -8,7 +8,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class BankMoneyFactory {
+public class MoneyFactory {
 
 		public static MoneyService create(BigDecimal amount) {
 				return Money.of(amount);

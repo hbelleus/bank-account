@@ -11,70 +11,51 @@ import org.junit.runner.RunWith;
 import com.sfeir.kata.bank.domain.client.account.AccountService;
 import com.sfeir.kata.bank.domain.client.account.factory.AccountFactory;
 import com.sfeir.kata.bank.domain.client.account.operation.OperationService;
-import com.sfeir.kata.bank.domain.money.factory.BankMoneyFactory;
+import com.sfeir.kata.bank.domain.money.factory.MoneyFactory;
 
 @RunWith(JUnitPlatform.class)
 class OperationDepositTest {
 
-		private AccountService account;
+	private AccountService account;
 
-		@BeforeEach
-		public void init() {
+	@BeforeEach
+	public void init() {
 
-				account = AccountFactory.createAccount().apply();
-		}
+		account = AccountFactory.createAccount().apply();
+	}
 
-		@Test()
-		void givenAnyAmount_whenDeposit_thenResultIsBoolean() {
+	@Test
+	void givenAnyPositiveAmount_whenDeposit_thenOperationIsSaved() {
 
-				// GIVEN
-				var amount = BankMoneyFactory.create(100);
+		// GIVEN
+		var amount = MoneyFactory.create(100);
 
-				// WHEN
-				final var result = account.deposit().apply(amount);
+		// WHEN
+		account.deposit().accept(amount);
 
-				// THEN
-				Assertions.assertThat(result)
-				          .isInstanceOf(Boolean.class);
-		}
+		// THEN
 
-		@Test()
-		void givenAnyPositiveAmount_whenDeposit_thenOperationIsSaved() {
+		Condition<OperationService> savedOperation = new Condition<>(
+				(operation) -> operation.getAmount().equals(amount),
+				"checking if saved operation has the correct amount", amount);
+		Assertions.assertThat(account.getHistory().getOperations()).isNotEmpty().has(savedOperation, Index.atIndex(0));
+	}
 
-				// GIVEN
-				var amount = BankMoneyFactory.create(100);
+	@Test
+	void givenAnyPositiveAmount_whenDeposit_thenAccountBalanceIsUpdated() {
 
-				// WHEN
-				final var result = account.deposit().apply(amount);
+		// GIVEN
+		var amount = MoneyFactory.create(100);
 
-				// THEN
+		// WHEN
+		account.deposit().accept(amount);
 
-				Condition<OperationService> savedOperation = new Condition<>((operation) -> operation.getAmount()
-				                                                                              .equals(amount), "checking if saved operation has the correct amount", amount);
+		// THEN
+		Condition<AccountService> accountBalanceIsUpdated = new Condition<>(
+				(account) -> account.getBalance().apply().equals(amount),
+				"checking if account balance has been updated", amount);
 
-				Assertions.assertThat(result).isTrue();
-				Assertions.assertThat(account.getHistory()
-				                             .getOperations())
-				          .isNotEmpty()
-				          .has(savedOperation, Index.atIndex(0));
-		}
-
-		@Test()
-		void givenAnyPositiveAmount_whenDeposit_thenAccountBalanceIsUpdated() {
-
-				// GIVEN
-				var amount = BankMoneyFactory.create(100);
-
-				// WHEN
-				account.deposit().apply(amount);
-
-				// THEN
-				Condition<AccountService> accountBalanceIsUpdated = new Condition<>((account) -> account.getBalance()
-				                                                                                        .apply()
-				                                                                                        .equals(amount), "checking if account balance has been updated", amount);
-
-				Assertions.assertThat(account)
-				          .is(accountBalanceIsUpdated);
-		}
+		Assertions.assertThat(account).is(accountBalanceIsUpdated);
+	}
 
 }

@@ -8,6 +8,7 @@ import org.assertj.core.api.Condition;
 import org.assertj.core.data.Index;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 
@@ -16,122 +17,97 @@ import com.sfeir.kata.bank.domain.client.account.factory.AccountFactory;
 import com.sfeir.kata.bank.domain.client.account.operation.OperationService;
 import com.sfeir.kata.bank.domain.client.account.operation.specification.exception.UnauthorizedOperationException;
 import com.sfeir.kata.bank.domain.money.MoneyService;
-import com.sfeir.kata.bank.domain.money.factory.BankMoneyFactory;
-
-import io.vavr.Function0;
+import com.sfeir.kata.bank.domain.money.factory.MoneyFactory;
 
 @RunWith(JUnitPlatform.class)
 class OperationWithdrawalTest {
 
-		private AccountService account;
+	private AccountService account;
 
-		@BeforeEach
-		public void init() {
+	@BeforeEach
+	public void init() {
 
-				account = AccountFactory.createAccount().apply();
+		account = AccountFactory.createAccount().apply();
 
-				var initDeposit = BankMoneyFactory.create(1000);
+		var initDeposit = MoneyFactory.create(1000);
 
-				account.deposit().apply(initDeposit);
-		}
+		account.deposit().accept(initDeposit);
+	}
 
-		@Test
-		void givenPositiveAmount_WhenWithdrawal_thenOperationIsSaved() {
+	@Test
+	void givenPositiveAmount_WhenWithdrawal_thenOperationIsSaved() {
 
-				// GIVEN
-				var amount = BankMoneyFactory.create(BigDecimal.valueOf(100));
+		// GIVEN
+		var amount = MoneyFactory.create(BigDecimal.valueOf(100));
 
-				// WHEN
-				var result = account.withdraw().apply(amount);
+		// WHEN
+		account.withdraw().accept(amount);
 
-				// THEN
+		// THEN
 
-				Condition<OperationService> savedOperation = new Condition<>((operation) -> operation.getAmount()
-				                                                                              .equals(amount.toNegative()
-				                                                                                            .apply()), "checking if saved operation has the correct amount", amount);
+		Condition<OperationService> savedOperation = new Condition<>(
+				(operation) -> operation.getAmount().equals(amount.toNegative().apply()),
+				"checking if saved operation has the correct amount", amount);
 
-				org.junit.jupiter.api.Assertions.assertAll(() -> Assertions.assertThat(result)
-				                                                           .isTrue(),
-				                                           () -> Assertions.assertThat(account.getHistory()
-				                                                                              .getOperations())
-				                                                           .isNotEmpty()
-				                                                           .has(savedOperation,
-				                                                                Index.atIndex(1)));
+		Assertions.assertThat(account.getHistory().getOperations()).isNotEmpty().has(savedOperation, Index.atIndex(0));
 
-		}
+	}
 
-		@Test
-		void givenAnyPositiveAmount_WhenWithdrawal_thenAccountBalanceIsCorrectlyUpdated() {
+	@Test
+	void givenAnyPositiveAmount_WhenWithdrawal_thenAccountBalanceIsCorrectlyUpdated() {
 
-				// GIVEN
-				var amount = BankMoneyFactory.create(BigDecimal.valueOf(100));
+		// GIVEN
+		var amount = MoneyFactory.create(BigDecimal.valueOf(100));
 
-				var expectedValue = BankMoneyFactory.create(BigDecimal.valueOf(900));
+		var expectedValue = MoneyFactory.create(BigDecimal.valueOf(900));
 
-				var initialBalance = BankMoneyFactory.create(1000);
+		var initialBalance = MoneyFactory.create(1000);
 
-				Assumptions.assumeThat(account.getBalance()
-				                              .apply()
-				                              .equals(initialBalance));
+		Assumptions.assumeThat(account.getBalance().apply().equals(initialBalance));
 
-				// WHEN
-				account.withdraw().apply(amount);
+		// WHEN
+		account.withdraw().accept(amount);
 
-				// THEN
-				Condition<MoneyService> hasBeenUpdated = new Condition<>((money) -> money.equals(expectedValue), String.format("matching expected balance of %s",
-				                                                                                                               expectedValue));
+		// THEN
+		Condition<MoneyService> hasBeenUpdated = new Condition<>((money) -> money.equals(expectedValue),
+				String.format("matching expected balance of %s", expectedValue));
 
-				Assertions.assertThat(account.getBalance().apply())
-				          .is(hasBeenUpdated);
-		}
+		Assertions.assertThat(account.getBalance().apply()).is(hasBeenUpdated);
+	}
 
-		@Test
-		void givenPositiveAmount_WhenWithdrawalTwice_thenAccountBalanceIsCorrectlyUpdated() {
+	@Test
+	void givenPositiveAmount_WhenWithdrawalTwice_thenAccountBalanceIsCorrectlyUpdated() {
 
-				// GIVEN
-				var amount = BankMoneyFactory.create(100);
+		// GIVEN
+		var amount = MoneyFactory.create(100);
 
-				var expectedValue = BankMoneyFactory.create(800);
+		var expectedValue = MoneyFactory.create(800);
 
-				// WHEN
-				final var resultOperationSave1 = account.withdraw()
-				                                        .apply(amount);
-				final var resultOperationSave2 = account.withdraw()
-				                                        .apply(amount);
+		// WHEN
+		account.withdraw().andThen(account.withdraw()).accept(amount);
 
-				// THEN
-				org.junit.jupiter.api.Assertions.assertAll(() -> Assertions.assertThat(resultOperationSave1)
-				                                                           .isTrue(),
-				                                           () -> Assertions.assertThat(resultOperationSave2)
-				                                                           .isTrue());
+		// THEN
+		Condition<OperationService> savedOperation = new Condition<>(
+				(operation) -> operation.getBalance().equals(expectedValue), "with correct amount of", expectedValue);
 
-				Condition<OperationService> savedOperation = new Condition<>((operation) -> operation.getBalance()
-				                                                                              .equals(expectedValue), "with correct amount of", expectedValue);
+		Assertions.assertThat(account.getHistory().getOperations()).isNotEmpty().has(savedOperation, Index.atIndex(0));
 
-				Assertions.assertThat(account.getHistory()
-				                             .getOperations())
-				          .isNotEmpty()
-				          .has(savedOperation, Index.atIndex(2));
+		Condition<MoneyService> hasBeenUpdated = new Condition<>((money) -> money.equals(expectedValue),
+				String.format("matching expected balance of %s", expectedValue));
 
-				Condition<MoneyService> hasBeenUpdated = new Condition<>((money) -> money.equals(expectedValue), String.format("matching expected balance of %s",
-				                                                                                                               expectedValue));
+		Assertions.assertThat(account.getBalance().apply()).is(hasBeenUpdated);
+	}
 
-				Assertions.assertThat(account.getBalance().apply())
-				          .is(hasBeenUpdated);
-		}
+	@Test
+	void givenAnyPositiveAmountGreaterThanBalance_WhenWithdrawal_thenThrowsException() {
 
-		@Test
-		void givenAnyPositiveAmountGreaterThanBalance_WhenWithdrawal_thenThrowsException() {
+		// GIVEN
+		var amount = MoneyFactory.create(1500);
 
-				// GIVEN
-				var amount = BankMoneyFactory.create(1500);
+		// WHEN
+		Executable withdrawal = () -> account.withdraw().accept(amount);
 
-				// WHEN
-				Function0<Boolean> withdrawal = () -> account.withdraw()
-				                                             .apply(amount);
-
-				// THEN
-				org.junit.jupiter.api.Assertions.assertThrows(UnauthorizedOperationException.class,
-				                                              withdrawal::apply);
-		}
+		// THEN
+		org.junit.jupiter.api.Assertions.assertThrows(UnauthorizedOperationException.class, withdrawal::execute);
+	}
 }

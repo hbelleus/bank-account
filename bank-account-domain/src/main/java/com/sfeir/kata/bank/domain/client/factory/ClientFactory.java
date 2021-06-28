@@ -9,7 +9,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class BankClientFactory {
+public class ClientFactory {
 
 	public static ClientOperationService createClient() {
 

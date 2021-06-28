@@ -2,7 +2,7 @@ package com.sfeir.kata.bank.domain.money;
 
 import java.math.BigDecimal;
 
-import com.sfeir.kata.bank.domain.money.factory.BankMoneyFactory;
+import com.sfeir.kata.bank.domain.money.factory.MoneyFactory;
 
 import io.vavr.Function0;
 import io.vavr.Function1;
@@ -13,18 +13,18 @@ public interface MoneyService {
 
 		default Function1<MoneyService, MoneyService>
 		    putMoney() {
-				return money -> BankMoneyFactory.create(this.getAmount()
+				return money -> MoneyFactory.create(this.getAmount()
 				                                            .add(money.getAmount()));
 		}
 
 		default Function1<MoneyService, MoneyService>
 		    retrieveMoney() {
-				return money -> BankMoneyFactory.create(this.getAmount()
+				return money -> MoneyFactory.create(this.getAmount()
 				                                            .subtract(money.getAmount()));
 		}
 
 		default Function0<MoneyService> toNegative() {
-				return () -> BankMoneyFactory.create(this.getAmount()
+				return () -> MoneyFactory.create(this.getAmount()
 				                                         .negate());
 		}
 
