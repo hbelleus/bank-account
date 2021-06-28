@@ -2,9 +2,9 @@ package com.sfeir.kata.bank.domain.client.account;
 
 import java.math.BigDecimal;
 
-import com.sfeir.kata.bank.domain.client.account.operation.OperationHistoryService;
-import com.sfeir.kata.bank.domain.client.account.operation.factory.Operation;
+import com.sfeir.kata.bank.domain.client.account.operation.OperationService;
 import com.sfeir.kata.bank.domain.client.account.operation.factory.OperationFactory;
+import com.sfeir.kata.bank.domain.client.account.operation.history.OperationHistoryService;
 import com.sfeir.kata.bank.domain.client.account.statement.AccountStatementService;
 import com.sfeir.kata.bank.domain.client.account.statement.factory.AccountStatementFactory;
 import com.sfeir.kata.bank.domain.money.MoneyService;
@@ -21,7 +21,7 @@ public interface AccountService {
 				return () -> this.getHistory()
 				                 .getLastOperation()
 				                 .apply()
-				                 .map(Operation::getBalance)
+				                 .map(OperationService::getBalance)
 				                 .orElse(BankMoneyFactory.create(BigDecimal.ZERO));
 		}
 

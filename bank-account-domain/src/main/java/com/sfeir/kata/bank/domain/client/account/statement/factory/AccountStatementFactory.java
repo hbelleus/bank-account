@@ -4,7 +4,7 @@ import java.util.stream.Collectors;
 
 import org.eclipse.collections.impl.collector.Collectors2;
 
-import com.sfeir.kata.bank.domain.client.account.operation.OperationHistoryService;
+import com.sfeir.kata.bank.domain.client.account.operation.history.OperationHistoryService;
 import com.sfeir.kata.bank.domain.client.account.statement.AccountStatementService;
 import com.sfeir.kata.bank.domain.client.account.statement.line.factory.AccountStatementLineFactory;
 
@@ -17,7 +17,7 @@ public class AccountStatementFactory {
 		public static AccountStatementService
 		    createStatement(OperationHistoryService history) {
 
-				return history.reverse()
+				return history.reverseLastOperationFirst()
 				              .apply()
 				              .stream()
 				              .map(AccountStatementLineFactory::of)

@@ -1,6 +1,6 @@
 package com.sfeir.kata.bank.domain.client.account.statement.line.factory;
 
-import com.sfeir.kata.bank.domain.client.account.operation.factory.Operation;
+import com.sfeir.kata.bank.domain.client.account.operation.OperationService;
 import com.sfeir.kata.bank.domain.client.account.statement.line.AccountStatementLineService;
 
 import io.vavr.Function1;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class AccountStatementLineFactory {
 
 		public static AccountStatementLineService
-		    of(Operation operation) {
+		    of(OperationService operation) {
 
 				return OperationReader.readOperationAsLine()
 				                      .apply(operation);
@@ -20,7 +20,7 @@ public class AccountStatementLineFactory {
 		@NoArgsConstructor(access = AccessLevel.PRIVATE)
 		static class OperationReader {
 
-				static Function1<Operation, AccountStatementLineService>
+				static Function1<OperationService, AccountStatementLineService>
 				    readOperationAsLine() {
 						return operation -> AccountStatementLine.builder()
 																.amount(operation.getAmount().toString())

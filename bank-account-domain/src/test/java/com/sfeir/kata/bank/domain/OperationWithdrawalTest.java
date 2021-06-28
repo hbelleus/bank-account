@@ -13,7 +13,7 @@ import org.junit.runner.RunWith;
 
 import com.sfeir.kata.bank.domain.client.account.AccountService;
 import com.sfeir.kata.bank.domain.client.account.factory.AccountFactory;
-import com.sfeir.kata.bank.domain.client.account.operation.factory.Operation;
+import com.sfeir.kata.bank.domain.client.account.operation.OperationService;
 import com.sfeir.kata.bank.domain.client.account.operation.specification.exception.UnauthorizedOperationException;
 import com.sfeir.kata.bank.domain.money.MoneyService;
 import com.sfeir.kata.bank.domain.money.factory.BankMoneyFactory;
@@ -46,7 +46,7 @@ class OperationWithdrawalTest {
 
 				// THEN
 
-				Condition<Operation> savedOperation = new Condition<>((operation) -> operation.getAmount()
+				Condition<OperationService> savedOperation = new Condition<>((operation) -> operation.getAmount()
 				                                                                              .equals(amount.toNegative()
 				                                                                                            .apply()), "checking if saved operation has the correct amount", amount);
 
@@ -105,7 +105,7 @@ class OperationWithdrawalTest {
 				                                           () -> Assertions.assertThat(resultOperationSave2)
 				                                                           .isTrue());
 
-				Condition<Operation> savedOperation = new Condition<>((operation) -> operation.getBalance()
+				Condition<OperationService> savedOperation = new Condition<>((operation) -> operation.getBalance()
 				                                                                              .equals(expectedValue), "with correct amount of", expectedValue);
 
 				Assertions.assertThat(account.getHistory()

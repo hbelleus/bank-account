@@ -1,5 +1,6 @@
 package com.sfeir.kata.bank.domain.client.account.operation.factory;
 
+import com.sfeir.kata.bank.domain.client.account.operation.OperationService;
 import com.sfeir.kata.bank.domain.client.account.operation.OperationType;
 import com.sfeir.kata.bank.domain.client.account.operation.date.OperationDateService;
 import com.sfeir.kata.bank.domain.client.account.operation.date.factory.OperationDateFactory;
@@ -10,7 +11,7 @@ import lombok.Getter;
 
 @Getter
 @EqualsAndHashCode
-public abstract class Operation {
+public abstract class Operation implements OperationService {
 
 		protected MoneyService amount;
 		protected MoneyService balance;

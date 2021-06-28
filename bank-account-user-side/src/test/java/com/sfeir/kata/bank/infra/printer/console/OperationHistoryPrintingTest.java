@@ -12,8 +12,8 @@ import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 
-import com.sfeir.kata.bank.domain.client.account.AccountService;
-import com.sfeir.kata.bank.domain.client.account.factory.AccountFactory;
+import com.sfeir.kata.bank.domain.client.ClientService;
+import com.sfeir.kata.bank.domain.client.factory.BankClientFactory;
 import com.sfeir.kata.bank.domain.client.printer.StatementPrinterService;
 import com.sfeir.kata.bank.domain.money.factory.BankMoneyFactory;
 
@@ -21,18 +21,18 @@ import com.sfeir.kata.bank.domain.money.factory.BankMoneyFactory;
 @TestMethodOrder(OrderAnnotation.class)
 class OperationHistoryPrintingTest {
 
-		private AccountService          account;
+		private ClientService          client;
 		private PrintStream             encapsulatedPrinter;
 		private StatementPrinterService printer;
 
 		@BeforeEach
 		public void init() {
 
-				account = AccountFactory.createAccount().apply();
-
 				encapsulatedPrinter = Mockito.mock(PrintStream.class);
 
 				printer = new ConsolePrinter(encapsulatedPrinter);
+				
+				client = BankClientFactory.createClient(printer);
 		}
 
 		@Test
@@ -42,10 +42,10 @@ class OperationHistoryPrintingTest {
 				// GIVEN
 				var message = IConsoleFormatter.STATEMENT_HEADER;
 
-				var statement = account.generateStatement().apply();
+				var statement = client.getAccount().generateStatement().apply();
 
 				// WHEN
-				printer.print(statement);
+				client.printOperationHistory();
 
 				// THEN
 				org.junit.jupiter.api.Assertions.assertAll(() -> Mockito.verify(encapsulatedPrinter)
@@ -60,11 +60,11 @@ class OperationHistoryPrintingTest {
 				// GIVEN
 				var amount = BankMoneyFactory.create(200);
 
-				Assumptions.assumeThat(account.deposit()
+				Assumptions.assumeThat(client.deposit()
 				                              .apply(amount))
 				           .isTrue();
 
-				var statement = account.generateStatement().apply();
+				var statement = client.getAccount().generateStatement().apply();
 
 				// WHEN
 				printer.print(statement);
@@ -82,14 +82,14 @@ class OperationHistoryPrintingTest {
 				// GIVEN
 				var amount = BankMoneyFactory.create(200);
 
-				Assumptions.assumeThat(account.deposit()
+				Assumptions.assumeThat(client.deposit()
 				                              .apply(amount))
 				           .isTrue();
-				Assumptions.assumeThat(account.deposit()
+				Assumptions.assumeThat(client.deposit()
 				                              .apply(amount))
 				           .isTrue();
 
-				var statement = account.generateStatement().apply();
+				var statement = client.getAccount().generateStatement().apply();
 
 				// WHEN
 				printer.print(statement);

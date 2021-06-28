@@ -1,6 +1,8 @@
-package com.sfeir.kata.bank.domain.client.account.operation.factory;
+package com.sfeir.kata.bank.domain.client.account.operation.history.factory;
 
 import org.eclipse.collections.api.list.MutableList;
+
+import com.sfeir.kata.bank.domain.client.account.operation.OperationService;
 
 import io.vavr.Function0;
 import io.vavr.Function1;
@@ -14,7 +16,7 @@ public class OperationHistoryFactory {
 				return OperationHistory::new;
 		}
 		
-		public static Function1<MutableList<Operation>, OperationHistory> populateHistory() {
+		public static Function1<MutableList<OperationService>, OperationHistory> populateHistory() {
 				return OperationHistory::new;
 		}
 }

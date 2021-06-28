@@ -27,8 +27,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.sfeir.kata.bank.domain.client.ClientOperationService;
 import com.sfeir.kata.bank.domain.client.ClientService;
 import com.sfeir.kata.bank.domain.client.account.AccountService;
-import com.sfeir.kata.bank.domain.client.account.operation.factory.Operation;
-import com.sfeir.kata.bank.domain.client.account.operation.factory.OperationHistoryFactory;
+import com.sfeir.kata.bank.domain.client.account.operation.OperationService;
+import com.sfeir.kata.bank.domain.client.account.operation.history.factory.OperationHistoryFactory;
 import com.sfeir.kata.bank.domain.client.account.operation.specification.exception.UnauthorizedOperationException;
 import com.sfeir.kata.bank.domain.client.account.statement.factory.AccountStatementFactory;
 import com.sfeir.kata.bank.domain.client.factory.BankClientFactory;
@@ -78,7 +78,7 @@ class BankClientAccountShouldTest {
 						                                                                                           .isEmpty()
 						                                                                                           .apply(), "checking if account has not empty history", amount);
 
-						Condition<Operation> operationWithCorrectAmount = new Condition<>((operation) -> operation.getAmount()
+						Condition<OperationService> operationWithCorrectAmount = new Condition<>((operation) -> operation.getAmount()
 						                                                                                          .equals(amount), "checking if saved operation has the correct amount");
 
 						org.junit.jupiter.api.Assertions.assertAll(() -> Assertions.assertThat(result)
@@ -140,11 +140,11 @@ class BankClientAccountShouldTest {
 						                                                                                           .isEmpty()
 						                                                                                           .apply(), "checking if account has not empty history", amount);
 
-						Condition<Operation> operationWithCorrectAmount = new Condition<>((operation) -> operation.getAmount()
+						Condition<OperationService> operationWithCorrectAmount = new Condition<>((operation) -> operation.getAmount()
 						                                                                                          .equals(amount.toNegative()
 						                                                                                                        .apply()), "checking if saved operation has the correct amount");
 
-						Condition<Operation> operationWithCorrectBalanceResult = new Condition<>((operation) -> operation.getBalance()
+						Condition<OperationService> operationWithCorrectBalanceResult = new Condition<>((operation) -> operation.getBalance()
 						                                                                                                 .equals(expectedBalance), "checking if saved operation has the correct balance result");
 
 						org.junit.jupiter.api.Assertions.assertAll(() -> Assertions.assertThat(result)

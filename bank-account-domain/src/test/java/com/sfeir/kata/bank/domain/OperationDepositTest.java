@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
 
 import com.sfeir.kata.bank.domain.client.account.AccountService;
 import com.sfeir.kata.bank.domain.client.account.factory.AccountFactory;
-import com.sfeir.kata.bank.domain.client.account.operation.factory.Operation;
+import com.sfeir.kata.bank.domain.client.account.operation.OperationService;
 import com.sfeir.kata.bank.domain.money.factory.BankMoneyFactory;
 
 @RunWith(JUnitPlatform.class)
@@ -49,7 +49,7 @@ class OperationDepositTest {
 
 				// THEN
 
-				Condition<Operation> savedOperation = new Condition<>((operation) -> operation.getAmount()
+				Condition<OperationService> savedOperation = new Condition<>((operation) -> operation.getAmount()
 				                                                                              .equals(amount), "checking if saved operation has the correct amount", amount);
 
 				Assertions.assertThat(result).isTrue();
