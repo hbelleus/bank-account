@@ -11,20 +11,21 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ClientFactory {
 
-	public static ClientOperationService createClient() {
+		public static ClientOperationService createClient() {
 
-		return Client.builder()
-				     .account(AccountFactory.createAccount()
-				    		                .apply())
-				     .build();
-	}
+				return Client.builder()
+				             .account(AccountFactory.createAccount()
+				                                    .apply())
+				             .build();
+		}
 
-	public static ClientService createClient(StatementPrinterService printer) {
+		public static ClientService
+		    createClient(StatementPrinterService printer) {
 
-		return Client.builder()
-			     .account(AccountFactory.createAccount()
-			    		                .apply())
-			     .printer(printer)
-			     .build();	
-	}
+				return Client.builder()
+				             .account(AccountFactory.createAccount()
+				                                    .apply())
+				             .printer(printer)
+				             .build();
+		}
 }

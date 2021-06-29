@@ -11,11 +11,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SetupSteps {
 
-	@NonNull
-	private final ClientDepositContext clientContext;
+		@NonNull
+		private final ClientDepositContext clientContext;
 
-	@Before("@deposit")
-	public void setupForDeposit() {
-		clientContext.setClient((ClientService) ClientFactory.createClient());
-	}
+		@Before("@deposit")
+		public void setupForDeposit() {
+				clientContext.setClient((ClientService) ClientFactory.createClient());
+		}
 }

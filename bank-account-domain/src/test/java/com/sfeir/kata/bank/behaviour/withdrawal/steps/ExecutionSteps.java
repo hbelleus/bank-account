@@ -12,13 +12,15 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ExecutionSteps {
 
-	@NonNull
-	private final ClientWithdrawalContext clientContext;
-	
-	@When("^I withdraw (\\d+) euros$")
-	public void withdraw(BigDecimal amount) {
+		@NonNull
+		private final ClientWithdrawalContext clientContext;
 
-		clientContext.getClient().withdraw().accept(MoneyFactory.create(amount));
+		@When("^I withdraw (\\d+) euros$")
+		public void withdraw(BigDecimal amount) {
 
-	}
+				clientContext.getClient()
+				             .withdraw()
+				             .accept(MoneyFactory.create(amount));
+
+		}
 }

@@ -14,18 +14,18 @@ public interface MoneyService {
 		default Function1<MoneyService, MoneyService>
 		    putMoney() {
 				return money -> MoneyFactory.create(this.getAmount()
-				                                            .add(money.getAmount()));
+				                                        .add(money.getAmount()));
 		}
 
 		default Function1<MoneyService, MoneyService>
 		    retrieveMoney() {
 				return money -> MoneyFactory.create(this.getAmount()
-				                                            .subtract(money.getAmount()));
+				                                        .subtract(money.getAmount()));
 		}
 
 		default Function0<MoneyService> toNegative() {
 				return () -> MoneyFactory.create(this.getAmount()
-				                                         .negate());
+				                                     .negate());
 		}
 
 		default Function1<MoneyService, Boolean>

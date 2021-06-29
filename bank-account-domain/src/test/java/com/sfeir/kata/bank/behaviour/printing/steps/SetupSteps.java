@@ -18,30 +18,36 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SetupSteps {
 
-	@NonNull
-	private final ClientPrintingContext clientContext;
+		@NonNull
+		private final ClientPrintingContext clientContext;
 
-	@Before("@printing")
-	public void setupForPrinting() {
+		@Before("@printing")
+		public void setupForPrinting() {
 
-		var printStream = Mockito.mock(PrintStream.class);
-		clientContext.setPrinter(printStream);
-		StatementPrinterService printer = statement -> clientContext.getPrinter().print(statement);
+				var printStream = Mockito.mock(PrintStream.class);
+				clientContext.setPrinter(printStream);
+				
+				StatementPrinterService printer = statement -> clientContext.getPrinter()
+				                                                            .print(statement);
 
-		clientContext.setClient(ClientFactory.createClient(printer));
-	}
+				clientContext.setClient(ClientFactory.createClient(printer));
+		}
 
-	@Given("^I firstly deposit (\\d+) euros$")
-	public void given_a_deposit(BigDecimal amount) {
+		@Given("^I firstly deposit (\\d+) euros$")
+		public void given_a_deposit(BigDecimal amount) {
 
-		clientContext.getClient().deposit().accept(MoneyFactory.create(amount));
+				clientContext.getClient()
+				             .deposit()
+				             .accept(MoneyFactory.create(amount));
 
-	}
+		}
 
-	@Given("^I secondly withdraw (\\d+) euros$")
-	public void given_a_withdraw(BigDecimal amount) {
+		@Given("^I secondly withdraw (\\d+) euros$")
+		public void given_a_withdraw(BigDecimal amount) {
 
-		clientContext.getClient().withdraw().accept(MoneyFactory.create(amount));
+				clientContext.getClient()
+				             .withdraw()
+				             .accept(MoneyFactory.create(amount));
 
-	}
+		}
 }

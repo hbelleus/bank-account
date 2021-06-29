@@ -9,13 +9,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ExecutionSteps {
 
-	@NonNull
-	private final ClientPrintingContext clientContext;
-	
-	@When("^I print the operations$")
-	public void i_print_the_operations() {
+		@NonNull
+		private final ClientPrintingContext clientContext;
 
-		clientContext.getClient().printOperationHistory();
+		@When("^I print the operations$")
+		public void i_print_the_operations() {
 
-	}
+				clientContext.getClient().printOperationHistory();
+
+		}
 }

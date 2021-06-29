@@ -16,46 +16,49 @@ import com.sfeir.kata.bank.domain.money.factory.MoneyFactory;
 @RunWith(JUnitPlatform.class)
 class OperationDepositTest {
 
-	private AccountService account;
+		private AccountService account;
 
-	@BeforeEach
-	public void init() {
+		@BeforeEach
+		public void init() {
 
-		account = AccountFactory.createAccount().apply();
-	}
+				account = AccountFactory.createAccount().apply();
+		}
 
-	@Test
-	void givenAnyPositiveAmount_whenDeposit_thenOperationIsSaved() {
+		@Test
+		void givenAnyPositiveAmount_whenDeposit_thenOperationIsSaved() {
 
-		// GIVEN
-		var amount = MoneyFactory.create(100);
+				// GIVEN
+				var amount = MoneyFactory.create(100);
 
-		// WHEN
-		account.deposit().accept(amount);
+				// WHEN
+				account.deposit().accept(amount);
 
-		// THEN
+				// THEN
 
-		Condition<OperationService> savedOperation = new Condition<>(
-				(operation) -> operation.getAmount().equals(amount),
-				"checking if saved operation has the correct amount", amount);
-		Assertions.assertThat(account.getHistory().getOperations()).isNotEmpty().has(savedOperation, Index.atIndex(0));
-	}
+				Condition<OperationService> savedOperation = new Condition<>((operation) -> operation.getAmount()
+				                                                                                     .equals(amount), "checking if saved operation has the correct amount", amount);
+				Assertions.assertThat(account.getHistory()
+				                             .getOperations())
+				          .isNotEmpty()
+				          .has(savedOperation, Index.atIndex(0));
+		}
 
-	@Test
-	void givenAnyPositiveAmount_whenDeposit_thenAccountBalanceIsUpdated() {
+		@Test
+		void givenAnyPositiveAmount_whenDeposit_thenAccountBalanceIsUpdated() {
 
-		// GIVEN
-		var amount = MoneyFactory.create(100);
+				// GIVEN
+				var amount = MoneyFactory.create(100);
 
-		// WHEN
-		account.deposit().accept(amount);
+				// WHEN
+				account.deposit().accept(amount);
 
-		// THEN
-		Condition<AccountService> accountBalanceIsUpdated = new Condition<>(
-				(account) -> account.getBalance().apply().equals(amount),
-				"checking if account balance has been updated", amount);
+				// THEN
+				Condition<AccountService> accountBalanceIsUpdated = new Condition<>((account) -> account.getBalance()
+				                                                                                        .apply()
+				                                                                                        .equals(amount), "checking if account balance has been updated", amount);
 
-		Assertions.assertThat(account).is(accountBalanceIsUpdated);
-	}
+				Assertions.assertThat(account)
+				          .is(accountBalanceIsUpdated);
+		}
 
 }

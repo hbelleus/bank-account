@@ -16,22 +16,31 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ResultSteps {
 
-	@NonNull
-	private final ClientWithdrawalContext clientContext;
+		@NonNull
+		private final ClientWithdrawalContext clientContext;
 
-	@Then("^My balance after withdrawal should be (\\d+)$")
-	public void my_balance_after_withdrawal_should_be(BigDecimal expectedBalance) {
+		@Then("^My balance after withdrawal should be (\\d+)$")
+		public void
+		    my_balance_after_withdrawal_should_be(BigDecimal expectedBalance) {
 
-		var resultBalance = clientContext.getClient().getAccount().getBalance().apply();
-		var resultOperations = clientContext.getClient().getAccount().getHistory();
+				var resultBalance = clientContext.getClient()
+				                                 .getAccount()
+				                                 .getBalance()
+				                                 .apply();
+				
+				var resultOperations = clientContext.getClient()
+				                                    .getAccount()
+				                                    .getHistory();
 
-		Condition<MoneyService> asExpected = new Condition<MoneyService>(
-				(money) -> money.getAmount().equals(expectedBalance), expectedBalance.toPlainString());
+				Condition<MoneyService> asExpected = new Condition<MoneyService>((money) -> money.getAmount()
+				                                                                                 .equals(expectedBalance), expectedBalance.toPlainString());
 
-		Condition<OperationHistoryService> twoOperations = new Condition<OperationHistoryService>(
-				(history) -> history.size().apply() == 2, "containing two elements");
+				Condition<OperationHistoryService> twoOperations = new Condition<OperationHistoryService>((history) -> history.size()
+				                                                                                                              .apply() == 2, "containing two elements");
 
-		org.junit.jupiter.api.Assertions.assertAll(() -> Assertions.assertThat(resultOperations).has(twoOperations),
-				() -> Assertions.assertThat(resultBalance).is(asExpected));
-	}
+				org.junit.jupiter.api.Assertions.assertAll(() -> Assertions.assertThat(resultOperations)
+				                                                           .has(twoOperations),
+				                                           () -> Assertions.assertThat(resultBalance)
+				                                                           .is(asExpected));
+		}
 }

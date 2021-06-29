@@ -12,11 +12,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class OperationHistoryFactory {
 
-		public static Function0<OperationHistory> initializeHistory() {
+		public static Function0<OperationHistory>
+		    initializeHistory() {
 				return OperationHistory::new;
 		}
-		
-		public static Function1<MutableList<OperationService>, OperationHistory> populateHistory() {
+
+		public static
+		    Function1<MutableList<OperationService>, OperationHistory>
+		    populateHistory() {
 				return OperationHistory::new;
 		}
 }

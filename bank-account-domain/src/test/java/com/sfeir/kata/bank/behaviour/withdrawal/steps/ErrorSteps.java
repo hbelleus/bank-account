@@ -10,13 +10,18 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ErrorSteps {
 
-	@NonNull
-	private final ClientWithdrawalContext clientContext;
+		@NonNull
+		private final ClientWithdrawalContext clientContext;
 
-	@Then("^withdrawal should be unauthorized$")
-	public void unauthorized() {
+		@Then("^withdrawal should be unauthorized$")
+		public void unauthorized() {
 
-		org.junit.jupiter.api.Assertions.assertThrows(UnauthorizedOperationException.class,
-				() -> clientContext.getClient().withdraw().accept(clientContext.getWithdrawalAmount()));
-	}
+				var withdrawal = clientContext.getClient()
+				                              .withdraw();
+
+				var unAuthorizedAmount = clientContext.getWithdrawalAmount();
+
+				org.junit.jupiter.api.Assertions.assertThrows(UnauthorizedOperationException.class,
+				                                              () -> withdrawal.accept(unAuthorizedAmount));
+		}
 }

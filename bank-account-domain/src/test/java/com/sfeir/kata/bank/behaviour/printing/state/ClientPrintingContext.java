@@ -11,5 +11,5 @@ import lombok.Setter;
 @Setter
 public class ClientPrintingContext extends ClientContext {
 
-	private PrintStream printer;
+		private PrintStream printer;
 }

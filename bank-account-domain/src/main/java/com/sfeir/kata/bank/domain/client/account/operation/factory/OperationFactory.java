@@ -9,11 +9,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class OperationFactory {
 
-	public static Function2<MoneyService, MoneyService, Deposit> initDeposit() {
-		return Deposit::new;
-	}
+		public static
+		    Function2<MoneyService, MoneyService, Deposit>
+		    initDeposit() {
+				return Deposit::new;
+		}
 
-	public static Function2<MoneyService, MoneyService, Withdrawal> initWithdrawal() {
-		return Withdrawal::new;
-	}
+		public static
+		    Function2<MoneyService, MoneyService, Withdrawal>
+		    initWithdrawal() {
+				return Withdrawal::new;
+		}
 }

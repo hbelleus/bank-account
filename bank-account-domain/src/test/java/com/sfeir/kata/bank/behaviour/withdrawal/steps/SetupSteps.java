@@ -15,24 +15,27 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SetupSteps {
 
-	@NonNull
-	private final ClientWithdrawalContext clientContext;
+		@NonNull
+		private final ClientWithdrawalContext clientContext;
 
-	@Before("@withdrawal")
-	public void setupForWithdrawal() {
-		clientContext.setClient((ClientService) ClientFactory.createClient());
-	}
-	
-	@Given("^I have (\\d+) euros in my account$")
-	public void i_have_euros_in_my_account(BigDecimal amount) {
+		@Before("@withdrawal")
+		public void setupForWithdrawal() {
+				clientContext.setClient((ClientService) ClientFactory.createClient());
+		}
 
-		clientContext.getClient().deposit().accept(MoneyFactory.create(amount));
-	}
+		@Given("^I have (\\d+) euros in my account$")
+		public void
+		    i_have_euros_in_my_account(BigDecimal amount) {
 
-	@Given("^I want to retrieve (\\d+) euros from my account$")
-	public void i_want_to_retrieve(BigDecimal amount) {
+				clientContext.getClient()
+				             .deposit()
+				             .accept(MoneyFactory.create(amount));
+		}
 
-		clientContext.setWithdrawalAmount(MoneyFactory.create(amount));
+		@Given("^I want to retrieve (\\d+) euros from my account$")
+		public void i_want_to_retrieve(BigDecimal amount) {
 
-	}
+				clientContext.setWithdrawalAmount(MoneyFactory.create(amount));
+
+		}
 }

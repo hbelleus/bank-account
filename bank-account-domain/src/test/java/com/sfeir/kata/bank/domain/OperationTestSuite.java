@@ -6,6 +6,4 @@ import org.junit.runner.RunWith;
 
 @RunWith(JUnitPlatform.class)
 @SelectPackages({ "com.sfeir.kata.bank.domain" })
-public class OperationTestSuite {
-
-}
+public class OperationTestSuite {}

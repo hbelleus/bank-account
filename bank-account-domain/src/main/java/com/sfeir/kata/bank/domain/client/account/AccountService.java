@@ -15,28 +15,43 @@ import io.vavr.Function0;
 
 public interface AccountService {
 
-	OperationHistoryService getHistory();
+		OperationHistoryService getHistory();
 
-	default Function0<MoneyService> getBalance() {
-		return () -> this.getHistory().getLastOperation().apply().map(OperationService::getBalance)
-				.orElse(MoneyFactory.create(BigDecimal.ZERO));
-	}
+		default Function0<MoneyService> getBalance() {
+				return () -> this.getHistory()
+				                 .getLastOperation()
+				                 .apply()
+				                 .map(OperationService::getBalance)
+				                 .orElse(MoneyFactory.create(BigDecimal.ZERO));
+		}
 
-	default Consumer<MoneyService> deposit() {
-		return amount -> {
-			var deposit = OperationFactory.initDeposit().apply(amount, this.getBalance().apply());
-			this.getHistory().addOperation().accept(deposit);
-		};
-	}
+		default Consumer<MoneyService> deposit() {
+				return amount -> {
+						var deposit = OperationFactory.initDeposit()
+						                              .apply(amount,
+						                                     this.getBalance()
+						                                         .apply());
+						this.getHistory()
+						    .addOperation()
+						    .accept(deposit);
+				};
+		}
 
-	default Consumer<MoneyService> withdraw() {
-		return amount -> {
-			var withdrawal = OperationFactory.initWithdrawal().apply(amount, this.getBalance().apply());
-			this.getHistory().addOperation().accept(withdrawal);
-		};
-	}
+		default Consumer<MoneyService> withdraw() {
+				return amount -> {
+						var withdrawal = OperationFactory.initWithdrawal()
+						                                 .apply(amount,
+						                                        this.getBalance()
+						                                            .apply());
+						this.getHistory()
+						    .addOperation()
+						    .accept(withdrawal);
+				};
+		}
 
-	default Function0<AccountStatementService> generateStatement() {
-		return () -> AccountStatementFactory.createStatement().apply(this.getHistory());
-	}
+		default Function0<AccountStatementService>
+		    generateStatement() {
+				return () -> AccountStatementFactory.createStatement()
+				                                    .apply(this.getHistory());
+		}
 }

@@ -16,18 +16,20 @@ public interface OperationHistoryService {
 		MutableList<OperationService> getOperations();
 
 		default Consumer<OperationService> addOperation() {
-				return operation -> this.getOperations().add(0, operation);
-		}
-		
-		default Function0<Boolean> isEmpty() {
-			return this.getOperations()::isEmpty;
-		}
-		
-		default Function0<Integer> size() {
-			return this.getOperations()::size;
+				return operation -> this.getOperations()
+				                        .add(0, operation);
 		}
 
-		default Function0<ImmutableList<OperationService>> readOperation() {
+		default Function0<Boolean> isEmpty() {
+				return this.getOperations()::isEmpty;
+		}
+
+		default Function0<Integer> size() {
+				return this.getOperations()::size;
+		}
+
+		default Function0<ImmutableList<OperationService>>
+		    readOperation() {
 				return this.getOperations()::toImmutable;
 		}
 
@@ -40,8 +42,7 @@ public interface OperationHistoryService {
 
 		default Function0<Optional<OperationService>>
 		    getLastOperation() {
-				
-				return (readOperation())
-						.andThen(pickFirst());
+
+				return (readOperation()).andThen(pickFirst());
 		}
 }

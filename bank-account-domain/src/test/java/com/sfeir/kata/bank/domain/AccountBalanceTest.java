@@ -16,93 +16,103 @@ import com.sfeir.kata.bank.domain.money.factory.MoneyFactory;
 @RunWith(JUnitPlatform.class)
 class AccountBalanceTest {
 
-	private AccountService account;
+		private AccountService account;
 
-	@BeforeEach
-	public void init() {
+		@BeforeEach
+		public void init() {
 
-		account = AccountFactory.createAccount().apply();
+				account = AccountFactory.createAccount().apply();
 
-		Assumptions.assumeThat(account.getBalance().apply().getAmount()).isEqualTo(BigDecimal.ZERO);
-	}
+				Assumptions.assumeThat(account.getBalance()
+				                              .apply()
+				                              .getAmount())
+				           .isEqualTo(BigDecimal.ZERO);
+		}
 
-	@Test
-	void givenOneDepositOf1000_whenGettingBalance_ThenBalanceIs1000() {
+		@Test
+		void givenOneDepositOf1000_whenGettingBalance_ThenBalanceIs1000() {
 
-		// GIVEN
-		var initialDeposit = MoneyFactory.create(1000);
+				// GIVEN
+				var initialDeposit = MoneyFactory.create(1000);
 
-		account.deposit().accept(initialDeposit);
+				account.deposit().accept(initialDeposit);
 
-		var expectedValue = MoneyFactory.create(1000);
+				var expectedValue = MoneyFactory.create(1000);
 
-		// WHEN
-		var balanceResult = this.account.getBalance().apply();
+				// WHEN
+				var balanceResult = this.account.getBalance()
+				                                .apply();
 
-		// THEN
-		Assertions.assertThat(balanceResult).isEqualTo(expectedValue);
-	}
+				// THEN
+				Assertions.assertThat(balanceResult)
+				          .isEqualTo(expectedValue);
+		}
 
-	@Test
-	void givenOneDepositOf1000AndAWithDrawalOf500_whenGettingBalance_ThenBalanceIs500() {
+		@Test
+		void givenOneDepositOf1000AndAWithDrawalOf500_whenGettingBalance_ThenBalanceIs500() {
 
-		// GIVEN
-		var initialDeposit = MoneyFactory.create(1000);
-		var withdrawal = MoneyFactory.create(500);
+				// GIVEN
+				var initialDeposit = MoneyFactory.create(1000);
+				var withdrawal = MoneyFactory.create(500);
 
-		account.deposit().accept(initialDeposit);
-		account.withdraw().accept(withdrawal);
+				account.deposit().accept(initialDeposit);
+				account.withdraw().accept(withdrawal);
 
-		var expectedValue = MoneyFactory.create(500);
+				var expectedValue = MoneyFactory.create(500);
 
-		// WHEN
-		var balanceResult = account.getBalance().apply();
+				// WHEN
+				var balanceResult = account.getBalance().apply();
 
-		// THEN
-		Assertions.assertThat(balanceResult).isEqualTo(expectedValue);
+				// THEN
+				Assertions.assertThat(balanceResult)
+				          .isEqualTo(expectedValue);
 
-	}
+		}
 
-	@Test
-	void givenOneDepositOf1000And2WithDrawalsOf200_whenGettingBalance_ThenBalanceIs600() {
+		@Test
+		void givenOneDepositOf1000And2WithDrawalsOf200_whenGettingBalance_ThenBalanceIs600() {
 
-		// GIVEN
-		var initialDeposit = MoneyFactory.create(1000);
-		var withdrawal = MoneyFactory.create(200);
+				// GIVEN
+				var initialDeposit = MoneyFactory.create(1000);
+				var withdrawal = MoneyFactory.create(200);
 
-		account.deposit().accept(initialDeposit);
-		account.withdraw().accept(withdrawal);
-		account.withdraw().accept(withdrawal);
+				account.deposit().accept(initialDeposit);
+				account.withdraw().accept(withdrawal);
+				account.withdraw().accept(withdrawal);
 
-		var expectedValue = MoneyFactory.create(600);
+				var expectedValue = MoneyFactory.create(600);
 
-		// WHEN
-		var balanceResult = this.account.getBalance().apply();
+				// WHEN
+				var balanceResult = this.account.getBalance()
+				                                .apply();
 
-		// THEN
-		Assertions.assertThat(balanceResult).isEqualTo(expectedValue);
-	}
+				// THEN
+				Assertions.assertThat(balanceResult)
+				          .isEqualTo(expectedValue);
+		}
 
-	@Test
-	void givenOneDepositOf1000And2WithDrawalsOf200AndOneDepositOf100_whenGettingBalance_ThenBalanceIs700() {
+		@Test
+		void givenOneDepositOf1000And2WithDrawalsOf200AndOneDepositOf100_whenGettingBalance_ThenBalanceIs700() {
 
-		// GIVEN
-		var initialDeposit = MoneyFactory.create(1000);
-		var withdrawal = MoneyFactory.create(200);
-		var finalDeposit = MoneyFactory.create(100);
+				// GIVEN
+				var initialDeposit = MoneyFactory.create(1000);
+				var withdrawal = MoneyFactory.create(200);
+				var finalDeposit = MoneyFactory.create(100);
 
-		account.deposit().accept(initialDeposit);
-		account.withdraw().accept(withdrawal);
-		account.withdraw().accept(withdrawal);
-		account.deposit().accept(finalDeposit);
+				account.deposit().accept(initialDeposit);
+				account.withdraw().accept(withdrawal);
+				account.withdraw().accept(withdrawal);
+				account.deposit().accept(finalDeposit);
 
-		var expectedValue = MoneyFactory.create(700);
+				var expectedValue = MoneyFactory.create(700);
 
-		// WHEN
-		var balanceResult = this.account.getBalance().apply();
+				// WHEN
+				var balanceResult = this.account.getBalance()
+				                                .apply();
 
-		// THEN
-		Assertions.assertThat(balanceResult).isEqualTo(expectedValue);
-	}
+				// THEN
+				Assertions.assertThat(balanceResult)
+				          .isEqualTo(expectedValue);
+		}
 
 }

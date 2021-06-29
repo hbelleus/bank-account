@@ -11,13 +11,14 @@ import lombok.Getter;
 
 @Getter
 @EqualsAndHashCode
-public abstract class Operation implements OperationService {
+public abstract class Operation
+    implements OperationService {
 
 		protected MoneyService amount;
 		protected MoneyService balance;
 
 		protected OperationDateService date;
-		protected OperationType 	   type;
+		protected OperationType        type;
 
 		protected void of(MoneyService amount,
 		                  MoneyService balance,
