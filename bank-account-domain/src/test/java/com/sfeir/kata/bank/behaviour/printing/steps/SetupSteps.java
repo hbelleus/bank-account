@@ -26,11 +26,12 @@ public class SetupSteps {
 
 				var printStream = Mockito.mock(PrintStream.class);
 				clientContext.setPrinter(printStream);
-				
+
 				StatementPrinterService printer = statement -> clientContext.getPrinter()
 				                                                            .print(statement);
 
-				clientContext.setClient(ClientFactory.createClient(printer));
+				clientContext.setClient(ClientFactory.createClientForPrinting()
+				                                     .apply(printer));
 		}
 
 		@Given("^I firstly deposit (\\d+) euros$")

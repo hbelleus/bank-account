@@ -52,7 +52,8 @@ class BankClientAccountShouldTest {
 		@BeforeEach
 		public void init() {
 
-				client = ClientFactory.createClient();
+				client = ClientFactory.createClientForOperation()
+				                      .apply();
 		}
 
 		@Nested
@@ -194,7 +195,8 @@ class BankClientAccountShouldTest {
 
 						output = new ByteArrayOutputStream();
 						StatementPrinterService localPrinter = new PrintStream(output)::print;
-						internalClient = ClientFactory.createClient(localPrinter);
+						internalClient = ClientFactory.createClientForPrinting()
+						                              .apply(localPrinter);
 
 				}
 

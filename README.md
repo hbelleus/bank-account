@@ -54,6 +54,7 @@ A client can see the statement through a printing service.
 
 - DDD with use of tactical design ( factory, service, object value, aggregate roots )
 - Organizing code by component
+- Extreme programming according to SOLID principles
 - Hexagonal architecture
 - Functional programming with vavr.io
 - Collection handling with eclipse.collection

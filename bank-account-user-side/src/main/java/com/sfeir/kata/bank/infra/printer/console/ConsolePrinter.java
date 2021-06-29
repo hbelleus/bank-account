@@ -32,7 +32,8 @@ public class ConsolePrinter
 
 				StatementPrinterService printer = new ConsolePrinter(System.out);
 
-				ClientService client = ClientFactory.createClient(printer);
+				ClientService client = ClientFactory.createClientForPrinting()
+				                                    .apply(printer);
 
 				Map.of(MoneyFactory.create(10000), client.deposit(),
 				       MoneyFactory.create(7000), client.withdraw(),

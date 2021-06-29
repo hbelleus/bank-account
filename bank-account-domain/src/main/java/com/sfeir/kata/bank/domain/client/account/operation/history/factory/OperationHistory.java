@@ -21,7 +21,6 @@ public class OperationHistory
 		MutableList<OperationService> operations;
 
 		OperationHistory() {
-				super();
 
 				this.operations = MutableListFactoryImpl.INSTANCE.empty();
 		}

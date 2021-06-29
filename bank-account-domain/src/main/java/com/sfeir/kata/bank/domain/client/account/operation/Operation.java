@@ -9,8 +9,7 @@ import lombok.Getter;
 
 @Getter
 @EqualsAndHashCode
-public abstract class Operation
-    implements OperationService {
+abstract class Operation implements OperationService {
 
 		protected MoneyService amount;
 		protected MoneyService balance;

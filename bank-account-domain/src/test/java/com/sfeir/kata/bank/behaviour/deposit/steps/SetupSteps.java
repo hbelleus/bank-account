@@ -16,6 +16,6 @@ public class SetupSteps {
 
 		@Before("@deposit")
 		public void setupForDeposit() {
-				clientContext.setClient((ClientService) ClientFactory.createClient());
+				clientContext.setClient((ClientService) ClientFactory.createClientForOperation());
 		}
 }

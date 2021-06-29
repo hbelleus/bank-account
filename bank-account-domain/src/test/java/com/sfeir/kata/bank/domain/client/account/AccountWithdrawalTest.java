@@ -12,6 +12,7 @@ import org.junit.jupiter.api.function.Executable;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 
+import com.sfeir.kata.bank.domain.client.account.factory.AccountFactory;
 import com.sfeir.kata.bank.domain.client.account.operation.OperationService;
 import com.sfeir.kata.bank.domain.client.account.operation.specification.exception.UnauthorizedOperationException;
 import com.sfeir.kata.bank.domain.money.MoneyService;
@@ -25,7 +26,7 @@ class AccountWithdrawalTest {
 		@BeforeEach
 		public void init() {
 
-				account = new Account();
+				account = AccountFactory.createAccount().apply();
 
 				var initDeposit = MoneyFactory.create(1000);
 

@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 
+import com.sfeir.kata.bank.domain.client.account.factory.AccountFactory;
 import com.sfeir.kata.bank.domain.client.account.operation.OperationService;
 import com.sfeir.kata.bank.domain.money.factory.MoneyFactory;
 
@@ -19,7 +20,7 @@ class AccountDepositTest {
 		@BeforeEach
 		public void init() {
 
-				account = new Account();
+				account = AccountFactory.createAccount().apply();
 		}
 
 		@Test

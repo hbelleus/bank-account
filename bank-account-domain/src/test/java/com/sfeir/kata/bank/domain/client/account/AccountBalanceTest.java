@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 
+import com.sfeir.kata.bank.domain.client.account.factory.AccountFactory;
 import com.sfeir.kata.bank.domain.money.factory.MoneyFactory;
 
 @RunWith(JUnitPlatform.class)
@@ -19,7 +20,7 @@ class AccountBalanceTest {
 		@BeforeEach
 		public void init() {
 
-				account = new Account();
+				account = AccountFactory.createAccount().apply();
 
 				Assumptions.assumeThat(account.getBalance()
 				                              .apply()
