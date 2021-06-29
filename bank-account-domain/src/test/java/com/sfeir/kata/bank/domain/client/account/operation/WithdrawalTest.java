@@ -10,8 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 
-import com.sfeir.kata.bank.domain.client.account.operation.factory.OperationFactory;
-import com.sfeir.kata.bank.domain.client.account.operation.factory.Withdrawal;
 import com.sfeir.kata.bank.domain.client.account.operation.specification.exception.UnauthorizedOperationException;
 import com.sfeir.kata.bank.domain.money.MoneyService;
 import com.sfeir.kata.bank.domain.money.factory.MoneyFactory;
@@ -34,9 +32,10 @@ class WithdrawalTest {
 				var amount = MoneyFactory.create(BigDecimal.valueOf(100));
 
 				// WHEN
-				var result = OperationFactory.initWithdrawal()
-				                             .apply(amount,
-				                                    balance);
+				var result = Withdrawal.builder()
+				                       .amount(amount)
+				                       .balance(balance)
+				                       .build();
 
 				// THEN
 				var expectedValue = MoneyFactory.create(900);
@@ -71,9 +70,10 @@ class WithdrawalTest {
 				           .is(greatherThanBalance);
 
 				// WHEN
-				Function0<Withdrawal> withdrawal = () -> OperationFactory.initWithdrawal()
-				                                                         .apply(amount,
-				                                                                balance);
+				Function0<Withdrawal> withdrawal = () -> Withdrawal.builder()
+				                                                   .amount(amount)
+				                                                   .balance(balance)
+				                                                   .build();
 
 				// THEN
 				org.junit.jupiter.api.Assertions.assertThrows(UnauthorizedOperationException.class,

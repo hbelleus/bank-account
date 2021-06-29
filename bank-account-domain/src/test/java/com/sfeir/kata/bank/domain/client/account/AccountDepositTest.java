@@ -1,4 +1,4 @@
-package com.sfeir.kata.bank.domain;
+package com.sfeir.kata.bank.domain.client.account;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.Condition;
@@ -8,20 +8,18 @@ import org.junit.jupiter.api.Test;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 
-import com.sfeir.kata.bank.domain.client.account.AccountService;
-import com.sfeir.kata.bank.domain.client.account.factory.AccountFactory;
 import com.sfeir.kata.bank.domain.client.account.operation.OperationService;
 import com.sfeir.kata.bank.domain.money.factory.MoneyFactory;
 
 @RunWith(JUnitPlatform.class)
-class OperationDepositTest {
+class AccountDepositTest {
 
 		private AccountService account;
 
 		@BeforeEach
 		public void init() {
 
-				account = AccountFactory.createAccount().apply();
+				account = new Account();
 		}
 
 		@Test

@@ -9,8 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 
-import com.sfeir.kata.bank.domain.client.account.operation.factory.Deposit;
-import com.sfeir.kata.bank.domain.client.account.operation.factory.OperationFactory;
 import com.sfeir.kata.bank.domain.money.factory.MoneyFactory;
 
 @RunWith(JUnitPlatform.class)
@@ -29,9 +27,10 @@ class DepositTest {
 				var amount = MoneyFactory.create(BigDecimal.valueOf(100));
 
 				// WHEN
-				var result = OperationFactory.initDeposit()
-				                             .apply(amount,
-				                                    balance);
+				var result = Deposit.builder()
+				                    .amount(amount)
+				                    .balance(balance)
+				                    .build();
 
 				// THEN
 				var expectedValue = MoneyFactory.create(1100);

@@ -1,4 +1,4 @@
-package com.sfeir.kata.bank.domain;
+package com.sfeir.kata.bank.domain.client.account;
 
 import java.util.regex.Pattern;
 
@@ -11,21 +11,19 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 
-import com.sfeir.kata.bank.domain.client.account.AccountService;
-import com.sfeir.kata.bank.domain.client.account.factory.AccountFactory;
 import com.sfeir.kata.bank.domain.client.account.operation.OperationType;
 import com.sfeir.kata.bank.domain.money.factory.MoneyFactory;
 
 @RunWith(JUnitPlatform.class)
 @TestMethodOrder(OrderAnnotation.class)
-class OperationStatementTest {
+class AccountStatementTest {
 
 		private AccountService account;
 
 		@BeforeEach
 		public void init() {
 
-				account = AccountFactory.createAccount().apply();
+				account = new Account();
 		}
 
 		@Test

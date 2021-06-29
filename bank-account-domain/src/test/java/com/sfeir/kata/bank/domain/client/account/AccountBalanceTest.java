@@ -1,4 +1,4 @@
-package com.sfeir.kata.bank.domain;
+package com.sfeir.kata.bank.domain.client.account;
 
 import java.math.BigDecimal;
 
@@ -9,8 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 
-import com.sfeir.kata.bank.domain.client.account.AccountService;
-import com.sfeir.kata.bank.domain.client.account.factory.AccountFactory;
 import com.sfeir.kata.bank.domain.money.factory.MoneyFactory;
 
 @RunWith(JUnitPlatform.class)
@@ -21,7 +19,7 @@ class AccountBalanceTest {
 		@BeforeEach
 		public void init() {
 
-				account = AccountFactory.createAccount().apply();
+				account = new Account();
 
 				Assumptions.assumeThat(account.getBalance()
 				                              .apply()

@@ -1,7 +1,5 @@
-package com.sfeir.kata.bank.domain.client.account.operation.factory;
+package com.sfeir.kata.bank.domain.client.account.operation;
 
-import com.sfeir.kata.bank.domain.client.account.operation.OperationService;
-import com.sfeir.kata.bank.domain.client.account.operation.OperationType;
 import com.sfeir.kata.bank.domain.client.account.operation.date.OperationDateService;
 import com.sfeir.kata.bank.domain.client.account.operation.date.factory.OperationDateFactory;
 import com.sfeir.kata.bank.domain.money.MoneyService;

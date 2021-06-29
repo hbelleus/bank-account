@@ -10,12 +10,12 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Builder
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
+@Builder(access = AccessLevel.PACKAGE)
 class Client implements ClientService {
 
-	private final AccountService account;
+		private final AccountService account;
 
-	private final StatementPrinterService printer;
+		private final StatementPrinterService printer;
 
 }

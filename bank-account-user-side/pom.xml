@@ -2,13 +2,13 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	
+
 	<parent>
 		<groupId>com.sfeir.katas</groupId>
 		<artifactId>bank-account</artifactId>
 		<version>${project.version}</version>
 	</parent>
-	
+
 	<artifactId>bank-account-user-side</artifactId>
 	<name>bank-account-kata user side</name>
 	<description>Containing user side components as printer implementation</description>

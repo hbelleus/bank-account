@@ -3,8 +3,9 @@ package com.sfeir.kata.bank.domain.client.account;
 import java.math.BigDecimal;
 import java.util.function.Consumer;
 
+import com.sfeir.kata.bank.domain.client.account.operation.Deposit;
 import com.sfeir.kata.bank.domain.client.account.operation.OperationService;
-import com.sfeir.kata.bank.domain.client.account.operation.factory.OperationFactory;
+import com.sfeir.kata.bank.domain.client.account.operation.Withdrawal;
 import com.sfeir.kata.bank.domain.client.account.operation.history.OperationHistoryService;
 import com.sfeir.kata.bank.domain.client.account.statement.AccountStatementService;
 import com.sfeir.kata.bank.domain.client.account.statement.factory.AccountStatementFactory;
@@ -27,10 +28,12 @@ public interface AccountService {
 
 		default Consumer<MoneyService> deposit() {
 				return amount -> {
-						var deposit = OperationFactory.initDeposit()
-						                              .apply(amount,
-						                                     this.getBalance()
-						                                         .apply());
+						final var deposit = Deposit.builder()
+						                           .amount(amount)
+						                           .balance(this.getBalance()
+						                                        .apply())
+						                           .build();
+
 						this.getHistory()
 						    .addOperation()
 						    .accept(deposit);
@@ -39,10 +42,11 @@ public interface AccountService {
 
 		default Consumer<MoneyService> withdraw() {
 				return amount -> {
-						var withdrawal = OperationFactory.initWithdrawal()
-						                                 .apply(amount,
-						                                        this.getBalance()
-						                                            .apply());
+						var withdrawal = Withdrawal.builder()
+						                           .amount(amount)
+						                           .balance(this.getBalance()
+						                                        .apply())
+						                           .build();
 						this.getHistory()
 						    .addOperation()
 						    .accept(withdrawal);

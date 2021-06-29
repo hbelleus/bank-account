@@ -1,4 +1,4 @@
-package com.sfeir.kata.bank.domain;
+package com.sfeir.kata.bank.domain.client.account;
 
 import java.math.BigDecimal;
 
@@ -12,22 +12,20 @@ import org.junit.jupiter.api.function.Executable;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 
-import com.sfeir.kata.bank.domain.client.account.AccountService;
-import com.sfeir.kata.bank.domain.client.account.factory.AccountFactory;
 import com.sfeir.kata.bank.domain.client.account.operation.OperationService;
 import com.sfeir.kata.bank.domain.client.account.operation.specification.exception.UnauthorizedOperationException;
 import com.sfeir.kata.bank.domain.money.MoneyService;
 import com.sfeir.kata.bank.domain.money.factory.MoneyFactory;
 
 @RunWith(JUnitPlatform.class)
-class OperationWithdrawalTest {
+class AccountWithdrawalTest {
 
 		private AccountService account;
 
 		@BeforeEach
 		public void init() {
 
-				account = AccountFactory.createAccount().apply();
+				account = new Account();
 
 				var initDeposit = MoneyFactory.create(1000);
 
