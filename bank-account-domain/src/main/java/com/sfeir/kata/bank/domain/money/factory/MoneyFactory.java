@@ -21,4 +21,8 @@ public class MoneyFactory {
 		public static MoneyService create(int amount) {
 				return Money.of(BigDecimal.valueOf(amount));
 		}
+
+		public static MoneyService zero() {
+				return Money.of(BigDecimal.valueOf(0));
+		}
 }

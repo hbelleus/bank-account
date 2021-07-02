@@ -20,68 +20,80 @@ import com.sfeir.kata.bank.domain.money.factory.MoneyFactory;
 @TestMethodOrder(OrderAnnotation.class)
 class OperationHistoryPrintingTest {
 
-	private ClientService client;
-	private PrintStream encapsulatedPrinter;
-	private StatementPrinterService printer;
+		private ClientService           client;
+		private PrintStream             encapsulatedPrinter;
+		private StatementPrinterService printer;
 
-	@BeforeEach
-	public void init() {
+		@BeforeEach
+		public void init() {
 
-		encapsulatedPrinter = Mockito.mock(PrintStream.class);
+				encapsulatedPrinter = Mockito.mock(PrintStream.class);
 
-		printer = new ConsolePrinter(encapsulatedPrinter);
+				printer = new ConsolePrinter(encapsulatedPrinter);
 
-		client = ClientFactory.createClient(printer);
-	}
+				client = ClientFactory.createClientForPrinting()
+				                      .apply(printer);
+		}
 
-	@Test
-	@Order(1)
-	void givenEmptyHistory_whenPrintOperationHistory_thenPrintMessage() {
+		@Test
+		@Order(1)
+		void givenEmptyHistory_whenPrintOperationHistory_thenPrintMessage() {
 
-		// GIVEN
-		var message = IConsoleFormatter.STATEMENT_HEADER;
+				// GIVEN
+				var message = IConsoleFormatter.STATEMENT_HEADER;
 
-		// WHEN
-		client.printOperationHistory();
+				// WHEN
+				client.printOperationHistory();
 
-		// THEN
-		org.junit.jupiter.api.Assertions.assertAll(() -> Mockito.verify(encapsulatedPrinter).println(message),
-				() -> Mockito.verifyNoMoreInteractions(encapsulatedPrinter));
-	}
+				// THEN
+				org.junit.jupiter.api.Assertions.assertAll(() -> Mockito.verify(encapsulatedPrinter)
+				                                                        .println(message),
+				                                           () -> Mockito.verifyNoMoreInteractions(encapsulatedPrinter));
+		}
 
-	@Test
-	@Order(2)
-	void givenNotEmptyHistory_whenPrintOperationHistory_thenPrinterCalledTwice() {
+		@Test
+		@Order(2)
+		void givenNotEmptyHistory_whenPrintOperationHistory_thenPrinterCalledTwice() {
 
-		// GIVEN
-		var amount = MoneyFactory.create(200);
-		
-		client.deposit().accept(amount);
+				// GIVEN
+				var amount = MoneyFactory.create(200);
 
-		var statement = client.getAccount().generateStatement().apply();
+				client.deposit().accept(amount);
 
-		// WHEN
-		printer.print(statement);
+				var statement = client.getAccount()
+				                      .generateStatement()
+				                      .apply();
 
-		// THEN
-		Mockito.verify(encapsulatedPrinter, Mockito.times(2)).println(Mockito.anyString());
-	}
+				// WHEN
+				printer.print(statement);
 
-	@Test
-	@Order(3)
-	void givenNotEmptyHistory_whenPrintOperationHistory_thenPrintTwoOperations() {
+				// THEN
+				Mockito.verify(encapsulatedPrinter,
+				               Mockito.times(2))
+				       .println(Mockito.anyString());
+		}
 
-		// GIVEN
-		var amount = MoneyFactory.create(200);
+		@Test
+		@Order(3)
+		void givenNotEmptyHistory_whenPrintOperationHistory_thenPrintTwoOperations() {
 
-		client.deposit().andThen(client.deposit()).accept(amount);
+				// GIVEN
+				var amount = MoneyFactory.create(200);
 
-		var statement = client.getAccount().generateStatement().apply();
+				client.deposit()
+				      .andThen(client.deposit())
+				      .accept(amount);
 
-		// WHEN
-		printer.print(statement);
+				var statement = client.getAccount()
+				                      .generateStatement()
+				                      .apply();
 
-		// THEN
-		Mockito.verify(encapsulatedPrinter, Mockito.times(3)).println(Mockito.anyString());
-	}
+				// WHEN
+				printer.print(statement);
+
+				// THEN
+				Mockito.verify(encapsulatedPrinter,
+				               Mockito.times(3))
+				       .println(Mockito.anyString());
+		}
 }

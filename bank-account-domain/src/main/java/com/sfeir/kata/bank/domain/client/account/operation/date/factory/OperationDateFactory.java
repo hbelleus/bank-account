@@ -14,11 +14,17 @@ import lombok.NoArgsConstructor;
 public class OperationDateFactory {
 
 		public static Function0<OperationDateService> now() {
-				return initTime().andThen(OperationDate::new);
+
+				return OperationTimeInitializer.initTime()
+				                               .andThen(OperationDate::new);
 		}
 
-		private static Function0<TemporalAccessor> initTime() {
-				return () -> Instant.now()
-				                    .atZone(ZoneId.systemDefault());
+		private static class OperationTimeInitializer {
+
+				private static Function0<TemporalAccessor>
+				    initTime() {
+						return () -> Instant.now()
+						                    .atZone(ZoneId.systemDefault());
+				}
 		}
 }

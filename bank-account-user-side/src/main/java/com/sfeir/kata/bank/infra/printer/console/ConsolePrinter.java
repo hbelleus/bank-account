@@ -38,7 +38,7 @@ public class ConsolePrinter
 				Map.of(MoneyFactory.create(10000), client.deposit(),
 				       MoneyFactory.create(7000), client.withdraw(),
 				       MoneyFactory.create(3000), client.withdraw(),
-				       MoneyFactory.create(10000), client.deposit())
+				       MoneyFactory.create(15000), client.deposit())
 				   .entrySet()
 				   .stream()
 				   .forEach(actions -> actions.getValue()

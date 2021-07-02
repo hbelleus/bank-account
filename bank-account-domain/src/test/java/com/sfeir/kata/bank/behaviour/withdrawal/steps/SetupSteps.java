@@ -20,7 +20,11 @@ public class SetupSteps {
 
 		@Before("@withdrawal")
 		public void setupForWithdrawal() {
-				clientContext.setClient((ClientService) ClientFactory.createClientForOperation());
+
+				var client = (ClientService) ClientFactory.createClientForOperation()
+				                                          .apply();
+
+				clientContext.setClient(client);
 		}
 
 		@Given("^I have (\\d+) euros in my account$")
