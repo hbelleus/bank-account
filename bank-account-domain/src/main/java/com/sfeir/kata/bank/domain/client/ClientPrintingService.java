@@ -16,6 +16,6 @@ public interface ClientPrintingService {
 				Try.of(() -> this.getAccount()
 				                 .generateStatement()
 				                 .apply())
-				   .onSuccess(this.getPrinter()::print);
+				   .andThen(this.getPrinter()::print);
 		}
 }
