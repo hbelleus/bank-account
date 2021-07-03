@@ -6,6 +6,7 @@ import org.assertj.core.api.Assertions;
 import org.assertj.core.api.Assumptions;
 import org.assertj.core.api.Condition;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.sfeir.kata.bank.domain.client.account.operation.specification.exception.UnauthorizedOperationException;
@@ -21,6 +22,7 @@ class WithdrawalTest {
 
 		}
 
+		@DisplayName("Testing successful Withdrawal instantiation")
 		@Test
 		void givenAmountOf100AndInitialBalanceOf1000_WhenWithdrawal_thenResultingBalanceIs900() {
 
@@ -52,6 +54,7 @@ class WithdrawalTest {
 
 		}
 
+		@DisplayName("Testing Withdrawal instantiation with a too large unauthorized amount")
 		@Test
 		void givenAnyPositiveAmountGreaterThanBalance_WhenWithdrawal_thenThrowsException() {
 

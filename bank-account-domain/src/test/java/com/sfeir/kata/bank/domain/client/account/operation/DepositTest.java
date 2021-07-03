@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.Condition;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.sfeir.kata.bank.domain.money.factory.MoneyFactory;
@@ -16,6 +17,7 @@ class DepositTest {
 
 		}
 
+		@DisplayName("Testing Deposit instantiation")
 		@Test
 		void givenAmountOf100AndInitialBalanceOf1000_WhenWithdrawal_thenResultingBalanceIs900() {
 
