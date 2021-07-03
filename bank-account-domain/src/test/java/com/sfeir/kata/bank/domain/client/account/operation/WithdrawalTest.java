@@ -7,8 +7,6 @@ import org.assertj.core.api.Assumptions;
 import org.assertj.core.api.Condition;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.platform.runner.JUnitPlatform;
-import org.junit.runner.RunWith;
 
 import com.sfeir.kata.bank.domain.client.account.operation.specification.exception.UnauthorizedOperationException;
 import com.sfeir.kata.bank.domain.money.MoneyService;
@@ -16,7 +14,6 @@ import com.sfeir.kata.bank.domain.money.factory.MoneyFactory;
 
 import io.vavr.Function0;
 
-@RunWith(JUnitPlatform.class)
 class WithdrawalTest {
 
 		@BeforeEach

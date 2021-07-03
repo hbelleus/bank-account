@@ -6,13 +6,10 @@ import org.assertj.core.api.Assertions;
 import org.assertj.core.api.Assumptions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.platform.runner.JUnitPlatform;
-import org.junit.runner.RunWith;
 
 import com.sfeir.kata.bank.domain.client.account.factory.AccountFactory;
 import com.sfeir.kata.bank.domain.money.factory.MoneyFactory;
 
-@RunWith(JUnitPlatform.class)
 class AccountBalanceTest {
 
 		private AccountService account;

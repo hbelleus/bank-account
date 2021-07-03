@@ -21,8 +21,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.function.Executable;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.platform.runner.JUnitPlatform;
-import org.junit.runner.RunWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.sfeir.kata.bank.domain.client.ClientOperationService;
@@ -43,7 +41,6 @@ import com.sfeir.kata.bank.functional.withdrawal.WithdrawalTestDefinition;
 import com.sfeir.kata.bank.functional.withdrawal.WithdrawalTestSource;
 
 @ExtendWith(MockitoExtension.class)
-@RunWith(JUnitPlatform.class)
 @TestMethodOrder(OrderAnnotation.class)
 class BankClientAccountShouldTest {
 

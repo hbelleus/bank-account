@@ -7,8 +7,6 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.platform.runner.JUnitPlatform;
-import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 
 import com.sfeir.kata.bank.domain.client.ClientService;
@@ -16,7 +14,6 @@ import com.sfeir.kata.bank.domain.client.factory.ClientFactory;
 import com.sfeir.kata.bank.domain.client.printer.StatementPrinterService;
 import com.sfeir.kata.bank.domain.money.factory.MoneyFactory;
 
-@RunWith(JUnitPlatform.class)
 @TestMethodOrder(OrderAnnotation.class)
 class OperationHistoryPrintingTest {
 

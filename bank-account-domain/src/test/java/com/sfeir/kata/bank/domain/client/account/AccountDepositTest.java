@@ -5,14 +5,11 @@ import org.assertj.core.api.Condition;
 import org.assertj.core.data.Index;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.platform.runner.JUnitPlatform;
-import org.junit.runner.RunWith;
 
 import com.sfeir.kata.bank.domain.client.account.factory.AccountFactory;
 import com.sfeir.kata.bank.domain.client.account.operation.OperationService;
 import com.sfeir.kata.bank.domain.money.factory.MoneyFactory;
 
-@RunWith(JUnitPlatform.class)
 class AccountDepositTest {
 
 		private AccountService account;

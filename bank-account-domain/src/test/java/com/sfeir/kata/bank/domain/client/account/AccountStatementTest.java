@@ -8,14 +8,11 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.platform.runner.JUnitPlatform;
-import org.junit.runner.RunWith;
 
 import com.sfeir.kata.bank.domain.client.account.factory.AccountFactory;
 import com.sfeir.kata.bank.domain.client.account.operation.OperationType;
 import com.sfeir.kata.bank.domain.money.factory.MoneyFactory;
 
-@RunWith(JUnitPlatform.class)
 @TestMethodOrder(OrderAnnotation.class)
 class AccountStatementTest {
 

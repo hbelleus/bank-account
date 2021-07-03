@@ -6,7 +6,7 @@ import com.sfeir.kata.bank.domain.client.account.AccountService;
 import com.sfeir.kata.bank.domain.client.account.operation.Deposit;
 import com.sfeir.kata.bank.domain.client.account.operation.OperationService;
 import com.sfeir.kata.bank.domain.client.account.operation.Withdrawal;
-import com.sfeir.kata.bank.domain.client.account.operation.history.factory.OperationHistory;
+import com.sfeir.kata.bank.domain.client.account.operation.history.OperationHistoryService;
 import com.sfeir.kata.bank.domain.client.account.operation.history.factory.OperationHistoryFactory;
 import com.sfeir.kata.bank.domain.client.account.statement.AccountStatementService;
 import com.sfeir.kata.bank.domain.client.account.statement.factory.AccountStatementFactory;
@@ -19,7 +19,7 @@ import lombok.Value;
 @Value
 class Account implements AccountService {
 
-		OperationHistory history;
+		OperationHistoryService history;
 
 		Account() {
 				this.history = OperationHistoryFactory.initializeHistory()
