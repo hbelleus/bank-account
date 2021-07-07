@@ -45,7 +45,6 @@ class Account implements AccountService {
 						                   .balance(this.getBalance()
 						                                .apply())
 						                   .build());
-
 				};
 		}
 
