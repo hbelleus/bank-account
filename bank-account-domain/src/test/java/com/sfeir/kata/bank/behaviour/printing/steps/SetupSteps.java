@@ -5,11 +5,11 @@ import java.math.BigDecimal;
 import org.mockito.Mockito;
 
 import com.sfeir.kata.bank.behaviour.printing.state.AccountStatementPrintingContext;
-import com.sfeir.kata.bank.domain.bddfriendly.account.Account;
-import com.sfeir.kata.bank.domain.bddfriendly.printer.AccountStatementPrinterSpecification;
-import com.sfeir.kata.bank.domain.bddfriendly.service.AccountStatementPrintingService;
-import com.sfeir.kata.bank.domain.bddfriendly.service.DepositService;
-import com.sfeir.kata.bank.domain.bddfriendly.service.WithdrawalService;
+import com.sfeir.kata.bank.domain.behaviour.account.Account;
+import com.sfeir.kata.bank.domain.behaviour.fixture.AccountStatementPrintingService;
+import com.sfeir.kata.bank.domain.behaviour.fixture.DepositService;
+import com.sfeir.kata.bank.domain.behaviour.fixture.WithdrawalService;
+import com.sfeir.kata.bank.domain.behaviour.printer.AccountStatementPrinterSpecification;
 import com.sfeir.kata.bank.domain.common.money.Money;
 
 import io.cucumber.java.Before;

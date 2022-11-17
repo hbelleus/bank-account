@@ -3,9 +3,9 @@ package com.sfeir.kata.bank.behaviour.withdrawal.steps;
 import java.math.BigDecimal;
 
 import com.sfeir.kata.bank.behaviour.withdrawal.state.AccountWithdrawalContext;
-import com.sfeir.kata.bank.domain.bddfriendly.account.Account;
-import com.sfeir.kata.bank.domain.bddfriendly.service.DepositService;
-import com.sfeir.kata.bank.domain.bddfriendly.service.WithdrawalService;
+import com.sfeir.kata.bank.domain.behaviour.account.Account;
+import com.sfeir.kata.bank.domain.behaviour.fixture.DepositService;
+import com.sfeir.kata.bank.domain.behaviour.fixture.WithdrawalService;
 import com.sfeir.kata.bank.domain.common.money.Money;
 
 import io.cucumber.java.Before;

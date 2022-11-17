@@ -3,7 +3,7 @@ package com.sfeir.kata.bank.behaviour.withdrawal.steps;
 import org.assertj.core.api.Assertions;
 
 import com.sfeir.kata.bank.behaviour.withdrawal.state.AccountWithdrawalContext;
-import com.sfeir.kata.bank.domain.bddfriendly.account.operation.exception.UnauthorizedOperationException;
+import com.sfeir.kata.bank.domain.behaviour.account.operation.exception.UnauthorizedOperationException;
 
 import io.cucumber.java.en.Then;
 import lombok.NonNull;

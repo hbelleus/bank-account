@@ -1,8 +1,8 @@
 package com.sfeir.kata.bank.behaviour.deposit.steps;
 
 import com.sfeir.kata.bank.behaviour.deposit.state.AccountDepositContext;
-import com.sfeir.kata.bank.domain.bddfriendly.account.Account;
-import com.sfeir.kata.bank.domain.bddfriendly.service.DepositService;
+import com.sfeir.kata.bank.domain.behaviour.account.Account;
+import com.sfeir.kata.bank.domain.behaviour.fixture.DepositService;
 
 import io.cucumber.java.Before;
 import lombok.NonNull;

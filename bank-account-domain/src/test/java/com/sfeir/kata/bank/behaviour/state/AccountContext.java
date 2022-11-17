@@ -1,6 +1,6 @@
 package com.sfeir.kata.bank.behaviour.state;
 
-import com.sfeir.kata.bank.domain.bddfriendly.account.AccountSpecification;
+import com.sfeir.kata.bank.domain.behaviour.account.AccountSpecification;
 
 import lombok.Getter;
 import lombok.Setter;

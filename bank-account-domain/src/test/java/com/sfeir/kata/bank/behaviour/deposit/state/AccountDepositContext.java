@@ -1,7 +1,7 @@
 package com.sfeir.kata.bank.behaviour.deposit.state;
 
 import com.sfeir.kata.bank.behaviour.state.AccountContext;
-import com.sfeir.kata.bank.domain.bddfriendly.service.DepositFixtureSpecification;
+import com.sfeir.kata.bank.domain.behaviour.fixture.DepositFixtureSpecification;
 
 import lombok.Getter;
 import lombok.Setter;
