@@ -3,10 +3,10 @@ package com.sfeir.kata.bank.infra.printer.console;
 import java.io.PrintStream;
 import java.util.function.Consumer;
 
-import com.sfeir.kata.bank.domain.client.printer.StatementPrinterService;
+import com.sfeir.kata.bank.domain.simple.printer.AccountStatementPrinterService;
 
 public interface IConsolePrinter
-    extends StatementPrinterService {
+    extends AccountStatementPrinterService {
 
 		PrintStream getPrinter();
 

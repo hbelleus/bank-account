@@ -2,13 +2,10 @@ package com.sfeir.kata.bank.functional;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.math.BigDecimal;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.Assumptions;
 import org.assertj.core.api.Condition;
-import org.assertj.core.data.Index;
-import org.eclipse.collections.impl.list.mutable.MutableListFactoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -23,17 +20,11 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.sfeir.kata.bank.domain.client.ClientOperationService;
-import com.sfeir.kata.bank.domain.client.ClientService;
-import com.sfeir.kata.bank.domain.client.account.AccountService;
-import com.sfeir.kata.bank.domain.client.account.operation.OperationService;
-import com.sfeir.kata.bank.domain.client.account.operation.history.factory.OperationHistoryFactory;
-import com.sfeir.kata.bank.domain.client.account.operation.specification.exception.UnauthorizedOperationException;
-import com.sfeir.kata.bank.domain.client.account.statement.factory.AccountStatementFactory;
-import com.sfeir.kata.bank.domain.client.factory.ClientFactory;
-import com.sfeir.kata.bank.domain.client.printer.StatementPrinterService;
-import com.sfeir.kata.bank.domain.money.MoneyService;
-import com.sfeir.kata.bank.domain.money.factory.MoneyFactory;
+import com.sfeir.kata.bank.domain.common.money.Money;
+import com.sfeir.kata.bank.domain.simple.account.Account;
+import com.sfeir.kata.bank.domain.simple.account.operation.specification.exception.UnauthorizedOperationException;
+import com.sfeir.kata.bank.domain.simple.account.statement.AccountStatementLine;
+import com.sfeir.kata.bank.domain.simple.printer.AccountStatementPrinterSpecification;
 import com.sfeir.kata.bank.functional.deposit.DepositTestDefinition;
 import com.sfeir.kata.bank.functional.deposit.DepositTestSource;
 import com.sfeir.kata.bank.functional.printing.PrintingOperationsTestDefinition;
@@ -44,13 +35,12 @@ import com.sfeir.kata.bank.functional.withdrawal.WithdrawalTestSource;
 @TestMethodOrder(OrderAnnotation.class)
 class BankClientAccountShouldTest {
 
-		private ClientOperationService client;
+		private Account account;
 
 		@BeforeEach
 		public void init() {
 
-				client = ClientFactory.createClientForOperation()
-				                      .apply();
+				account = new Account();
 		}
 
 		@Nested
@@ -61,32 +51,29 @@ class BankClientAccountShouldTest {
 				@Override
 				@ParameterizedTest
 				@MethodSource("generatePositiveAmount")
-				public void make_a_deposit(MoneyService amount) {
+				public void make_a_deposit(Money amount)
+				    throws IllegalAccessException {
 
 						// GIVEN input amount
 
 						// WHEN
-						client.deposit().accept(amount);
+						account.deposit(amount);
 
 						// THEN
 
-						Condition<AccountService> accountWithSavedOperation = new Condition<>((account) -> !account.getHistory()
-						                                                                                           .isEmpty()
-						                                                                                           .apply(), "checking if account has not empty history", amount);
+						Condition<Account> accountWithSavedOperation = new Condition<>((account) -> account.getStatement()
+						                                                                                   .getLines()
+						                                                                                   .isEmpty(), "checking if account has not empty history", amount);
 
-						Condition<OperationService> operationWithCorrectAmount = new Condition<>((operation) -> operation.getAmount()
-						                                                                                                 .equals(amount), "checking if saved operation has the correct amount");
+						Condition<AccountStatementLine> operationWithCorrectAmount = new Condition<>((operation) -> operation.getAmount()
+						                                                                                                     .equals(amount.toString()), "checking if saved operation has the correct amount");
 
-						org.junit.jupiter.api.Assertions.assertAll(() -> Assertions.assertThat(client.getAccount())
+						org.junit.jupiter.api.Assertions.assertAll(() -> Assertions.assertThat(account)
 						                                                           .is(accountWithSavedOperation),
-						                                           () -> Assertions.assertThat(client.getAccount()
-						                                                                             .getHistory()
-						                                                                             .getOperations())
-						                                                           .has(operationWithCorrectAmount,
-						                                                                Index.atIndex(0)),
-						                                           () -> Assertions.assertThat(client.getAccount()
-						                                                                             .getBalance()
-						                                                                             .apply())
+						                                           () -> Assertions.assertThat(account.getStatement()
+						                                                                              .getLines())
+						                                                           .have(operationWithCorrectAmount),
+						                                           () -> Assertions.assertThat(account.getBalance())
 						                                                           .isEqualTo(amount));
 
 				}
@@ -99,15 +86,13 @@ class BankClientAccountShouldTest {
 		    WithdrawalTestSource, WithdrawalTestDefinition {
 
 				@BeforeEach
-				public void init() {
+				public void init() throws IllegalAccessException {
 
-						var initMoney = MoneyFactory.create(BigDecimal.valueOf(500));
+						var initMoney = Money.of("500");
 
-						client.deposit().accept(initMoney);
+						account.deposit(initMoney);
 
-						Assumptions.assumeThat(client.getAccount()
-						                             .getBalance()
-						                             .apply())
+						Assumptions.assumeThat(account.getBalance())
 						           .isEqualTo(initMoney);
 				}
 
@@ -115,46 +100,42 @@ class BankClientAccountShouldTest {
 				@ParameterizedTest
 				@MethodSource("givenAuthorizedAmount")
 				public void
-				    make_a_withdrawal_with_success(MoneyService amount) {
+				    make_a_withdrawal_with_success(Money amount)
+				        throws IllegalAccessException {
 
 						// GIVEN an earlier deposit of 500 and input amount
-						var initMoney = MoneyFactory.create(500);
+						var initMoney = Money.of("500");
 
 						var expectedBalance = initMoney.putMoney()
 						                               .apply(amount.toNegative()
 						                                            .apply());
 
 						// WHEN
-						client.withdraw().accept(amount);
+						account.withdraw(amount);
 
 						// THEN
 
-						Condition<AccountService> accountWithSavedOperation = new Condition<>((account) -> !account.getHistory()
-						                                                                                           .isEmpty()
-						                                                                                           .apply(), "checking if account has not empty history", amount);
+						Condition<Account> accountWithSavedOperation = new Condition<>((account) -> !account.getStatement()
+						                                                                                    .getLines()
+						                                                                                    .isEmpty(), "checking if account has not empty history", amount);
 
-						Condition<OperationService> operationWithCorrectAmount = new Condition<>((operation) -> operation.getAmount()
-						                                                                                                 .equals(amount.toNegative()
-						                                                                                                               .apply()), "checking if saved operation has the correct amount");
+						Condition<AccountStatementLine> operationWithCorrectAmount = new Condition<>((operation) -> operation.getAmount()
+						                                                                                                     .equals(amount.toNegative()
+						                                                                                                                   .apply()
+						                                                                                                                   .toString()), "checking if saved operation has the correct amount");
 
-						Condition<OperationService> operationWithCorrectBalanceResult = new Condition<>((operation) -> operation.getBalance()
-						                                                                                                        .equals(expectedBalance), "checking if saved operation has the correct balance result");
+						Condition<AccountStatementLine> operationWithCorrectBalanceResult = new Condition<>((operation) -> operation.getBalance()
+						                                                                                                            .equals(expectedBalance), "checking if saved operation has the correct balance result");
 
-						org.junit.jupiter.api.Assertions.assertAll(() -> Assertions.assertThat(client.getAccount())
+						org.junit.jupiter.api.Assertions.assertAll(() -> Assertions.assertThat(account)
 						                                                           .is(accountWithSavedOperation),
-						                                           () -> Assertions.assertThat(client.getAccount()
-						                                                                             .getHistory()
-						                                                                             .getOperations())
-						                                                           .has(operationWithCorrectAmount,
-						                                                                Index.atIndex(0)),
-						                                           () -> Assertions.assertThat(client.getAccount()
-						                                                                             .getHistory()
-						                                                                             .getOperations())
-						                                                           .has(operationWithCorrectBalanceResult,
-						                                                                Index.atIndex(0)),
-						                                           () -> Assertions.assertThat(client.getAccount()
-						                                                                             .getBalance()
-						                                                                             .apply())
+						                                           () -> Assertions.assertThat(account.getStatement()
+						                                                                              .getLines())
+						                                                           .have(operationWithCorrectAmount),
+						                                           () -> Assertions.assertThat(account.getStatement()
+						                                                                              .getLines())
+						                                                           .have(operationWithCorrectBalanceResult),
+						                                           () -> Assertions.assertThat(account.getBalance())
 						                                                           .isEqualTo(expectedBalance));
 
 				}
@@ -163,13 +144,12 @@ class BankClientAccountShouldTest {
 				@ParameterizedTest
 				@MethodSource("givenUnauthorizedAmount")
 				public void
-				    make_an_unauthorized_withdrawal(MoneyService amount) {
+				    make_an_unauthorized_withdrawal(Money amount) {
 
 						// GIVEN input amount
 
 						// WHEN
-						Executable result = () -> client.withdraw()
-						                                .accept(amount);
+						Executable result = () -> account.withdraw(amount);
 						// THEN
 
 						org.junit.jupiter.api.Assertions.assertThrows(UnauthorizedOperationException.class,
@@ -184,16 +164,14 @@ class BankClientAccountShouldTest {
 		public class PrintOperationsShould
 		    implements PrintingOperationsTestDefinition {
 
-				private ClientService         internalClient;
-				private ByteArrayOutputStream output;
+				private ByteArrayOutputStream        output;
+				AccountStatementPrinterSpecification localPrinter;
 
 				@BeforeEach
 				void setUp() {
 
-						output = new ByteArrayOutputStream();
-						StatementPrinterService localPrinter = new PrintStream(output)::print;
-						internalClient = ClientFactory.createClientForPrinting()
-						                              .apply(localPrinter);
+						output       = new ByteArrayOutputStream();
+						localPrinter = new PrintStream(output)::print;
 
 				}
 
@@ -202,13 +180,10 @@ class BankClientAccountShouldTest {
 				public void print_statement_of_empty_history() {
 
 						// GIVEN
-						var withEmptyHistory = OperationHistoryFactory.initializeHistory()
-						                                              .apply();
-						var expectedStatement = AccountStatementFactory.createStatement()
-						                                               .apply(withEmptyHistory);
+						var expectedStatement = new Account().getStatement();
 
 						// WHEN
-						internalClient.printOperationHistory();
+						localPrinter.print(expectedStatement);
 
 						// THEN
 						Assertions.assertThat(output)
@@ -218,25 +193,26 @@ class BankClientAccountShouldTest {
 
 				@Override
 				@Test
-				public void print_non_empty_statement() {
+				public void print_non_empty_statement()
+				    throws IllegalAccessException {
 
 						// GIVEN
-						internalClient.deposit()
-						              .accept(MoneyFactory.create(10000));
+						var account = new Account();
+						account.deposit(Money.of("10000"));
 
-						var operation = internalClient.getAccount()
-						                              .getHistory()
-						                              .getOperations()
-						                              .getFirst();
+						var operation = account.getStatement()
+						                       .getLines()
+						                       .getFirst();
 
-						var historyContainingOneOperation = OperationHistoryFactory.populateHistory()
-						                                                           .apply(MutableListFactoryImpl.INSTANCE.of(operation));
-
-						var expectedStatement = AccountStatementFactory.createStatement()
-						                                               .apply(historyContainingOneOperation);
+						var expectedStatement = AccountStatementLine.builder()
+						                                            .amount("10000")
+						                                            .balance("10000")
+						                                            .date(operation.getDate())
+						                                            .type(operation.getType())
+						                                            .build();
 
 						// WHEN
-						internalClient.printOperationHistory();
+						localPrinter.print(account.getStatement());
 
 						// THEN
 						Assertions.assertThat(output)

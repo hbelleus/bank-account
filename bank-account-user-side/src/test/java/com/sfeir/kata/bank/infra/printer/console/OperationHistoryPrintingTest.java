@@ -9,17 +9,17 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.mockito.Mockito;
 
-import com.sfeir.kata.bank.domain.client.ClientService;
-import com.sfeir.kata.bank.domain.client.factory.ClientFactory;
-import com.sfeir.kata.bank.domain.client.printer.StatementPrinterService;
 import com.sfeir.kata.bank.domain.money.factory.MoneyFactory;
+import com.sfeir.kata.bank.domain.simple.ClientService;
+import com.sfeir.kata.bank.domain.simple.factory.ClientFactory;
+import com.sfeir.kata.bank.domain.simple.printer.AccountStatementPrinterService;
 
 @TestMethodOrder(OrderAnnotation.class)
 class OperationHistoryPrintingTest {
 
 		private ClientService           client;
 		private PrintStream             encapsulatedPrinter;
-		private StatementPrinterService printer;
+		private AccountStatementPrinterService printer;
 
 		@BeforeEach
 		public void init() {

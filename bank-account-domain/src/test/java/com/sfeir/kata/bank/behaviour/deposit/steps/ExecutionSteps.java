@@ -3,7 +3,7 @@ package com.sfeir.kata.bank.behaviour.deposit.steps;
 import java.math.BigDecimal;
 
 import com.sfeir.kata.bank.behaviour.deposit.state.ClientDepositContext;
-import com.sfeir.kata.bank.domain.money.factory.MoneyFactory;
+import com.sfeir.kata.bank.domain.common.money.Money;
 
 import io.cucumber.java.en.When;
 import lombok.NonNull;
@@ -18,8 +18,8 @@ public class ExecutionSteps {
 		@When("^I deposit (\\d+) euros$")
 		public void deposit(BigDecimal amount) {
 
-				clientContext.getClient()
+				clientContext.getAccount()
 				             .deposit()
-				             .accept(MoneyFactory.create(amount));
+				             .accept(Money.of(amount));
 		}
 }

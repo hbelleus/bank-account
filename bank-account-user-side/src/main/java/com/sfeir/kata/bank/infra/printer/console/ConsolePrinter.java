@@ -2,7 +2,7 @@ package com.sfeir.kata.bank.infra.printer.console;
 
 import java.io.PrintStream;
 
-import com.sfeir.kata.bank.domain.client.account.statement.AccountStatementService;
+import com.sfeir.kata.bank.domain.simple.account.statement.AccountStatementService;
 
 import lombok.Value;
 

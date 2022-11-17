@@ -15,7 +15,8 @@ public class ExecutionSteps {
 		@When("^I print the operations$")
 		public void i_print_the_operations() {
 
-				clientContext.getClient().printOperationHistory();
+				clientContext.getPrinter()
+				             .print(clientContext.getAccount());
 
 		}
 }

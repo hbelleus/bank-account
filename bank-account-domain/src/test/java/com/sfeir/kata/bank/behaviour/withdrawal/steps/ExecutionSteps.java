@@ -3,7 +3,7 @@ package com.sfeir.kata.bank.behaviour.withdrawal.steps;
 import java.math.BigDecimal;
 
 import com.sfeir.kata.bank.behaviour.withdrawal.state.ClientWithdrawalContext;
-import com.sfeir.kata.bank.domain.money.factory.MoneyFactory;
+import com.sfeir.kata.bank.domain.common.money.Money;
 
 import io.cucumber.java.en.When;
 import lombok.NonNull;
@@ -18,9 +18,9 @@ public class ExecutionSteps {
 		@When("^I withdraw (\\d+) euros$")
 		public void withdraw(BigDecimal amount) {
 
-				clientContext.getClient()
+				clientContext.getAccount()
 				             .withdraw()
-				             .accept(MoneyFactory.create(amount));
+				             .accept(Money.of(amount));
 
 		}
 }

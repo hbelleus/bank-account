@@ -1,9 +1,9 @@
 package com.sfeir.kata.bank.infra.printer.entrypoint;
 
-import com.sfeir.kata.bank.domain.client.ClientService;
-import com.sfeir.kata.bank.domain.client.factory.ClientFactory;
-import com.sfeir.kata.bank.domain.client.printer.StatementPrinterService;
 import com.sfeir.kata.bank.domain.money.factory.MoneyFactory;
+import com.sfeir.kata.bank.domain.simple.ClientService;
+import com.sfeir.kata.bank.domain.simple.factory.ClientFactory;
+import com.sfeir.kata.bank.domain.simple.printer.AccountStatementPrinterService;
 import com.sfeir.kata.bank.infra.printer.console.ConsolePrinter;
 
 import lombok.Value;
@@ -11,11 +11,11 @@ import lombok.Value;
 @Value
 public class ClientScenarioEntrypoint {
 
-		private static StatementPrinterService statementConsolePrinter = new ConsolePrinter(System.out);
+		private static AccountStatementPrinterService statementConsolePrinter = new ConsolePrinter(System.out);
 
 		ClientService client;
 
-		ClientScenarioEntrypoint(StatementPrinterService printer) {
+		ClientScenarioEntrypoint(AccountStatementPrinterService printer) {
 
 				this.client = ClientFactory.createClientForPrinting()
 				                           .apply(printer);

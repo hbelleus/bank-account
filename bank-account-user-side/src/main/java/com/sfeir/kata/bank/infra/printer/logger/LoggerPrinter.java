@@ -2,11 +2,11 @@ package com.sfeir.kata.bank.infra.printer.logger;
 
 import java.util.Map;
 
-import com.sfeir.kata.bank.domain.client.ClientService;
-import com.sfeir.kata.bank.domain.client.account.statement.AccountStatementService;
-import com.sfeir.kata.bank.domain.client.factory.ClientFactory;
-import com.sfeir.kata.bank.domain.client.printer.StatementPrinterService;
 import com.sfeir.kata.bank.domain.money.factory.MoneyFactory;
+import com.sfeir.kata.bank.domain.simple.ClientService;
+import com.sfeir.kata.bank.domain.simple.account.statement.AccountStatementService;
+import com.sfeir.kata.bank.domain.simple.factory.ClientFactory;
+import com.sfeir.kata.bank.domain.simple.printer.AccountStatementPrinterService;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -22,7 +22,7 @@ public class LoggerPrinter implements ILoggerPrinter {
 
 		public static void main(String[] args) {
 
-				StatementPrinterService printer = new LoggerPrinter();
+				AccountStatementPrinterService printer = new LoggerPrinter();
 
 				ClientService client = ClientFactory.createClientForPrinting()
 				                                    .apply(printer);

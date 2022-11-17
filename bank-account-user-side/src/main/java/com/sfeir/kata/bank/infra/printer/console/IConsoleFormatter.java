@@ -1,6 +1,6 @@
 package com.sfeir.kata.bank.infra.printer.console;
 
-import com.sfeir.kata.bank.domain.client.account.statement.line.AccountStatementLineService;
+import com.sfeir.kata.bank.domain.simple.account.statement.line.AccountStatementLineService;
 
 import io.vavr.Function1;
 

@@ -1,7 +1,7 @@
 package com.sfeir.kata.bank.behaviour.withdrawal.steps;
 
 import com.sfeir.kata.bank.behaviour.withdrawal.state.ClientWithdrawalContext;
-import com.sfeir.kata.bank.domain.client.account.operation.specification.exception.UnauthorizedOperationException;
+import com.sfeir.kata.bank.domain.simple.account.operation.specification.exception.UnauthorizedOperationException;
 
 import io.cucumber.java.en.Then;
 import lombok.NonNull;
@@ -16,7 +16,7 @@ public class ErrorSteps {
 		@Then("^withdrawal should be unauthorized$")
 		public void unauthorized() {
 
-				var withdrawal = clientContext.getClient()
+				var withdrawal = clientContext.getAccount()
 				                              .withdraw();
 
 				var unAuthorizedAmount = clientContext.getWithdrawalAmount();

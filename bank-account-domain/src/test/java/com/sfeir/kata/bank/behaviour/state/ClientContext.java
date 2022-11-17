@@ -1,6 +1,6 @@
 package com.sfeir.kata.bank.behaviour.state;
 
-import com.sfeir.kata.bank.domain.client.ClientService;
+import com.sfeir.kata.bank.domain.ddd.business.client.account.Account;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,5 +9,5 @@ import lombok.Setter;
 @Setter
 public abstract class ClientContext {
 
-	private ClientService client;
+		private Account account;
 }

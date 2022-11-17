@@ -3,9 +3,8 @@ package com.sfeir.kata.bank.behaviour.withdrawal.steps;
 import java.math.BigDecimal;
 
 import com.sfeir.kata.bank.behaviour.withdrawal.state.ClientWithdrawalContext;
-import com.sfeir.kata.bank.domain.client.ClientService;
-import com.sfeir.kata.bank.domain.client.factory.ClientFactory;
-import com.sfeir.kata.bank.domain.money.factory.MoneyFactory;
+import com.sfeir.kata.bank.domain.common.money.Money;
+import com.sfeir.kata.bank.domain.ddd.business.client.account.Account;
 
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
@@ -21,25 +20,22 @@ public class SetupSteps {
 		@Before("@withdrawal")
 		public void setupForWithdrawal() {
 
-				var client = (ClientService) ClientFactory.createClientForOperation()
-				                                          .apply();
-
-				clientContext.setClient(client);
+				clientContext.setAccount(new Account());
 		}
 
 		@Given("^I have (\\d+) euros in my account$")
 		public void
 		    i_have_euros_in_my_account(BigDecimal amount) {
 
-				clientContext.getClient()
+				clientContext.getAccount()
 				             .deposit()
-				             .accept(MoneyFactory.create(amount));
+				             .accept(Money.of(amount));
 		}
 
 		@Given("^I want to retrieve (\\d+) euros from my account$")
 		public void i_want_to_retrieve(BigDecimal amount) {
 
-				clientContext.setWithdrawalAmount(MoneyFactory.create(amount));
+				clientContext.setWithdrawalAmount(Money.of(amount));
 
 		}
 }

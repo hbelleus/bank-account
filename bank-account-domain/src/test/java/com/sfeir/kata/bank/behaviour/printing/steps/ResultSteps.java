@@ -3,7 +3,7 @@ package com.sfeir.kata.bank.behaviour.printing.steps;
 import org.mockito.Mockito;
 
 import com.sfeir.kata.bank.behaviour.printing.state.ClientPrintingContext;
-import com.sfeir.kata.bank.domain.client.account.statement.AccountStatementService;
+import com.sfeir.kata.bank.domain.ddd.reporting.client.account.statement.AccountStatementService;
 
 import io.cucumber.java.en.Then;
 import lombok.NonNull;

@@ -1,8 +1,7 @@
 package com.sfeir.kata.bank.behaviour.deposit.steps;
 
 import com.sfeir.kata.bank.behaviour.deposit.state.ClientDepositContext;
-import com.sfeir.kata.bank.domain.client.ClientService;
-import com.sfeir.kata.bank.domain.client.factory.ClientFactory;
+import com.sfeir.kata.bank.domain.ddd.business.client.account.Account;
 
 import io.cucumber.java.Before;
 import lombok.NonNull;
@@ -17,9 +16,6 @@ public class SetupSteps {
 		@Before("@deposit")
 		public void setupForDeposit() {
 
-				var client = (ClientService) ClientFactory.createClientForOperation()
-				                                          .apply();
-
-				clientContext.setClient(client);
+				clientContext.setAccount(new Account());
 		}
 }
