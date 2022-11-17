@@ -4,7 +4,7 @@ import com.sfeir.kata.bank.domain.common.money.Money;
 
 public interface DepositTestDefinition {
 
-		void make_a_deposit(Money amount)
+		void makeADeposit(Money amount)
 		    throws IllegalAccessException;
 
 }

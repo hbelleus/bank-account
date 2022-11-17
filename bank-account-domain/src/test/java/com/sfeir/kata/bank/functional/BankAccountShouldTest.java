@@ -33,7 +33,7 @@ import com.sfeir.kata.bank.functional.withdrawal.WithdrawalTestSource;
 
 @ExtendWith(MockitoExtension.class)
 @TestMethodOrder(OrderAnnotation.class)
-class BankClientAccountShouldTest {
+class BankAccountShouldTest {
 
 		private Account account;
 
@@ -51,7 +51,7 @@ class BankClientAccountShouldTest {
 				@Override
 				@ParameterizedTest
 				@MethodSource("generatePositiveAmount")
-				public void make_a_deposit(Money amount)
+				public void makeADeposit(Money amount)
 				    throws IllegalAccessException {
 
 						// GIVEN input amount
@@ -100,7 +100,7 @@ class BankClientAccountShouldTest {
 				@ParameterizedTest
 				@MethodSource("givenAuthorizedAmount")
 				public void
-				    make_a_withdrawal_with_success(Money amount)
+				    makeAWithdrawalWithSuccess(Money amount)
 				        throws IllegalAccessException {
 
 						// GIVEN an earlier deposit of 500 and input amount
@@ -144,7 +144,7 @@ class BankClientAccountShouldTest {
 				@ParameterizedTest
 				@MethodSource("givenUnauthorizedAmount")
 				public void
-				    make_an_unauthorized_withdrawal(Money amount) {
+				    makeAnUnauthorizedWithdrawal(Money amount) {
 
 						// GIVEN input amount
 
@@ -177,7 +177,7 @@ class BankClientAccountShouldTest {
 
 				@Override
 				@Test
-				public void print_statement_of_empty_history() {
+				public void printStatementOfEmptyHistory() {
 
 						// GIVEN
 						var expectedStatement = new Account().getStatement();
@@ -193,7 +193,7 @@ class BankClientAccountShouldTest {
 
 				@Override
 				@Test
-				public void print_non_empty_statement()
+				public void printNonEmptyStatement()
 				    throws IllegalAccessException {
 
 						// GIVEN
