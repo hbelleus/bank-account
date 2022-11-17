@@ -61,9 +61,9 @@ class BankClientAccountShouldTest {
 
 						// THEN
 
-						Condition<Account> accountWithSavedOperation = new Condition<>((account) -> account.getStatement()
-						                                                                                   .getLines()
-						                                                                                   .isEmpty(), "checking if account has not empty history", amount);
+						Condition<Account> accountWithSavedOperation = new Condition<>((account) -> !account.getStatement()
+						                                                                                    .getLines()
+						                                                                                    .isEmpty(), "checking if account has not empty history", amount);
 
 						Condition<AccountStatementLine> operationWithCorrectAmount = new Condition<>((operation) -> operation.getAmount()
 						                                                                                                     .equals(amount.toString()), "checking if saved operation has the correct amount");
@@ -72,7 +72,7 @@ class BankClientAccountShouldTest {
 						                                                           .is(accountWithSavedOperation),
 						                                           () -> Assertions.assertThat(account.getStatement()
 						                                                                              .getLines())
-						                                                           .have(operationWithCorrectAmount),
+						                                                           .areAtLeastOne(operationWithCorrectAmount),
 						                                           () -> Assertions.assertThat(account.getBalance())
 						                                                           .isEqualTo(amount));
 
@@ -125,16 +125,16 @@ class BankClientAccountShouldTest {
 						                                                                                                                   .toString()), "checking if saved operation has the correct amount");
 
 						Condition<AccountStatementLine> operationWithCorrectBalanceResult = new Condition<>((operation) -> operation.getBalance()
-						                                                                                                            .equals(expectedBalance), "checking if saved operation has the correct balance result");
+						                                                                                                            .equals(expectedBalance.toString()), "checking if saved operation has the correct balance result");
 
 						org.junit.jupiter.api.Assertions.assertAll(() -> Assertions.assertThat(account)
 						                                                           .is(accountWithSavedOperation),
 						                                           () -> Assertions.assertThat(account.getStatement()
 						                                                                              .getLines())
-						                                                           .have(operationWithCorrectAmount),
+						                                                           .areAtLeastOne(operationWithCorrectAmount),
 						                                           () -> Assertions.assertThat(account.getStatement()
 						                                                                              .getLines())
-						                                                           .have(operationWithCorrectBalanceResult),
+						                                                           .areAtLeastOne(operationWithCorrectBalanceResult),
 						                                           () -> Assertions.assertThat(account.getBalance())
 						                                                           .isEqualTo(expectedBalance));
 
@@ -204,19 +204,29 @@ class BankClientAccountShouldTest {
 						                       .getLines()
 						                       .getFirst();
 
+						var expectedHeader = "|OPERATION |AMOUNT     |DATE        |NEW BALANCE   |";
+
 						var expectedStatement = AccountStatementLine.builder()
-						                                            .amount("10000")
-						                                            .balance("10000")
+						                                            .amount("10000EUR")
+						                                            .balance("10000EUR")
 						                                            .date(operation.getDate())
 						                                            .type(operation.getType())
-						                                            .build();
+						                                            .build()
+						                                            .toString()
+						                                            .concat(AccountStatementLine.builder()
+						                                                                        .amount("0EUR")
+						                                                                        .balance("0EUR")
+						                                                                        .date(operation.getDate())
+						                                                                        .type(operation.getType())
+						                                                                        .build()
+						                                                                        .toString());
 
 						// WHEN
 						localPrinter.print(account.getStatement());
 
 						// THEN
 						Assertions.assertThat(output)
-						          .hasToString(expectedStatement.toString());
+						          .hasToString(expectedHeader.concat(expectedStatement.toString()));
 				}
 
 		}

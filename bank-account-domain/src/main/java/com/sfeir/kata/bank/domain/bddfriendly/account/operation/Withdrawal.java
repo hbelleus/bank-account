@@ -17,6 +17,7 @@ public class Withdrawal extends Operation
 		Withdrawal(Money amount, Money initialBalance) {
 
 				this.initialBalance = initialBalance;
+				this.amount         = amount;
 
 				this.isWithdrawalAuthorized();
 

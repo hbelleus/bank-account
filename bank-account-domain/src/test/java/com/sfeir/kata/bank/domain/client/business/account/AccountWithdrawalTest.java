@@ -8,9 +8,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
 import com.sfeir.kata.bank.domain.common.money.Money;
-import com.sfeir.kata.bank.domain.simple.account.Account;
-import com.sfeir.kata.bank.domain.simple.account.operation.specification.exception.UnauthorizedOperationException;
-import com.sfeir.kata.bank.domain.simple.account.statement.AccountStatementLine;
+import com.sfeir.kata.bank.domain.ddd.business.client.account.Account;
+import com.sfeir.kata.bank.domain.ddd.business.client.account.operation.OperationService;
+import com.sfeir.kata.bank.domain.ddd.business.client.account.operation.specification.exception.UnauthorizedOperationException;
 
 class AccountWithdrawalTest {
 
@@ -23,7 +23,7 @@ class AccountWithdrawalTest {
 
 				var initDeposit = Money.of("1000");
 
-				account.deposit(initDeposit);
+				account.deposit().accept(initDeposit);
 		}
 
 		@Test
@@ -34,19 +34,18 @@ class AccountWithdrawalTest {
 				var amount = Money.of("100");
 
 				// WHEN
-				account.withdraw(amount);
+				account.withdraw().accept(amount);
 
 				// THEN
 
-				Condition<AccountStatementLine> savedOperation = new Condition<>((line) -> line.getAmount()
-				                                                                               .equals(amount.toNegative()
-				                                                                                             .apply()
-				                                                                                             .toString()), "checking if saved operation has the correct amount", amount);
+				Condition<OperationService> savedOperation = new Condition<>((operation) -> operation.getAmount()
+				                                                                                     .equals(amount.toNegative()
+				                                                                                                   .apply()), "checking if saved operation has the correct amount", amount);
 
-				Assertions.assertThat(account.getStatement()
-				                             .getLines())
+				Assertions.assertThat(account.getHistory()
+				                             .getOperations())
 				          .isNotEmpty()
-				          .have(savedOperation);
+				          .haveAtLeastOne(savedOperation);
 
 		}
 
@@ -62,16 +61,17 @@ class AccountWithdrawalTest {
 				var initialBalance = Money.of("1000");
 
 				Assumptions.assumeThat(account.getBalance()
+				                              .apply()
 				                              .equals(initialBalance));
 
 				// WHEN
-				account.withdraw(amount);
+				account.withdraw().accept(amount);
 
 				// THEN
 				Condition<Money> hasBeenUpdated = new Condition<>((money) -> money.equals(expectedValue), String.format("matching expected balance of %s",
 				                                                                                                        expectedValue));
 
-				Assertions.assertThat(account.getBalance())
+				Assertions.assertThat(account.getBalance().apply())
 				          .is(hasBeenUpdated);
 		}
 
@@ -85,22 +85,22 @@ class AccountWithdrawalTest {
 				var expectedValue = Money.of("800");
 
 				// WHEN
-				account.withdraw(amount);
-				account.withdraw(amount);
+				account.withdraw().accept(amount);
+				account.withdraw().accept(amount);
 
 				// THEN
-				Condition<AccountStatementLine> savedOperation = new Condition<>((operation) -> operation.getBalance()
-				                                                                                         .equals(expectedValue.toString()), "with correct amount of", expectedValue);
+				Condition<OperationService> savedOperation = new Condition<>((operation) -> operation.getBalance()
+				                                                                                     .equals(expectedValue), "with correct amount of", expectedValue);
 
-				Assertions.assertThat(account.getStatement()
-				                             .getLines())
+				Assertions.assertThat(account.getHistory()
+				                             .getOperations())
 				          .isNotEmpty()
-				          .have(savedOperation);
+				          .haveAtLeastOne(savedOperation);
 
 				Condition<Money> hasBeenUpdated = new Condition<>((money) -> money.equals(expectedValue), String.format("matching expected balance of %s",
 				                                                                                                        expectedValue));
 
-				Assertions.assertThat(account.getBalance())
+				Assertions.assertThat(account.getBalance().apply())
 				          .is(hasBeenUpdated);
 		}
 
@@ -111,7 +111,8 @@ class AccountWithdrawalTest {
 				var amount = Money.of("1500");
 
 				// WHEN
-				Executable withdrawal = () -> account.withdraw(amount);
+				Executable withdrawal = () -> account.withdraw()
+				                                     .accept(amount);
 
 				// THEN
 				org.junit.jupiter.api.Assertions.assertThrows(UnauthorizedOperationException.class,

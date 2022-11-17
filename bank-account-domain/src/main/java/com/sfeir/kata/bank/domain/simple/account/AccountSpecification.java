@@ -2,6 +2,7 @@ package com.sfeir.kata.bank.domain.simple.account;
 
 import com.sfeir.kata.bank.domain.common.money.Money;
 import com.sfeir.kata.bank.domain.simple.account.statement.AccountStatement;
+import com.sfeir.kata.bank.domain.simple.printer.AccountStatementPrinterSpecification;
 
 public interface AccountSpecification {
 
@@ -14,4 +15,9 @@ public interface AccountSpecification {
 		    throws IllegalAccessException;
 
 		AccountStatement getStatement();
+
+		default void
+		    printStatement(AccountStatementPrinterSpecification printer) {
+				printer.print(this.getStatement());
+		}
 }

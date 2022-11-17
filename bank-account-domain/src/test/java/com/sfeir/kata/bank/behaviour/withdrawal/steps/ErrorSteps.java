@@ -1,7 +1,9 @@
 package com.sfeir.kata.bank.behaviour.withdrawal.steps;
 
-import com.sfeir.kata.bank.behaviour.withdrawal.state.ClientWithdrawalContext;
-import com.sfeir.kata.bank.domain.simple.account.operation.specification.exception.UnauthorizedOperationException;
+import org.assertj.core.api.Assertions;
+
+import com.sfeir.kata.bank.behaviour.withdrawal.state.AccountWithdrawalContext;
+import com.sfeir.kata.bank.domain.bddfriendly.account.operation.exception.UnauthorizedOperationException;
 
 import io.cucumber.java.en.Then;
 import lombok.NonNull;
@@ -11,17 +13,17 @@ import lombok.RequiredArgsConstructor;
 public class ErrorSteps {
 
 		@NonNull
-		private final ClientWithdrawalContext clientContext;
+		private final AccountWithdrawalContext clientContext;
 
 		@Then("^withdrawal should be unauthorized$")
 		public void unauthorized() {
 
-				var withdrawal = clientContext.getAccount()
-				                              .withdraw();
-
 				var unAuthorizedAmount = clientContext.getWithdrawalAmount();
 
-				org.junit.jupiter.api.Assertions.assertThrows(UnauthorizedOperationException.class,
-				                                              () -> withdrawal.accept(unAuthorizedAmount));
+				Assertions.assertThatExceptionOfType(UnauthorizedOperationException.class)
+				          .isThrownBy(() -> clientContext.getWithdrawalFixtureSpecification()
+				                                         .withdraw(unAuthorizedAmount,
+				                                                   clientContext.getAccountSpecification()))
+				          .withMessageContaining("Trying to withdraw an amount greater the balance account.");
 		}
 }

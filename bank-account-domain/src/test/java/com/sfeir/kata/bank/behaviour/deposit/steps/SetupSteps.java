@@ -1,7 +1,8 @@
 package com.sfeir.kata.bank.behaviour.deposit.steps;
 
-import com.sfeir.kata.bank.behaviour.deposit.state.ClientDepositContext;
-import com.sfeir.kata.bank.domain.ddd.business.client.account.Account;
+import com.sfeir.kata.bank.behaviour.deposit.state.AccountDepositContext;
+import com.sfeir.kata.bank.domain.bddfriendly.account.Account;
+import com.sfeir.kata.bank.domain.bddfriendly.service.DepositService;
 
 import io.cucumber.java.Before;
 import lombok.NonNull;
@@ -11,11 +12,12 @@ import lombok.RequiredArgsConstructor;
 public class SetupSteps {
 
 		@NonNull
-		private final ClientDepositContext clientContext;
+		private final AccountDepositContext clientContext;
 
 		@Before("@deposit")
 		public void setupForDeposit() {
 
-				clientContext.setAccount(new Account());
+				clientContext.setDepositFixtureSpecification(new DepositService());
+				clientContext.setAccountSpecification(new Account());
 		}
 }

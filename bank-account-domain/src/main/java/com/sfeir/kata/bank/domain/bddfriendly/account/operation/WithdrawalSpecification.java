@@ -15,7 +15,7 @@ public interface WithdrawalSpecification
 				                                                  .apply(this.getInitialBalance());
 
 				if (isOperationUnauthorized)
-						throw new UnauthorizedOperationException("Unauthorized operation. Tried to withdraw an amount larger than account balance..");
+						throw new UnauthorizedOperationException("Trying to withdraw an amount greater the balance account.");
 				else
 						return true;
 		}

@@ -2,9 +2,11 @@ package com.sfeir.kata.bank.behaviour.withdrawal.steps;
 
 import java.math.BigDecimal;
 
-import com.sfeir.kata.bank.behaviour.withdrawal.state.ClientWithdrawalContext;
+import com.sfeir.kata.bank.behaviour.withdrawal.state.AccountWithdrawalContext;
+import com.sfeir.kata.bank.domain.bddfriendly.account.Account;
+import com.sfeir.kata.bank.domain.bddfriendly.service.DepositService;
+import com.sfeir.kata.bank.domain.bddfriendly.service.WithdrawalService;
 import com.sfeir.kata.bank.domain.common.money.Money;
-import com.sfeir.kata.bank.domain.ddd.business.client.account.Account;
 
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
@@ -15,21 +17,23 @@ import lombok.RequiredArgsConstructor;
 public class SetupSteps {
 
 		@NonNull
-		private final ClientWithdrawalContext clientContext;
+		private final AccountWithdrawalContext clientContext;
 
 		@Before("@withdrawal")
 		public void setupForWithdrawal() {
 
-				clientContext.setAccount(new Account());
+				clientContext.setDepositFixtureSpecification(new DepositService());
+				clientContext.setWithdrawalFixtureSpecification(new WithdrawalService());
+				clientContext.setAccountSpecification(new Account());
 		}
 
 		@Given("^I have (\\d+) euros in my account$")
 		public void
 		    i_have_euros_in_my_account(BigDecimal amount) {
 
-				clientContext.getAccount()
-				             .deposit()
-				             .accept(Money.of(amount));
+				clientContext.getDepositFixtureSpecification()
+				             .deposit(Money.of(amount),
+				                      clientContext.getAccountSpecification());
 		}
 
 		@Given("^I want to retrieve (\\d+) euros from my account$")

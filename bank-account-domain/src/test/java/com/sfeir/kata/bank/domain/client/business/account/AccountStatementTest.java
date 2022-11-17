@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import com.sfeir.kata.bank.domain.common.money.Money;
-import com.sfeir.kata.bank.domain.simple.account.Account;
-import com.sfeir.kata.bank.domain.simple.account.operation.OperationType;
+import com.sfeir.kata.bank.domain.ddd.business.client.account.Account;
+import com.sfeir.kata.bank.domain.ddd.business.client.account.operation.OperationType;
 
 @TestMethodOrder(OrderAnnotation.class)
 class AccountStatementTest {
@@ -26,16 +26,16 @@ class AccountStatementTest {
 
 		@Test
 		@Order(1)
-		void givenEmptyHistory_whenGetStatement_thenStatementIsEmpty() {
+		void givenEmptyHistory_whenGetStatement_thenStatement() {
 
 				// GIVEN
 
 				// WHEN
-				var statement = account.getStatement();
+				var statement = account.getStatement().apply();
 
 				// THEN
 				Assertions.assertThat(statement.getLines())
-				          .isEmpty();
+				          .hasSize(0);
 
 		}
 
@@ -47,10 +47,10 @@ class AccountStatementTest {
 				// GIVEN
 				var amount = Money.of("200");
 
-				account.deposit(amount);
+				account.deposit().accept(amount);
 
 				// WHEN
-				var statement = account.getStatement();
+				var statement = account.getStatement().apply();
 
 				// THEN
 				Assertions.assertThat(statement.getLines())
@@ -71,10 +71,10 @@ class AccountStatementTest {
 				// GIVEN
 				var amount = Money.of("200");
 
-				account.deposit(amount);
+				account.deposit().accept(amount);
 
 				// WHEN
-				var statement = account.getStatement();
+				var statement = account.getStatement().apply();
 
 				// THEN
 				Pattern datePattern = Pattern.compile("\\d{2}/\\d{2}/\\d{4} \\d{2}:\\d{2}:\\d{2}");
@@ -101,15 +101,15 @@ class AccountStatementTest {
 				// GIVEN
 				var amount = Money.of("200");
 
-				account.deposit(amount);
-				account.deposit(amount);
+				account.deposit().accept(amount);
+				account.deposit().accept(amount);
 
 				var expectedValue = amount.putMoney()
 				                          .apply(amount)
 				                          .toString();
 
 				// WHEN
-				var statement = account.getStatement();
+				var statement = account.getStatement().apply();
 
 				// THEN
 				Assertions.assertThat(statement.getLines())

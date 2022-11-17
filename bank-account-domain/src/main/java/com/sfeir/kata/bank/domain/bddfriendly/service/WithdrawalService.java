@@ -4,8 +4,10 @@ import com.sfeir.kata.bank.domain.bddfriendly.account.AccountSpecification;
 import com.sfeir.kata.bank.domain.bddfriendly.account.operation.Withdrawal;
 import com.sfeir.kata.bank.domain.common.money.Money;
 
-public class WithdrawalService {
+public class WithdrawalService
+    implements WithdrawalFixtureSpecification {
 
+		@Override
 		public void withdraw(Money amount,
 		                     AccountSpecification account) {
 
